@@ -11,8 +11,19 @@ import {
 import { FinanceRecord } from "../data/syntheticFinanceData";
 import { ControlTowerFilters } from "../types";
 import { calculateKpis, getMonthlyHistory, getServiceLineAggregates } from "../lib/financeCalculations";
+import {
+  formatCurrency,
+  formatPercent,
+  formatPoints,
+  formatVarianceCurrency,
+  formatAxisPercent,
+  formatAxisMillions,
+  formatAxisThousands,
+} from "../lib/formatters";
+import { chartTheme, chartMargins } from "../lib/chartTheme";
+import { seriesLabels, illustrativeNote } from "../lib/chartSemantics";
+import ChartTooltip from "../components/charts/ChartTooltip";
 import EmptyState from "../components/EmptyState";
-import { formatCurrency } from "../lib/utils";
 import ServiceLineTrendModal from "../components/ServiceLineTrendModal";
 import KpiTrendModal from "../components/KpiTrendModal";
 import PagePurpose from "../components/PagePurpose";
@@ -99,6 +110,25 @@ export default function Dashboard({
   const monthlyHistory = getMonthlyHistory(records);
   const serviceLineAggs = getServiceLineAggregates(records);
 
+  const laborCostRatioCurrent =
+    currentKpis.netPatientRevenue > 0
+      ? (currentKpis.laborCost / currentKpis.netPatientRevenue) * 100
+      : 0;
+
+  const monthlyHistoryWithLabor = monthlyHistory.map((row) => {
+    const extended = row as typeof row & { laborCostRatio?: number };
+    if (typeof extended.laborCostRatio === "number") {
+      return { ...row, laborCostRatio: extended.laborCostRatio };
+    }
+    const monthDocs = records.filter((r) => r.month === row.name);
+    const kpis = calculateKpis(monthDocs);
+    const laborCostRatio =
+      kpis.netPatientRevenue > 0 ? (kpis.laborCost / kpis.netPatientRevenue) * 100 : 0;
+    return { ...row, laborCostRatio };
+  });
+
+  const bridgeThousandsFormatter = (v: number) => formatCurrency(v * 1000, "millions");
+
   // Lists for unique filter selections
   const uniqueFacilities = Array.from(new Set(records.map(r => r.facility)));
   const uniqueRegions = Array.from(new Set(records.map(r => r.region)));
@@ -119,11 +149,12 @@ export default function Dashboard({
   records.forEach(r => {
     payerDistribution[r.payer_type] = (payerDistribution[r.payer_type] || 0) + r.net_patient_revenue;
   });
-  const pieColors = ["#982f6a", "#38BDF8", "#2DD4BF", "#F59E0B", "#A78BFA"];
+  const pieColors = [chartTheme.actual, "#38BDF8", chartTheme.forecast, "#F59E0B", chartTheme.plan];
   const payerPieData = Object.entries(payerDistribution).map(([name, val]) => ({
     name,
     value: Math.round(val / 1000)
   }));
+  const payerPieTotal = payerPieData.reduce((sum, d) => sum + d.value, 0);
 
   // Volume-to-Revenue Bridge data (Waterfall simulation for chart display)
   const revenueBridgeData = [
@@ -352,7 +383,7 @@ export default function Dashboard({
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-brand-500 transition-colors">
                   Net Patient Revenue
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
+                <span className="text-xl font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100 mt-1 block">
                   {formatCurrency(currentKpis.netPatientRevenue)}
                 </span>
               </div>
@@ -382,7 +413,7 @@ export default function Dashboard({
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-amber-500 transition-colors">
                   Operating Expense
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
+                <span className="text-xl font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100 mt-1 block">
                   {formatCurrency(currentKpis.operatingExpense)}
                 </span>
               </div>
@@ -412,8 +443,8 @@ export default function Dashboard({
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-emerald-500 transition-colors">
                   Operating Margin
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
-                  {currentKpis.operatingMargin}%
+                <span className="text-xl font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100 mt-1 block">
+                  {formatPercent(currentKpis.operatingMargin)}
                 </span>
               </div>
               <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
@@ -442,8 +473,8 @@ export default function Dashboard({
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-rose-500 transition-colors">
                   Budget Variance
                 </span>
-                <span className={`text-xl font-bold font-sans mt-1 block ${currentKpis.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
-                  {currentKpis.budgetVariance >= 0 ? "+" : ""}{(currentKpis.budgetVariance / 1e6).toFixed(1)}M
+                <span className={`text-xl font-bold font-mono tabular-nums mt-1 block ${currentKpis.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                  {formatVarianceCurrency(currentKpis.budgetVariance)}
                 </span>
               </div>
               <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
@@ -472,8 +503,8 @@ export default function Dashboard({
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-brand-500 transition-colors">
                   Labor Cost Ratio
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
-                  {currentKpis.netPatientRevenue > 0 ? ((currentKpis.laborCost / currentKpis.netPatientRevenue) * 100).toFixed(1) + "%" : "0%"}
+                <span className="text-xl font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100 mt-1 block">
+                  {formatPercent(laborCostRatioCurrent)}
                 </span>
               </div>
               <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
@@ -502,8 +533,8 @@ export default function Dashboard({
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-cyan-500 transition-colors">
                   Month-End Forecast
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
-                  {currentKpis.forecastedMargin}%
+                <span className="text-xl font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100 mt-1 block">
+                  {formatPercent(currentKpis.forecastedMargin)}
                 </span>
               </div>
               <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
@@ -572,16 +603,17 @@ export default function Dashboard({
                 </h3>
                 <span className="text-[10px] text-slate-500 font-medium">By Key Driver Categories</span>
               </div>
+              <p className="text-[10px] text-slate-400 leading-snug">{illustrativeNote}</p>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={budgetVsActualData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="name" fontSize={11} stroke="#94a3b8" />
-                    <YAxis fontSize={11} stroke="#94a3b8" />
-                    <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
+                  <BarChart data={budgetVsActualData} margin={chartMargins.compact}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
+                    <XAxis dataKey="name" fontSize={11} stroke={chartTheme.axis} />
+                    <YAxis fontSize={11} stroke={chartTheme.axis} domain={[0, "auto"]} tickFormatter={formatAxisMillions} />
+                    <Tooltip content={(props) => <ChartTooltip {...props} valueKind="millions" />} />
                     <Legend iconSize={10} wrapperStyle={{ fontSize: 11 }} />
-                    <Bar dataKey="Budget" fill="#94a3b8" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="Actual" fill="#982f6a" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Budget" name={seriesLabels.plan} fill={chartTheme.plan} radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Actual" name={seriesLabels.actual} fill={chartTheme.actual} radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -597,15 +629,15 @@ export default function Dashboard({
               </div>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={monthlyHistory} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="name" fontSize={11} stroke="#94a3b8" />
-                    <YAxis domain={[0, 18]} fontSize={11} stroke="#94a3b8" />
-                    <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
+                  <LineChart data={monthlyHistory} margin={chartMargins.compact}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
+                    <XAxis dataKey="name" fontSize={11} stroke={chartTheme.axis} />
+                    <YAxis domain={[0, 18]} fontSize={11} stroke={chartTheme.axis} tickFormatter={formatAxisPercent} />
+                    <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
                     <Legend wrapperStyle={{ fontSize: 11 }} />
-                    <Line type="monotone" dataKey="actualMargin" name="Historical Margin %" stroke="#2DD4BF" strokeWidth={3} dot={{ r: 4 }} />
-                    <Line type="monotone" dataKey="targetMargin" name="Budget Target" stroke="#EF4444" strokeWidth={1} strokeDasharray="4 4" dot={false} />
-                    <Line type="monotone" dataKey="forecastMargin" name="Margin Forecast %" stroke="#A78BFA" strokeWidth={2} strokeDasharray="3 3" dot={{ r: 3 }} />
+                    <Line type="monotone" dataKey="actualMargin" name={seriesLabels.actual} stroke={chartTheme.actual} strokeWidth={3} dot={{ r: 4 }} />
+                    <Line type="monotone" dataKey="targetMargin" name={seriesLabels.plan} stroke={chartTheme.negative} strokeWidth={1} strokeDasharray="4 4" dot={false} />
+                    <Line type="monotone" dataKey="forecastMargin" name={seriesLabels.forecast} stroke={chartTheme.forecast} strokeWidth={2} strokeDasharray="3 3" dot={{ r: 3 }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -620,20 +652,36 @@ export default function Dashboard({
             <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  NPR Change Volume-to-Revenue Bridge ($ Thousand)
+                  NPR bridge — illustrative drivers ($K)
                 </h3>
-                <span className="text-[10px] text-slate-500 font-medium">Waterfall Drivers Walk</span>
+                <span className="text-[10px] text-slate-500 font-medium">Synthetic walk, not floating bars</span>
               </div>
+              <p className="text-[10px] text-slate-400 leading-snug">{illustrativeNote}</p>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={revenueBridgeData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="stage" fontSize={10} stroke="#94a3b8" />
-                    <YAxis domain={[40000, 50000]} fontSize={10} stroke="#94a3b8" />
-                    <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
-                    <Bar dataKey="cumulative" name="Cumulative Value" fill="#38BDF8">
+                  <BarChart data={revenueBridgeData} margin={chartMargins.compact}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
+                    <XAxis dataKey="stage" fontSize={10} stroke={chartTheme.axis} />
+                    <YAxis domain={[0, "auto"]} fontSize={10} stroke={chartTheme.axis} tickFormatter={(v) => formatAxisThousands(v / 1000)} />
+                    <Tooltip
+                      content={({ active, payload, label }) => {
+                        if (!active || !payload?.length) return null;
+                        const cumulative = Number(payload[0].value);
+                        return (
+                          <div className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs shadow-md dark:border-slate-600 dark:bg-slate-800">
+                            {label != null && (
+                              <p className="mb-1 font-medium text-slate-700 dark:text-slate-200">{String(label)}</p>
+                            )}
+                            <p className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                              {seriesLabels.cumulative}: {bridgeThousandsFormatter(cumulative)}
+                            </p>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Bar dataKey="cumulative" name={seriesLabels.cumulative} fill={chartTheme.neutral}>
                       {revenueBridgeData.map((entry, idx) => (
-                        <Cell key={`cell-${idx}`} fill={entry.value >= 0 ? "#982f6a" : "#EF4444"} />
+                        <Cell key={`cell-${idx}`} fill={entry.value >= 0 ? chartTheme.actual : chartTheme.negative} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -666,18 +714,38 @@ export default function Dashboard({
                           <Cell key={`cell-${idx}`} fill={pieColors[idx % pieColors.length]} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(v) => `$${Number(v).toLocaleString()}K`} />
+                      <Tooltip
+                        content={({ active, payload }) => {
+                          if (!active || !payload?.length) return null;
+                          const name = String(payload[0].name ?? "");
+                          const value = Number(payload[0].value);
+                          const pct = payerPieTotal > 0 ? (value / payerPieTotal) * 100 : 0;
+                          return (
+                            <div className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs shadow-md dark:border-slate-600 dark:bg-slate-800">
+                              <p className="mb-1 font-medium text-slate-700 dark:text-slate-200">{name}</p>
+                              <p className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                                {formatPercent(pct)} of total · {formatAxisThousands(value)}
+                              </p>
+                            </div>
+                          );
+                        }}
+                      />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
                 <div className="space-y-1.5 text-xs">
-                  {payerPieData.map((entry, idx) => (
-                    <div key={entry.name} className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: pieColors[idx % pieColors.length] }} />
-                      <span className="text-slate-500">{entry.name}:</span>
-                      <span className="font-bold text-slate-800 dark:text-slate-100">${entry.value.toLocaleString()}K</span>
-                    </div>
-                  ))}
+                  {payerPieData.map((entry, idx) => {
+                    const pct = payerPieTotal > 0 ? (entry.value / payerPieTotal) * 100 : 0;
+                    return (
+                      <div key={entry.name} className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: pieColors[idx % pieColors.length] }} />
+                        <span className="text-slate-500">{entry.name}:</span>
+                        <span className="font-mono tabular-nums font-bold text-slate-800 dark:text-slate-100">
+                          {formatPercent(pct)} · {formatAxisThousands(entry.value)}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -689,21 +757,24 @@ export default function Dashboard({
             
             {/* Panel H: Month-End Close Narrative Summary */}
             <div className="col-span-1 md:col-span-2 bg-ink-900 border border-ink-800 text-white rounded-2xl p-6 shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-ink-800 pb-3">
+              <div className="flex items-center gap-2 border-b border-ink-800 pb-3 flex-wrap">
                 <BadgeInfo className="w-5 h-5 text-brand-400" />
                 <h3 className="font-bold text-sm text-brand-300 uppercase tracking-wider">
                   Analyst Observation: Month-End Close Narrative
                 </h3>
+                <span className="text-[10px] font-bold uppercase tracking-wide text-amber-300/90 bg-amber-500/10 px-2 py-0.5 rounded-full">
+                  Example narrative
+                </span>
               </div>
               <div className="text-xs leading-relaxed space-y-3">
                 <p>
-                  Our healthcare system demonstrated strong outpatient collection recovery overall, leading to net patient revenue of <strong>{formatCurrency(currentKpis.netPatientRevenue)}</strong> (+3.2% vs budget). Elective Orthopedics volume was a principal contributor, accelerating throughout the Mountain portion.
+                  Filtered portfolio net patient revenue is <strong className="font-mono tabular-nums">{formatCurrency(currentKpis.netPatientRevenue)}</strong> across {records.length} stewardship records. Outpatient collection recovery remains the primary favorable driver in this synthetic demo set.
                 </p>
                 <p>
-                  However, actual operating margins finished at <strong>7.4%</strong> vs the 8.5% target. This compression is heavily linked to clinical labor cost pressures, where contract registry premium nursing accounted for <strong>-$1.2M</strong> of budget variance owing to emergency department boarding surges.
+                  Operating margin is <strong className="font-mono tabular-nums">{formatPercent(currentKpis.operatingMargin)}</strong> vs the 8.5% target ({formatPoints(currentKpis.operatingMargin - 8.5)}). Labor cost ratio is <strong className="font-mono tabular-nums">{formatPercent(laborCostRatioCurrent)}</strong> with budget variance <strong className="font-mono tabular-nums">{formatVarianceCurrency(currentKpis.budgetVariance)}</strong> and mean denial rate <strong className="font-mono tabular-nums">{formatPercent(currentKpis.denialRate)}</strong>.
                 </p>
                 <p>
-                  <strong>Stewardship Key Recommendation:</strong> Review St. Joseph prior authorization denial workflows immediately to address the Cardiology <strong>6.2% denial spike</strong>. Transition underutilized shift templates down to localized incentive schedules to lower registry liability.
+                  <strong>Stewardship Key Recommendation:</strong> Prioritize denial workflow reviews where denial rate exceeds target, and shift registry-heavy staffing toward localized incentive schedules to reduce labor ratio pressure.
                 </p>
               </div>
               <div className="pt-3 border-t border-sky-400/20 flex justify-between items-center text-[10px] text-slate-300 font-mono">
@@ -720,17 +791,17 @@ export default function Dashboard({
                 </h3>
                 <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block">System Weekly Labor Cost Ratio %</span>
                 <p className="text-[10px] text-slate-400 leading-relaxed mt-1">
-                  Labor ratio average registered at 42.6%, exceeding the safe maximum threshold limit of 40%.
+                  Labor ratio is {formatPercent(laborCostRatioCurrent)} for the filtered view (40% stewardship threshold).
                 </p>
               </div>
               <div className="h-28 pt-2">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={monthlyHistory} margin={{ top: 0, right: 0, left: -30, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="name" fontSize={9} />
-                    <YAxis domain={[35, 45]} fontSize={9} />
-                    <Tooltip />
-                    <Area type="monotone" dataKey="actualMargin" stroke="#FEF3C7" fill="#FEF3C7" opacity={0.6} />
+                  <AreaChart data={monthlyHistoryWithLabor} margin={{ top: 0, right: 0, left: -30, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
+                    <XAxis dataKey="name" fontSize={9} stroke={chartTheme.axis} />
+                    <YAxis domain={[0, "auto"]} fontSize={9} stroke={chartTheme.axis} tickFormatter={formatAxisPercent} />
+                    <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
+                    <Area type="monotone" dataKey="laborCostRatio" name="Labor cost ratio %" stroke={chartTheme.plan} fill={chartTheme.plan} fillOpacity={0.25} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -795,13 +866,13 @@ export default function Dashboard({
                         </td>
                         <td className="py-3.5 px-4 text-right font-mono text-slate-700">{formatCurrency(agg.netRevenue)}</td>
                         <td className="py-3.5 px-4 text-right font-mono text-slate-500">{formatCurrency(agg.operatingExpense)}</td>
-                        <td className="py-3.5 px-4 text-right font-mono font-semibold">
+                        <td className="py-3.5 px-4 text-right font-mono tabular-nums font-semibold">
                           <span className={agg.operatingMargin >= 8 ? "text-emerald-600" : (agg.operatingMargin < 1 ? "text-rose-600" : "text-slate-700")}>
-                            {agg.operatingMargin.toFixed(1)}%
+                            {formatPercent(agg.operatingMargin)}
                           </span>
                         </td>
-                        <td className={`py-3.5 px-4 text-right font-mono font-bold ${agg.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
-                          {agg.budgetVariance >= 0 ? "+" : ""}{(agg.budgetVariance / 1000).toFixed(0)}K
+                        <td className={`py-3.5 px-4 text-right font-mono tabular-nums font-bold ${agg.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                          {formatVarianceCurrency(agg.budgetVariance)}
                         </td>
                         <td className="py-3.5 px-4 text-slate-600 font-medium">{agg.owner}</td>
                         <td className="py-3.5 px-4">
