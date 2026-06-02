@@ -1,0 +1,6 @@
+{
+  "name": "Healthcare Financial Performance Control Tower",
+  "description": "An AI-native healthcare finance analytics control tower prototype demonstrating margin forecasting, budget variance, and responsible decision support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
