@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { X, FileSpreadsheet, FileCode, Printer, HelpCircle } from "lucide-react";
 import { FinanceRecord } from "../types";
+import {
+  formatCount,
+  formatCurrency,
+  formatPercent,
+  formatVarianceCurrency,
+} from "../lib/formatters";
 
 interface ExportDataModalProps {
   isOpen: boolean;
@@ -17,6 +23,23 @@ export default function ExportDataModal({
   signoffs,
   onTriggerToast
 }: ExportDataModalProps) {
+  const exportSummary = useMemo(() => {
+    if (filteredRecords.length === 0) {
+      return {
+        totalNpr: 0,
+        totalExpense: 0,
+        avgMargin: 0,
+        netVariance: 0,
+      };
+    }
+    const totalNpr = filteredRecords.reduce((sum, r) => sum + r.net_patient_revenue, 0);
+    const totalExpense = filteredRecords.reduce((sum, r) => sum + r.operating_expense, 0);
+    const avgMargin =
+      filteredRecords.reduce((sum, r) => sum + r.operating_margin, 0) / filteredRecords.length;
+    const netVariance = filteredRecords.reduce((sum, r) => sum + r.budget_variance, 0);
+    return { totalNpr, totalExpense, avgMargin, netVariance };
+  }, [filteredRecords]);
+
   if (!isOpen) return null;
 
   const handleExportCSV = () => {
@@ -122,8 +145,35 @@ export default function ExportDataModal({
               Under **CommonSpirit Health** financial stewardship protocols, custom data exports must be recorded and matched against compliance oversight metrics.
             </p>
             <p className="text-[10px] text-slate-400 dark:text-slate-400">
-              Currently compiling statistics for **{filteredRecords.length} filtered facility records** in the workspace sandbox.
+              Currently compiling statistics for **{formatCount(filteredRecords.length)} filtered facility records** in the workspace sandbox.
             </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl border border-slate-100 dark:border-white/10 bg-slate-50/80 dark:bg-ink-900">
+            <div>
+              <span className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold block">Net patient revenue</span>
+              <span className="text-sm font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100">
+                {formatCurrency(exportSummary.totalNpr)}
+              </span>
+            </div>
+            <div>
+              <span className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold block">Operating expense</span>
+              <span className="text-sm font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100">
+                {formatCurrency(exportSummary.totalExpense)}
+              </span>
+            </div>
+            <div>
+              <span className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold block">Avg operating margin</span>
+              <span className="text-sm font-bold font-mono tabular-nums text-brand-700">
+                {formatPercent(exportSummary.avgMargin, { decimals: 1 })}
+              </span>
+            </div>
+            <div>
+              <span className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold block">Net budget variance</span>
+              <span className="text-sm font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100">
+                {formatVarianceCurrency(exportSummary.netVariance)}
+              </span>
+            </div>
           </div>
 
           <div className="space-y-3.5">

@@ -4,6 +4,7 @@ import {
   ArrowRight, ArrowLeft, Terminal, Server, Sparkles, User, RefreshCw
 } from "lucide-react";
 import { FinanceRecord, CertifiedSignoff, UserPersona } from "../types";
+import { formatCount, formatPercent } from "../lib/formatters";
 
 interface FinalizeReviewModalProps {
   isOpen: boolean;
@@ -160,12 +161,18 @@ export default function FinalizeReviewModal({
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
                   <span className="text-[10px] text-slate-400 dark:text-slate-400 uppercase tracking-widest font-semibold block">Operating Margin Average</span>
-                  <span className="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono mt-1 block">{averageOperatingMargin}%</span>
-                  <span className="text-[9px] text-slate-400 dark:text-slate-400 mt-0.5 block">Budget target threshold is 8.5%</span>
+                  <span className="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono tabular-nums mt-1 block">
+                    {formatPercent(averageOperatingMargin, { decimals: 1 })}
+                  </span>
+                  <span className="text-[9px] text-slate-400 dark:text-slate-400 mt-0.5 block">
+                    Budget target threshold is {formatPercent(8.5, { decimals: 1 })}
+                  </span>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
                   <span className="text-[10px] text-slate-400 dark:text-slate-400 uppercase tracking-widest font-semibold block">Total Dataset Coverage</span>
-                  <span className="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono mt-1 block">{totalRecords} Records</span>
+                  <span className="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono tabular-nums mt-1 block">
+                    {formatCount(totalRecords)} Records
+                  </span>
                   <span className="text-[9px] text-slate-400 dark:text-slate-400 mt-0.5 block">Active medical clinic clusters</span>
                 </div>
               </div>
@@ -194,7 +201,7 @@ export default function FinalizeReviewModal({
                     )}
                     <span>
                       {unannotatedAnomaliesCount > 0 
-                        ? `${unannotatedAnomaliesCount} outstanding anomalies lack dedicated variance notes annotations.`
+                        ? `${formatCount(unannotatedAnomaliesCount)} outstanding anomalies lack dedicated variance notes annotations.`
                         : "All significant operating variances fully annotated!"
                       }
                     </span>
@@ -366,11 +373,15 @@ export default function FinalizeReviewModal({
                   </div>
                   <div>
                     <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Average Margin Level</span>
-                    <span className="font-bold font-mono text-brand-700">{generatedCert.activeMargin}% Margin</span>
+                    <span className="font-bold font-mono tabular-nums text-brand-700">
+                      {formatPercent(generatedCert.activeMargin, { decimals: 1 })} margin
+                    </span>
                   </div>
                   <div>
                     <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Outstanding Warnings</span>
-                    <span className="font-bold text-slate-800 dark:text-slate-100 font-mono">{generatedCert.unresolvedCount} items</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-100 font-mono tabular-nums">
+                      {formatCount(generatedCert.unresolvedCount)} items
+                    </span>
                   </div>
                 </div>
 
