@@ -26,8 +26,22 @@ Acceptance criteria for `feat/data-presentation-standards`. Brand tokens unchang
 - [ ] KPI values use `font-mono` or `tabular-nums`
 - [ ] Service line table remains right-aligned numeric
 
+## Manual Vercel QA (A8)
+
+Run the step-by-step checklist in [`docs/screenshots/presentation-audit/README.md`](screenshots/presentation-audit/README.md) against production **after** merge to `main` (or the PR preview if validating pre-merge).
+
+| Area | What to verify |
+|------|----------------|
+| Login | Sandbox personas, form flow, post-login landing |
+| Dashboard | Chart tooltips (units, formatting, labor ratio chart) |
+| Forecast bridge | Driver chart title, series colors, tooltip **pts** / % |
+| Dark mode | Header theme toggle; cards, charts, and text contrast |
+
+Save captures under `docs/screenshots/presentation-audit/` using the naming convention in that README.
+
 ## Release gate
 
 - [ ] `npx tsc --noEmit` passes
 - [ ] `npx vite build` passes
+- [ ] Manual Vercel QA checklist completed (see above)
 - [ ] Production https://hsd-audit.vercel.app matches after merge to `main`
