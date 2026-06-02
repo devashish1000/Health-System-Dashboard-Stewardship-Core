@@ -6,7 +6,13 @@ import {
 } from "lucide-react";
 import { calculateKpis } from "../lib/financeCalculations";
 import { FinanceRecord } from "../data/syntheticFinanceData";
-import { formatCurrency } from "../lib/utils";
+import {
+  formatCurrency,
+  formatPercent,
+  formatPoints,
+  formatVarianceCurrency,
+  formatCount,
+} from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
 
 interface SimulatorProps {
@@ -14,6 +20,8 @@ interface SimulatorProps {
   onChecklistTrigger?: () => void;
   onTriggerToast?: (msg: string, type: "success" | "info" | "warning") => void;
 }
+
+const TARGET_MARGIN = 8.5;
 
 export default function Simulator({ records, onChecklistTrigger, onTriggerToast }: SimulatorProps) {
   const currentKpis = calculateKpis(records);
@@ -107,7 +115,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
         title="Why this page matters"
         what="Pull levers — labor, denials, volume — and watch margin react live."
         value="Pressure-test decisions before committing real budget."
-        stat={{ label: "Live levers", value: "5" }}
+        stat={{ label: "Live levers", value: formatCount(5) }}
         icon={Sliders}
       />
 
@@ -127,8 +135,8 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-100">Improve Labor Cost Efficiency</span>
-                <span className="font-mono text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-sm">
-                  +{laborImprovement}% savings
+                <span className="font-mono tabular-nums text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-sm">
+                  {formatPercent(laborImprovement, { signed: true })} savings
                 </span>
               </div>
               <input
@@ -150,8 +158,8 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-100">Reduce Claims Denial Rate</span>
-                <span className="font-mono text-teal-600 font-bold bg-teal-50 px-2 py-0.5 rounded-sm">
-                  -{denialReduction}% reduction
+                <span className="font-mono tabular-nums text-teal-600 font-bold bg-teal-50 px-2 py-0.5 rounded-sm">
+                  -{formatPercent(denialReduction)} reduction
                 </span>
               </div>
               <input
@@ -173,8 +181,8 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-100">Increase Patient Volume (Case Growth)</span>
-                <span className="font-mono text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-sm">
-                  {volumeIncrease > 0 ? "+" : ""}{volumeIncrease}% case delta
+                <span className="font-mono tabular-nums text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-sm">
+                  {formatPercent(volumeIncrease, { signed: true })} case delta
                 </span>
               </div>
               <input
@@ -196,8 +204,8 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-100">Improve Blended Commercial Payer Mix</span>
-                <span className="font-mono text-sky-600 font-bold bg-sky-50 px-2 py-0.5 rounded-sm">
-                  +{payerMixImprovement}% commercial proportion
+                <span className="font-mono tabular-nums text-sky-600 font-bold bg-sky-50 px-2 py-0.5 rounded-sm">
+                  {formatPercent(payerMixImprovement, { signed: true })} commercial proportion
                 </span>
               </div>
               <input
@@ -219,8 +227,8 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-100">Reduce Payment Reimbursement Latency</span>
-                <span className="font-mono text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-sm">
-                  -{reimbursementReduction} Days AR delay
+                <span className="font-mono tabular-nums text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-sm">
+                  -{formatCount(reimbursementReduction)} Days AR delay
                 </span>
               </div>
               <input
@@ -255,9 +263,9 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div>
               <span className="text-[10px] text-slate-400 block font-bold">OPERATING MARGIN MODELING & HEALTH GAPS</span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-4xl font-extrabold text-white font-mono">{simulatedMargin}%</span>
-                <span className="text-xs text-brand-400 font-bold font-mono">
-                  ({simulatedMargin >= baseMargin ? "+" : ""}{(simulatedMargin - baseMargin).toFixed(2)} pts)
+                <span className="text-4xl font-extrabold text-white font-mono tabular-nums">{formatPercent(simulatedMargin)}</span>
+                <span className="text-xs text-brand-400 font-bold font-mono tabular-nums">
+                  ({formatPoints(simulatedMargin - baseMargin, 2)})
                 </span>
               </div>
               
@@ -271,18 +279,18 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                 {/* Target Gap 1: CommonSpirit board requirement (8.5%) */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-400 uppercase tracking-wide">CommonSpirit Goal (8.50%)</span>
-                    <span className={`font-mono font-bold ${simulatedMargin >= 8.5 ? "text-emerald-400" : "text-amber-400"}`}>
-                      {simulatedMargin >= 8.5 
-                        ? `SURPASSED (+${(simulatedMargin - 8.5).toFixed(2)}%)` 
-                        : `SHORTFALL (${(8.5 - simulatedMargin).toFixed(2)}% gap)`
+                    <span className="text-slate-400 uppercase tracking-wide">CommonSpirit Goal ({formatPercent(TARGET_MARGIN, { decimals: 2 })})</span>
+                    <span className={`font-mono tabular-nums font-bold ${simulatedMargin >= TARGET_MARGIN ? "text-emerald-400" : "text-amber-400"}`}>
+                      {simulatedMargin >= TARGET_MARGIN 
+                        ? `SURPASSED (${formatPoints(simulatedMargin - TARGET_MARGIN, 2)})` 
+                        : `SHORTFALL (${formatPoints(TARGET_MARGIN - simulatedMargin, 2)} gap)`
                       }
                     </span>
                   </div>
                   <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= 8.5 ? "bg-emerald-400" : "bg-amber-400"}`}
-                      style={{ width: `${Math.min(100, (simulatedMargin / 8.5) * 100)}%` }}
+                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= TARGET_MARGIN ? "bg-emerald-400" : "bg-amber-400"}`}
+                      style={{ width: `${Math.min(100, (simulatedMargin / TARGET_MARGIN) * 100)}%` }}
                     />
                   </div>
                 </div>
@@ -290,18 +298,18 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                 {/* Target Gap 2: System Historic Baseline (7.4%) */}
                 <div className="space-y-1 pt-1">
                   <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-400 uppercase tracking-wide">Historic Baseline (7.40%)</span>
-                    <span className={`font-mono font-bold ${simulatedMargin >= 7.4 ? "text-emerald-400" : "text-rose-400"}`}>
-                      {simulatedMargin >= 7.4 
-                        ? `EXCEEDED (+${(simulatedMargin - 7.4).toFixed(2)}%)` 
-                        : `DEPRECIATED (${(7.4 - simulatedMargin).toFixed(2)}% below)`
+                    <span className="text-slate-400 uppercase tracking-wide">Historic Baseline ({formatPercent(baseMargin, { decimals: 2 })})</span>
+                    <span className={`font-mono tabular-nums font-bold ${simulatedMargin >= baseMargin ? "text-emerald-400" : "text-rose-400"}`}>
+                      {simulatedMargin >= baseMargin 
+                        ? `EXCEEDED (${formatPoints(simulatedMargin - baseMargin, 2)})` 
+                        : `DEPRECIATED (${formatPoints(simulatedMargin - baseMargin, 2)} below)`
                       }
                     </span>
                   </div>
                   <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= 7.4 ? "bg-brand-400" : "bg-rose-400"}`}
-                      style={{ width: `${Math.min(100, (simulatedMargin / 7.4) * 100)}%` }}
+                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= baseMargin ? "bg-brand-400" : "bg-rose-400"}`}
+                      style={{ width: `${Math.min(100, (simulatedMargin / baseMargin) * 100)}%` }}
                     />
                   </div>
                 </div>
@@ -309,7 +317,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
               </div>
               <p className="text-[10.5px] text-slate-300 mt-3 flex items-center gap-1 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
                 <AlertCircle className="w-3.5 h-3.5 text-brand-400 shrink-0" />
-                <span>Safe target achieved: {simulatedMargin >= 8.5 ? "Yes (8.5% margin cleared)" : "No (requires further optimizations)"}</span>
+                <span>Safe target achieved: {simulatedMargin >= TARGET_MARGIN ? `Yes (${formatPercent(TARGET_MARGIN, { decimals: 1 })} margin cleared)` : "No (requires further optimizations)"}</span>
               </p>
             </div>
 
@@ -317,7 +325,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="pt-2">
               <span className="text-[10px] text-slate-400 block">Budget Variance Recovery</span>
               <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-3xl font-bold text-emerald-400 font-mono">+{formatCurrency(totalFinancialRecovery)}</span>
+                <span className="text-3xl font-bold text-emerald-400 font-mono tabular-nums">{formatVarianceCurrency(totalFinancialRecovery)}</span>
               </div>
               <p className="text-[10px] text-slate-300">Net recovered operating capital</p>
             </div>
@@ -326,7 +334,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="pt-2 border-t border-slate-800 grid grid-cols-2 gap-4">
               <div>
                 <span className="text-[10px] text-slate-300 block">Simulated Net Revenue</span>
-                <span className="text-sm font-bold font-mono mt-0.5 block">
+                <span className="text-sm font-bold font-mono tabular-nums mt-0.5 block">
                   {formatCurrency(simulatedNpr)}
                 </span>
               </div>
@@ -341,7 +349,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             {/* Month End Target Forecast */}
             <div className="pt-2 border-t border-slate-800 flex justify-between text-xs font-semibold text-brand-300">
               <span>Projected Close Level:</span>
-              <span className="font-mono">{forecastedMargin}% Margin</span>
+              <span className="font-mono tabular-nums">{formatPercent(forecastedMargin)} Margin</span>
             </div>
           </div>
 
