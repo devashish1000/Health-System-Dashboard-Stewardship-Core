@@ -121,7 +121,7 @@ export default function Overview({
       </div>
 
       {/* Stewardship Positioning Note */}
-      <div className="bg-amber-50/70 border border-amber-100 rounded-2xl p-6 flex gap-4 text-amber-850">
+      <div className="bg-amber-50/70 border border-amber-100 rounded-2xl p-6 flex gap-4 text-amber-800">
         <Heart className="w-6 h-6 shrink-0 text-amber-600 mt-1" />
         <div className="space-y-1">
           <h4 className="font-semibold text-sm text-amber-900">Mission-Driven Positioning Statement</h4>
@@ -140,7 +140,7 @@ export default function Overview({
               Compliance Tracking
             </span>
             <h3 className="text-lg font-bold text-slate-800">Stewardship Readiness</h3>
-            <p className="text-xs text-slate-450 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed">
               Before submitting monthly results to corporate accounting, complete these core checkpoints.
             </p>
           </div>

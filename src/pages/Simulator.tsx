@@ -262,7 +262,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                 {/* Target Gap 1: CommonSpirit board requirement (8.5%) */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-450 uppercase tracking-wide">CommonSpirit Goal (8.50%)</span>
+                    <span className="text-slate-400 uppercase tracking-wide">CommonSpirit Goal (8.50%)</span>
                     <span className={`font-mono font-bold ${simulatedMargin >= 8.5 ? "text-emerald-400" : "text-amber-400"}`}>
                       {simulatedMargin >= 8.5 
                         ? `SURPASSED (+${(simulatedMargin - 8.5).toFixed(2)}%)` 
@@ -281,7 +281,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                 {/* Target Gap 2: System Historic Baseline (7.4%) */}
                 <div className="space-y-1 pt-1">
                   <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-450 uppercase tracking-wide">Historic Baseline (7.40%)</span>
+                    <span className="text-slate-400 uppercase tracking-wide">Historic Baseline (7.40%)</span>
                     <span className={`font-mono font-bold ${simulatedMargin >= 7.4 ? "text-emerald-400" : "text-rose-400"}`}>
                       {simulatedMargin >= 7.4 
                         ? `EXCEEDED (+${(simulatedMargin - 7.4).toFixed(2)}%)` 
@@ -291,14 +291,14 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                   </div>
                   <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= 7.4 ? "bg-indigo-400" : "bg-rose-450"}`}
+                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= 7.4 ? "bg-indigo-400" : "bg-rose-400"}`}
                       style={{ width: `${Math.min(100, (simulatedMargin / 7.4) * 100)}%` }}
                     />
                   </div>
                 </div>
 
               </div>
-              <p className="text-[10.5px] text-slate-350 mt-3 flex items-center gap-1 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-850">
+              <p className="text-[10.5px] text-slate-300 mt-3 flex items-center gap-1 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
                 <AlertCircle className="w-3.5 h-3.5 text-blue-400 shrink-0" />
                 <span>Safe target achieved: {simulatedMargin >= 8.5 ? "Yes (8.5% margin cleared)" : "No (requires further optimizations)"}</span>
               </p>
@@ -337,7 +337,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
           </div>
 
           {/* Simulated Disclaimer Node Required by user request */}
-          <div className="bg-slate-50 border border-slate-150 rounded-2xl p-5 text-[11px] text-slate-500 leading-relaxed shadow-3xs">
+          <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 text-[11px] text-slate-500 leading-relaxed shadow-3xs">
             <span className="font-bold text-slate-700 block mb-1">Stewardship Note</span>
             “Simulation uses synthetic assumptions to demonstrate decision-support logic. Results are directional only and require validation against real finance and operational data.”
           </div>

@@ -102,7 +102,7 @@ export async function askGeminiFinance(prompt: string): Promise<CopilotResponse>
     // Look up client side responses
     let answer = "";
     for (const [key, val] of Object.entries(SAFE_CLIENT_ANSWERS)) {
-      if (normalizedPrompt === key || normalizedPrompt.includes(key) || key.includes(normalizedPrompt)) {
+      if (normalizedPrompt && (normalizedPrompt === key || normalizedPrompt.includes(key))) {
         answer = val;
         break;
       }

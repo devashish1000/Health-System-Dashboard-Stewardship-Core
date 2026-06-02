@@ -242,7 +242,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                   </div>
 
                   {/* Bubble */}
-                  <div className={`p-4 rounded-3xl shadow-3xs text-xs relative ${isBot ? "bg-white border border-slate-100 text-slate-700 rounded-tl-none" : "bg-[#0F172A] border border-slate-850 text-white rounded-tr-none"}`}>
+                  <div className={`p-4 rounded-3xl shadow-3xs text-xs relative ${isBot ? "bg-white border border-slate-100 text-slate-700 rounded-tl-none" : "bg-[#0F172A] border border-slate-800 text-white rounded-tr-none"}`}>
                     <div className="space-y-1">
                       {isBot ? parseMarkdownHtml(msg.text) : <p className="leading-relaxed font-semibold">{msg.text}</p>}
                     </div>
@@ -329,7 +329,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
           </div>
 
           {/* AI Stewardship Grounding Rules */}
-          <div className="bg-amber-50/60 rounded-3xl p-5 border border-amber-100 shadow-3xs space-y-3 text-amber-850">
+          <div className="bg-amber-50/60 rounded-3xl p-5 border border-amber-100 shadow-3xs space-y-3 text-amber-800">
             <p className="text-xs font-bold text-amber-900 block flex items-center gap-1">
               <AlertCircle className="w-4 h-4 text-amber-600" /> Grounding Disclaimer
             </p>

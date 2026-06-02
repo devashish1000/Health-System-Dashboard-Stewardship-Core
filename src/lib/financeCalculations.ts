@@ -166,7 +166,7 @@ export function getMonthlyHistory(records: FinanceRecord[]) {
       name: m,
       actualMargin: monthDocs.length > 0 ? kpis.operatingMargin : 0,
       targetMargin: targetMargin,
-      forecastMargin: m === "2026-05" ? kpis.forecastedMargin : kpis.operatingMargin + (Math.random() * 0.4 - 0.2), // aligned
+      forecastMargin: m === "2026-05" ? kpis.forecastedMargin : kpis.operatingMargin + ((months.indexOf(m) * 17 % 41) / 100 - 0.2), // deterministic offset in ~[-0.2, 0.2]
       volume: kpis.patientVolume,
       revenue: kpis.netPatientRevenue / 1000000 // In Millions
     };
