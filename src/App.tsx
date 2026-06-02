@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
   Compass, LayoutDashboard, Layers, BarChart4, Cpu, Sliders, ShieldCheck,
-  Building, UserCheck, Clock, Share2, HelpCircle, ArrowRightLeft, Menu, X, Landmark, RefreshCcw,
-  Shield, Activity, Lock, Search, Eye
+  Building, UserCheck, Clock, Share2, HelpCircle, ArrowRightLeft, Menu, X, RefreshCcw,
+  Shield, Activity, Lock, Search, Eye, Sun, Moon
 } from "lucide-react";
+import BrandLogo from "./components/BrandLogo";
+import { SparkMark } from "./components/BrandMotif";
+import { useTheme } from "./lib/useTheme";
 import { SYNTHETIC_RECORDS, FinanceRecord } from "./data/syntheticFinanceData";
 import { ProjectPage, ControlTowerFilters, ToastMessage, UserPersona, CertifiedSignoff } from "./types";
 import { filterRecords } from "./lib/financeCalculations";
@@ -40,6 +43,9 @@ const INITIAL_FILTERS: ControlTowerFilters = {
 };
 
 export default function App() {
+  // Theme toggle (light/dark) for content surfaces
+  const { theme, toggleTheme } = useTheme();
+
   // Session Authentication state (Mockup)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     return localStorage.getItem("commonspirit_is_logged_in") === "true";
@@ -248,7 +254,7 @@ export default function App() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <div className="min-h-screen bg-white text-ink-900 flex flex-col font-sans">
         <Toast toasts={toasts} onRemove={handleRemoveToast} />
         <Login
           onLogin={(persona) => {
@@ -262,7 +268,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 dark:text-slate-100 flex flex-col font-sans">
       
       {/* Toast Overlay Component */}
       <Toast toasts={toasts} onRemove={handleRemoveToast} />
@@ -273,19 +279,14 @@ export default function App() {
       {/* Main Structural Frame */}
       <div className="flex flex-grow relative">
         
-        {/* Navigation Sidebar (Geometric Balance styled '#0F172A') */}
-        <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-[#0F172A] text-slate-300 flex flex-col transition-transform duration-300 transform md:translate-x-0 ${isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} border-r border-[#1e293b]`}>
+        {/* Navigation Sidebar (Geometric Balance styled ink-900) */}
+        <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-ink-900 text-slate-300 flex flex-col transition-transform duration-300 transform md:translate-x-0 ${isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} border-r border-ink-800`}>
           
           {/* Sidebar Corporate Brand Title Panel */}
-          <div className="p-6 border-b border-[#1e293b] flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-8 w-8 bg-blue-500 rounded-lg flex items-center justify-center shrink-0">
-                <Landmark className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <span className="text-[9px] font-bold tracking-widest text-slate-400 uppercase block leading-none">Health System</span>
-                <h1 className="text-sm font-bold tracking-tight text-white mt-0.5 uppercase">Stewardship Core</h1>
-              </div>
+          <div className="p-6 border-b border-ink-800 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <SparkMark size={22} />
+              <BrandLogo chip height={28} />
             </div>
             {/* Mobile close trigger */}
             <button
@@ -311,12 +312,12 @@ export default function App() {
                     setIsMobileSidebarOpen(false);
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-md text-left text-xs font-semibold tracking-wide transition-all ${
-                    isActive 
-                      ? "bg-blue-600/10 text-blue-400 border border-blue-500/20" 
+                    isActive
+                      ? "bg-brand-600/10 text-brand-400 border border-brand-500/20"
                       : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
                   }`}
                 >
-                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? "text-blue-400" : "text-slate-500"}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? "text-brand-400" : "text-slate-500"}`} />
                   {item.label}
                 </button>
               );
@@ -324,7 +325,7 @@ export default function App() {
           </nav>
 
           {/* Sidebar Footer detailing metadata */}
-          <div className="p-5 border-t border-[#1e293b] space-y-3.5">
+          <div className="p-5 border-t border-ink-800 space-y-3.5">
             {/* Persona Selection Dropdown */}
             <div className="space-y-1">
               <label className="text-[9px] font-bold tracking-wider text-slate-500 uppercase block">Workspace Role</label>
@@ -336,7 +337,7 @@ export default function App() {
                     setUserPersona(nextVal);
                     triggerToast(`Workspace role shifted to: ${nextVal.toUpperCase()}`, "info");
                   }}
-                  className="w-full bg-[#1e293b]/70 border border-[#1e293b] text-slate-200 text-xs py-1.5 px-2.5 rounded-lg focus:outline-hidden font-semibold cursor-pointer select-none accent-slate-800"
+                  className="w-full bg-ink-800/70 border border-ink-800 text-slate-200 text-xs py-1.5 px-2.5 rounded-lg focus:outline-hidden font-semibold cursor-pointer select-none accent-slate-800"
                 >
                   <option value="analyst">👔 Strategic Analyst</option>
                   <option value="cfo">💼 Regional CFO</option>
@@ -346,7 +347,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2.5 bg-[#1e293b]/35 p-2.5 rounded-xl border border-[#1e293b]">
+            <div className="flex items-center gap-2.5 bg-ink-800/35 p-2.5 rounded-xl border border-ink-800">
               <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full shrink-0 animate-pulse" />
               <div className="text-[10px] text-slate-300">
                 <span className="font-semibold block text-slate-200">System Connected</span>
@@ -368,15 +369,15 @@ export default function App() {
                 setIsLoggedIn(false);
                 triggerToast("Secure gateway locked. Re-authorization required.", "info");
               }}
-              className="w-full py-1 text-[10px] font-bold border border-blue-500/10 hover:border-blue-500/20 text-blue-400 hover:bg-blue-500/5 rounded-lg cursor-pointer transition-colors flex items-center justify-center gap-1"
+              className="w-full py-1 text-[10px] font-bold border border-brand-500/10 hover:border-brand-500/20 text-brand-400 hover:bg-brand-500/5 rounded-lg cursor-pointer transition-colors flex items-center justify-center gap-1"
             >
-              <Lock className="w-2.5 h-2.5 text-blue-400" />
+              <Lock className="w-2.5 h-2.5 text-brand-400" />
               <span>Lock / Sign Out Session</span>
             </button>
 
             <div className="text-[9px] text-slate-400 text-center leading-normal">
-              Healthcare Finance Control Tower <br/>
-              Version 1.0.0 • Portfolio Prototype
+              The power of humankindness, in your numbers <br/>
+              Healthcare Finance Control Tower • v1.0.0
             </div>
           </div>
 
@@ -386,7 +387,7 @@ export default function App() {
         <div className="flex-grow md:pl-64 min-w-0 transition-padding">
           
           {/* Top Warm-White Operational Bar Header */}
-          <header className="sticky top-0 z-30 bg-white border-b border-slate-100 flex items-center justify-between px-6 py-4 shadow-3xs">
+          <header className="sticky top-0 z-30 bg-white dark:bg-ink-900 border-b border-slate-100 dark:border-white/10 flex items-center justify-between px-6 py-4 shadow-3xs">
             
             {/* Sidebar toggle buttons */}
             <div className="flex items-center gap-3">
@@ -402,7 +403,7 @@ export default function App() {
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 uppercase">
                   CommonSpirit Baseline
                 </span>
-                <span className="ml-2 px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-bold border border-blue-100 uppercase">
+                <span className="ml-2 px-2 py-0.5 bg-brand-50 text-brand-700 rounded text-[10px] font-bold border border-brand-100 uppercase">
                   FY26 P05 REVIEW
                 </span>
               </div>
@@ -423,11 +424,18 @@ export default function App() {
                   Take Tour
                 </button>
                 <button
+                  onClick={toggleTheme}
+                  aria-label="Toggle color theme"
+                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 dark:hover:bg-ink-700 text-slate-700 dark:text-slate-200 rounded-xl cursor-pointer transition-colors shadow-3xs flex items-center gap-1.5"
+                >
+                  {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+                </button>
+                <button
                   onClick={handleFinalizeReviewClick}
                   className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl cursor-pointer transition-all shadow-3xs flex items-center gap-1.5 ${
                     userPersona === "cfo"
                       ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm shadow-emerald-50"
-                      : "bg-blue-600 text-white hover:bg-blue-700 shadow-sm shadow-blue-50"
+                      : "bg-brand-600 text-white hover:bg-brand-700 shadow-sm shadow-brand-50"
                   }`}
                 >
                   <Lock className="w-3 h-3" />
@@ -472,7 +480,7 @@ export default function App() {
                         name: "Dr. Aris Vance",
                         title: "Clinical Director",
                         initials: "AV",
-                        grad: "from-purple-600 to-indigo-500"
+                        grad: "from-brand-400 to-brand-600"
                       };
                     case "auditor":
                       return {
@@ -487,7 +495,7 @@ export default function App() {
                         name: "Devashish Neupane",
                         title: "Senior Strategic Analyst",
                         initials: "DN",
-                        grad: "from-blue-600 to-indigo-500"
+                        grad: "from-brand-600 to-brand-800"
                       };
                   }
                 };

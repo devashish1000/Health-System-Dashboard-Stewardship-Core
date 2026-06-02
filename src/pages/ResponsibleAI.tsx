@@ -24,11 +24,11 @@ export default function ResponsibleAI() {
     <div className="space-y-8 max-w-5xl mx-auto px-4 py-4 animate-fade-in">
       
       {/* Page Header */}
-      <div className="border-b border-slate-100 pb-4">
-        <h2 className="text-xl font-bold text-slate-800">
+      <div className="border-b border-slate-100 dark:border-white/10 pb-4">
+        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
           Responsible AI & Ethical Integrity Platform
         </h2>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-500 dark:text-slate-400">
           Ethical system guardrails, intended use criteria, and professional portfolio bio.
         </p>
       </div>
@@ -44,35 +44,35 @@ export default function ResponsibleAI() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* Synthetic Data Statement Card */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-3xs space-y-3">
-          <h3 className="font-bold text-sm text-[#0F172A] flex items-center gap-2">
+        <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-6 shadow-3xs space-y-3">
+          <h3 className="font-bold text-sm text-ink-900 dark:text-slate-100 flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-sky-50 text-sky-600 block shrink-0">
               <ShieldCheck className="w-4 h-4" />
             </span>
             <span>Synthetic Data Statement</span>
           </h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-semibold bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold bg-slate-50 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
             “This prototype uses fully synthetic data created for demonstration purposes. It does not use patient data, provider data, claim data, financial records, or confidential CommonSpirit information.”
           </p>
         </div>
 
         {/* Responsible AI Statement */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-3xs space-y-3">
-          <h3 className="font-bold text-sm text-[#0F172A] flex items-center gap-2">
+        <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-6 shadow-3xs space-y-3">
+          <h3 className="font-bold text-sm text-ink-900 dark:text-slate-100 flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-teal-50 text-teal-600 block shrink-0">
               <ShieldAlert className="w-4 h-4" />
             </span>
             <span>Responsible AI Statement</span>
           </h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-semibold bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold bg-slate-50 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
             “AI-assisted insights in this prototype are designed for decision support only. Human review is required for all financial, operational, compliance, and leadership decisions.”
           </p>
         </div>
 
         {/* Intended Use Cases */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-3xs space-y-3">
-          <h3 className="font-bold text-sm text-[#0F172A] flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 block shrink-0">
+        <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-6 shadow-3xs space-y-3">
+          <h3 className="font-bold text-sm text-ink-900 dark:text-slate-100 flex items-center gap-2">
+            <span className="p-1.5 rounded-lg bg-brand-50 text-brand-600 block shrink-0">
               <Compass className="w-4 h-4" />
             </span>
             <span>Intended Use Cases</span>
@@ -86,7 +86,7 @@ export default function ResponsibleAI() {
         </div>
 
         {/* Prohibited Out of Scope Use Cases */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-3xs space-y-3">
+        <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-6 shadow-3xs space-y-3">
           <h3 className="font-bold text-sm text-rose-800 flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-rose-50 text-rose-600 block shrink-0">
               <ShieldAlert className="w-4 h-4" />
@@ -104,14 +104,14 @@ export default function ResponsibleAI() {
       </div>
 
       {/* Developer Professional Profile Section - Portrayed beautifully */}
-      <div className="border-t border-slate-100 pt-8">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-6 flex items-center gap-1.5">
+      <div className="border-t border-slate-100 dark:border-white/10 pt-8">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-6 flex items-center gap-1.5">
           <Terminal className="w-4 h-4" /> Developer Professional Profile
         </h3>
         
-        <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] text-white rounded-3xl p-8 relative overflow-hidden shadow-xl">
+        <div className="bg-gradient-to-br from-ink-900 to-ink-800 text-white rounded-3xl p-8 relative overflow-hidden shadow-xl">
           <div className="absolute top-0 right-0 w-44 h-44 bg-sky-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-36 h-36 bg-purple-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-36 h-36 bg-brand-500/10 rounded-full blur-3xl" />
 
           <div className="relative z-10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6">

@@ -102,10 +102,10 @@ export default function FinalizeReviewModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
       
       {/* Modal Container */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-xl max-w-xl w-full overflow-hidden animate-fade-in flex flex-col max-h-[90vh]">
-        
+      <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-xl max-w-xl w-full overflow-hidden animate-fade-in flex flex-col max-h-[90vh]">
+
         {/* Header Banner */}
-        <div className="bg-[#0F172A] text-white px-6 py-4 flex items-center justify-between shrink-0">
+        <div className="bg-ink-900 text-white px-6 py-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-emerald-400" />
             <div>
@@ -124,19 +124,19 @@ export default function FinalizeReviewModal({
         </div>
 
         {/* Step Progression Indicators */}
-        <div className="bg-slate-50 border-b border-slate-100 px-6 py-3 flex items-center justify-between text-[11px] shrink-0 font-semibold text-slate-400">
-          <div className={`flex items-center gap-1 ${step >= 1 ? "text-blue-600 font-bold" : ""}`}>
-            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 1 ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-500"}`}>1</span>
+        <div className="bg-slate-50 dark:bg-ink-900 border-b border-slate-100 dark:border-white/10 px-6 py-3 flex items-center justify-between text-[11px] shrink-0 font-semibold text-slate-400 dark:text-slate-400">
+          <div className={`flex items-center gap-1 ${step >= 1 ? "text-brand-600 font-bold" : ""}`}>
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 1 ? "bg-brand-600 text-white" : "bg-slate-200 text-slate-500"}`}>1</span>
             <span>Pre-flight Audit</span>
           </div>
           <div className="h-0.5 bg-slate-200 w-8" />
-          <div className={`flex items-center gap-1 ${step >= 2 ? "text-blue-600 font-bold" : ""}`}>
-            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 2 ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-500"}`}>2</span>
+          <div className={`flex items-center gap-1 ${step >= 2 ? "text-brand-600 font-bold" : ""}`}>
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 2 ? "bg-brand-600 text-white" : "bg-slate-200 text-slate-500"}`}>2</span>
             <span>Attestation</span>
           </div>
           <div className="h-0.5 bg-slate-200 w-8" />
-          <div className={`flex items-center gap-1 ${step >= 3 ? "text-blue-600 font-bold" : ""}`}>
-            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 3 ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-500"}`}>3</span>
+          <div className={`flex items-center gap-1 ${step >= 3 ? "text-brand-600 font-bold" : ""}`}>
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 3 ? "bg-brand-600 text-white" : "bg-slate-200 text-slate-500"}`}>3</span>
             <span>Signature</span>
           </div>
           <div className="h-0.5 bg-slate-200 w-8" />
@@ -153,29 +153,29 @@ export default function FinalizeReviewModal({
           {step === 1 && (
             <div className="space-y-4">
               <div className="space-y-1">
-                <h4 className="font-bold text-slate-800 text-sm">Review Active Operating Metrics</h4>
-                <p className="text-[11px] text-slate-400">Validate baseline coordinates prior to committing final sign-off audits.</p>
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Review Active Operating Metrics</h4>
+                <p className="text-[11px] text-slate-400 dark:text-slate-400">Validate baseline coordinates prior to committing final sign-off audits.</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <span className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold block">Operating Margin Average</span>
-                  <span className="text-xl font-bold text-slate-800 font-mono mt-1 block">{averageOperatingMargin}%</span>
-                  <span className="text-[9px] text-slate-400 mt-0.5 block">Budget target threshold is 8.5%</span>
+                <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
+                  <span className="text-[10px] text-slate-400 dark:text-slate-400 uppercase tracking-widest font-semibold block">Operating Margin Average</span>
+                  <span className="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono mt-1 block">{averageOperatingMargin}%</span>
+                  <span className="text-[9px] text-slate-400 dark:text-slate-400 mt-0.5 block">Budget target threshold is 8.5%</span>
                 </div>
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <span className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold block">Total Dataset Coverage</span>
-                  <span className="text-xl font-bold text-slate-800 font-mono mt-1 block">{totalRecords} Records</span>
-                  <span className="text-[9px] text-slate-400 mt-0.5 block">Active medical clinic clusters</span>
+                <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
+                  <span className="text-[10px] text-slate-400 dark:text-slate-400 uppercase tracking-widest font-semibold block">Total Dataset Coverage</span>
+                  <span className="text-xl font-bold text-slate-800 dark:text-slate-100 font-mono mt-1 block">{totalRecords} Records</span>
+                  <span className="text-[9px] text-slate-400 dark:text-slate-400 mt-0.5 block">Active medical clinic clusters</span>
                 </div>
               </div>
 
               {/* Warnings Checklist */}
-              <div className="p-4 rounded-2xl border border-blue-50/50 bg-blue-50/20 space-y-2">
-                <h5 className="text-xs font-bold text-slate-700 flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-blue-500" /> Compliance Validation Diagnostic Checks
+              <div className="p-4 rounded-2xl border border-brand-50/50 bg-brand-50/20 space-y-2">
+                <h5 className="text-xs font-bold text-slate-700 dark:text-slate-100 flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-brand-500" /> Compliance Validation Diagnostic Checks
                 </h5>
-                <ul className="text-[11px] text-slate-600 space-y-1.5">
+                <ul className="text-[11px] text-slate-600 dark:text-slate-400 space-y-1.5">
                   <li className="flex items-center gap-2">
                     <span className="p-0.5 rounded-full bg-emerald-100 text-emerald-700">
                       <Check className="w-3 h-3" />
@@ -221,27 +221,27 @@ export default function FinalizeReviewModal({
           {step === 2 && (
             <div className="space-y-4">
               <div className="space-y-1">
-                <h4 className="font-bold text-slate-800 text-sm">Regulatory Attestation Affirmations</h4>
-                <p className="text-[11px] text-slate-400">Officially certify that synthetic records are reviewed and structured according to board directives.</p>
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Regulatory Attestation Affirmations</h4>
+                <p className="text-[11px] text-slate-400 dark:text-slate-400">Officially certify that synthetic records are reviewed and structured according to board directives.</p>
               </div>
 
               <div className="space-y-3.5">
                 {/* Board User Credentials fields */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Signatory Name</label>
+                    <label className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wide">Signatory Name</label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-blue-500"
+                      className="w-full px-3 py-2 border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl text-xs font-semibold focus:outline-brand-500"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Professional Title</label>
+                    <label className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wide">Professional Title</label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-blue-500"
+                      className="w-full px-3 py-2 border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl text-xs font-semibold focus:outline-brand-500"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                     />
@@ -250,31 +250,31 @@ export default function FinalizeReviewModal({
 
                 {/* Checkboxes */}
                 <div className="space-y-2.5 pt-2">
-                  <label className="flex items-start gap-3 p-3 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
+                  <label className="flex items-start gap-3 p-3 border border-slate-100 dark:border-white/10 rounded-xl hover:bg-slate-50 dark:hover:bg-ink-900 transition-colors cursor-pointer">
                     <input
                       type="checkbox"
                       checked={certified1}
                       onChange={(e) => setCertified1(e.target.checked)}
-                      className="w-4 h-4 text-blue-600 rounded border-slate-300 mt-0.5 accent-blue-600"
+                      className="w-4 h-4 text-brand-600 rounded border-slate-300 mt-0.5 accent-brand-600"
                     />
                     <div className="space-y-0.5">
-                      <span className="block text-xs font-bold text-slate-800">Affirm Metric Accuracy</span>
-                      <span className="block text-[10px] text-slate-400 leading-normal">
+                      <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Affirm Metric Accuracy</span>
+                      <span className="block text-[10px] text-slate-400 dark:text-slate-400 leading-normal">
                         I certify that these performance ratios correctly aggregate the hospital service lines, Net Patient Revenue variances, and labor ratios.
                       </span>
                     </div>
                   </label>
 
-                  <label className="flex items-start gap-3 p-3 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
+                  <label className="flex items-start gap-3 p-3 border border-slate-100 dark:border-white/10 rounded-xl hover:bg-slate-50 dark:hover:bg-ink-900 transition-colors cursor-pointer">
                     <input
                       type="checkbox"
                       checked={certified2}
                       onChange={(e) => setCertified2(e.target.checked)}
-                      className="w-4 h-4 text-blue-600 rounded border-slate-300 mt-0.5 accent-blue-600"
+                      className="w-4 h-4 text-brand-600 rounded border-slate-300 mt-0.5 accent-brand-600"
                     />
                     <div className="space-y-0.5">
-                      <span className="block text-xs font-bold text-slate-800">Verify Explanation Annotations</span>
-                      <span className="block text-[10px] text-slate-400 leading-normal">
+                      <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Verify Explanation Annotations</span>
+                      <span className="block text-[10px] text-slate-400 dark:text-slate-400 leading-normal">
                         I confirm that all structural budget variances have been investigated, with corresponding corrective stewardship notes logged appropriately.
                       </span>
                     </div>
@@ -288,30 +288,30 @@ export default function FinalizeReviewModal({
           {step === 3 && (
             <div className="space-y-4">
               <div className="space-y-1">
-                <h4 className="font-bold text-slate-800 text-sm">Digitally Seal Transaction</h4>
-                <p className="text-[11px] text-slate-400">Seal this financial report with your authorized calligraphy digital signature.</p>
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Digitally Seal Transaction</h4>
+                <p className="text-[11px] text-slate-400 dark:text-slate-400">Seal this financial report with your authorized calligraphy digital signature.</p>
               </div>
 
               <div className="space-y-3.5">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Type full name to create seal</label>
+                  <label className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wide">Type full name to create seal</label>
                   <input
                     type="text"
                     placeholder="e.g. Sarah Jenkins"
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-blue-500"
+                    className="w-full px-3 py-2 border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl text-xs font-semibold focus:outline-brand-500"
                     value={signatureText}
                     onChange={(e) => setSignatureText(e.target.value)}
                   />
                 </div>
 
                 {signatureText && (
-                  <div className="p-5 border border-slate-200 rounded-2xl bg-slate-50 shadow-inner flex flex-col items-center justify-center relative overflow-hidden">
+                  <div className="p-5 border border-slate-200 dark:border-white/10 rounded-2xl bg-slate-50 dark:bg-ink-900 shadow-inner flex flex-col items-center justify-center relative overflow-hidden">
                     <div className="absolute top-2 right-2 flex items-center gap-1">
                       <Server className="w-3.5 h-3.5 text-slate-300 shrink-0" />
                       <span className="text-[8px] text-slate-400 font-bold font-mono">MD5 VERIFIED</span>
                     </div>
                     
-                    <span className="font-[serif] italic text-3xl font-semibold tracking-wide text-indigo-800 my-4 text-center">
+                    <span className="font-[serif] italic text-3xl font-semibold tracking-wide text-brand-800 my-4 text-center">
                       {signatureText}
                     </span>
                     <span className="text-[9px] font-bold tracking-widest text-slate-400 uppercase mt-2">
@@ -321,10 +321,10 @@ export default function FinalizeReviewModal({
                 )}
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Compliance Audit Comments (Optional)</label>
+                  <label className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wide">Compliance Audit Comments (Optional)</label>
                   <textarea
                     rows={2}
-                    className="w-full p-3 border border-slate-200 rounded-xl text-xs placeholder:text-slate-400"
+                    className="w-full p-3 border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl text-xs placeholder:text-slate-400"
                     placeholder="Enter senior leadership notes, system variances explanation, or directive offsets..."
                     value={comments}
                     onChange={(e) => setComments(e.target.value)}
@@ -343,41 +343,41 @@ export default function FinalizeReviewModal({
               </div>
 
               <div className="space-y-1">
-                <h4 className="font-extrabold text-slate-800 text-md">Cycle Certification Registered</h4>
-                <p className="text-xs text-slate-500">The month-end performance report has been digitally secured and appended to the ledger.</p>
+                <h4 className="font-extrabold text-slate-800 dark:text-slate-100 text-md">Cycle Certification Registered</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400">The month-end performance report has been digitally secured and appended to the ledger.</p>
               </div>
 
               {/* Certificate Ribbon Card */}
-              <div className="w-full p-5 border border-slate-200 rounded-2xl bg-slate-50 space-y-3.5 text-left shadow-3xs">
-                <div className="flex justify-between items-center text-[10px] font-mono border-b border-slate-200 pb-2">
+              <div className="w-full p-5 border border-slate-200 dark:border-white/10 rounded-2xl bg-slate-50 dark:bg-ink-900 space-y-3.5 text-left shadow-3xs">
+                <div className="flex justify-between items-center text-[10px] font-mono border-b border-slate-200 dark:border-white/10 pb-2">
                   <span className="font-bold text-slate-400">GENUINE AUDIT BLOCK</span>
                   <span className="text-emerald-600 font-extrabold">{generatedCert.modelCode}</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs font-medium">
                   <div>
-                    <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Assigned Signatory</span>
-                    <span className="font-bold text-slate-800">{generatedCert.signatoryName}</span>
-                    <span className="text-[10px] text-slate-500 block">{generatedCert.signatoryTitle}</span>
+                    <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Assigned Signatory</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-100">{generatedCert.signatoryName}</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 block">{generatedCert.signatoryTitle}</span>
                   </div>
                   <div>
-                    <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Certification Hash</span>
-                    <span className="font-bold font-mono text-slate-800 text-[10px] block truncate">{generatedCert.hash}</span>
+                    <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Certification Hash</span>
+                    <span className="font-bold font-mono text-slate-800 dark:text-slate-100 text-[10px] block truncate">{generatedCert.hash}</span>
                   </div>
                   <div>
-                    <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Average Margin Level</span>
-                    <span className="font-bold font-mono text-indigo-700">{generatedCert.activeMargin}% Margin</span>
+                    <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Average Margin Level</span>
+                    <span className="font-bold font-mono text-brand-700">{generatedCert.activeMargin}% Margin</span>
                   </div>
                   <div>
-                    <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Outstanding Warnings</span>
-                    <span className="font-bold text-slate-800 font-mono">{generatedCert.unresolvedCount} items</span>
+                    <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Outstanding Warnings</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-100 font-mono">{generatedCert.unresolvedCount} items</span>
                   </div>
                 </div>
 
                 {generatedCert.comments && (
-                  <div className="pt-2 border-t border-slate-200 text-[11px] text-slate-600">
-                    <span className="font-bold text-slate-500 block mb-0.5">Certifier Remarks:</span>
-                    <p className="italic bg-white p-2 rounded-lg border border-slate-100">{generatedCert.comments}</p>
+                  <div className="pt-2 border-t border-slate-200 dark:border-white/10 text-[11px] text-slate-600 dark:text-slate-400">
+                    <span className="font-bold text-slate-500 dark:text-slate-400 block mb-0.5">Certifier Remarks:</span>
+                    <p className="italic bg-white dark:bg-ink-800 p-2 rounded-lg border border-slate-100 dark:border-white/10">{generatedCert.comments}</p>
                   </div>
                 )}
               </div>
@@ -387,17 +387,17 @@ export default function FinalizeReviewModal({
         </div>
 
         {/* Footer actions */}
-        <div className="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between shrink-0">
+        <div className="bg-slate-50 dark:bg-ink-900 px-6 py-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between shrink-0">
           <div>
             {step < 4 ? (
               <button
                 onClick={onClose}
-                className="text-xs font-semibold text-slate-500 hover:text-slate-700"
+                className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700"
               >
                 Cancel
               </button>
             ) : (
-              <span className="text-[10px] text-slate-400 font-mono font-bold">LEDGER UPDATED</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-400 font-mono font-bold">LEDGER UPDATED</span>
             )}
           </div>
 
@@ -405,7 +405,7 @@ export default function FinalizeReviewModal({
             {step > 1 && step < 4 && (
               <button
                 onClick={() => setStep((prev) => (prev - 1) as any)}
-                className="px-3 py-1.5 border border-slate-200 font-semibold text-xs rounded-xl flex items-center gap-1 hover:bg-slate-100 transition-all cursor-pointer"
+                className="px-3 py-1.5 border border-slate-200 dark:border-white/10 dark:text-slate-100 font-semibold text-xs rounded-xl flex items-center gap-1 hover:bg-slate-100 dark:hover:bg-ink-800 transition-all cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Back
               </button>
@@ -420,7 +420,7 @@ export default function FinalizeReviewModal({
                   }
                   setStep((prev) => (prev + 1) as any);
                 }}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl flex items-center gap-1 shadow-md shadow-blue-50 cursor-pointer"
+                className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs rounded-xl flex items-center gap-1 shadow-md shadow-brand-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
               >
                 Continue <ArrowRight className="w-3.5 h-3.5" />
               </button>
@@ -434,7 +434,7 @@ export default function FinalizeReviewModal({
             ) : (
               <button
                 onClick={onClose}
-                className="px-4 py-2 bg-[#0F172A] hover:bg-slate-800 text-white font-semibold text-xs rounded-xl cursor-pointer"
+                className="px-4 py-2 bg-ink-900 hover:bg-ink-800 text-white font-semibold text-xs rounded-xl cursor-pointer"
               >
                 Close Operational Window
               </button>

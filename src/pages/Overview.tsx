@@ -1,10 +1,12 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { 
-  Landmark, TrendingUp, Cpu, BarChart3, HelpCircle, Activity, Globe, Heart,
+  TrendingUp, Cpu, BarChart3, HelpCircle, Activity, Globe, Heart,
   CheckSquare, Sparkles, CheckCircle2, ChevronRight, Lock,
   Zap, Clock, ShieldCheck, Database, Users, RefreshCcw
 } from "lucide-react";
 import { ProjectPage, FinanceRecord } from "../types";
+import { BrandSweep, SparkMark } from "../components/BrandMotif";
 
 interface OverviewProps {
   onNavigate: (page: ProjectPage) => void;
@@ -80,18 +82,20 @@ export default function Overview({
   return (
     <div className="space-y-12 max-w-6xl mx-auto px-4 py-6 animate-fade-in">
       {/* Hero Welcome Unit */}
-      <div className="relative rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1e293b] to-[#334155] text-white p-8 md:p-12 shadow-xl overflow-hidden">
+      <div className="relative rounded-3xl bg-gradient-to-br from-ink-900 via-ink-800 to-ink-700 text-white p-8 md:p-12 shadow-xl overflow-hidden">
+        {/* Signature CommonSpirit sweep */}
+        <BrandSweep tone="dark" className="absolute inset-0 w-full h-full pointer-events-none" />
         {/* Subtle decorative grid/mesh in the background */}
         <div className="absolute inset-0 opacity-15 mix-blend-overlay">
           <div className="absolute inset-0 bg-[radial-gradient(#e0f2fe_1px,transparent_1px)] [background-size:16px_16px]" />
         </div>
         
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-200 border border-blue-400/20">
-            <Landmark className="w-3.5 h-3.5 text-blue-400" /> Executive Intelligence Control Panel
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-200 border border-brand-400/20">
+            <SparkMark size={16} /> Executive Intelligence Control Panel
           </div>
           
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight font-sans leading-tight">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight font-display leading-tight">
             Healthcare Financial Performance <br className="hidden md:block"/>Control Tower
           </h1>
           
@@ -122,12 +126,12 @@ export default function Overview({
       </div>
 
       {/* Problem Statement Band */}
-      <div className="rounded-3xl bg-gradient-to-r from-blue-600 to-teal-600 text-white p-6 md:p-8 shadow-md flex items-start gap-4">
+      <div className="rounded-3xl bg-gradient-to-r from-brand-600 to-teal-600 text-white p-6 md:p-8 shadow-md flex items-start gap-4">
         <div className="p-2.5 bg-white/15 rounded-xl shrink-0">
           <Zap className="w-5 h-5 text-white" />
         </div>
         <div className="space-y-1">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-blue-100">The Problem We Solve</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-brand-100">The Problem We Solve</span>
           <p className="text-base md:text-xl font-semibold leading-snug">
             Finance teams spend days each month reconciling margin variance across facilities in spreadsheets. This control tower surfaces it — and the drivers behind it — in seconds.
           </p>
@@ -136,22 +140,34 @@ export default function Overview({
 
       {/* ROI Callouts */}
       <div className="space-y-3">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+        >
           {[
-            { label: "Month-end variance review", value: "~5 days → <1 day", icon: Clock, accent: "blue" },
+            { label: "Month-end variance review", value: "~5 days → <1 day", icon: Clock, accent: "brand" },
             { label: "Denial leakage surfaced", value: "~$1.8M / cycle", icon: TrendingUp, accent: "teal" },
             { label: "Premium agency-labor overspend flagged", value: "~$1.2M", icon: BarChart3, accent: "amber" },
-            { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "purple" },
+            { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "brand" },
           ].map((stat) => {
             const accentMap: Record<string, string> = {
-              blue: "bg-blue-50 text-blue-600",
+              brand: "bg-brand-50 text-brand-600",
               teal: "bg-teal-50 text-teal-600",
               amber: "bg-amber-50 text-amber-600",
-              purple: "bg-purple-50 text-purple-600",
             };
             const Icon = stat.icon;
             return (
-              <div key={stat.label} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm space-y-3">
+              <motion.div
+                key={stat.label}
+                variants={{
+                  hidden: { opacity: 0, y: 14 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } }
+                }}
+                className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-3"
+              >
                 <div className="flex items-center justify-between">
                   <div className={`p-2 w-fit rounded-xl ${accentMap[stat.accent]}`}>
                     <Icon className="w-4 h-4" />
@@ -161,27 +177,27 @@ export default function Overview({
                   </span>
                 </div>
                 <div className="space-y-0.5">
-                  <span className="block text-lg font-extrabold text-slate-800 font-mono">{stat.value}</span>
-                  <span className="block text-xs text-slate-500 leading-snug">{stat.label}</span>
+                  <span className="block text-lg font-extrabold text-slate-800 dark:text-slate-100 font-mono">{stat.value}</span>
+                  <span className="block text-xs text-slate-500 dark:text-slate-400 leading-snug">{stat.label}</span>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
         <p className="text-[10px] text-slate-400 text-center">Illustrative figures based on synthetic demo data.</p>
       </div>
 
       {/* How This Works At Your Org */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
-        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-          <Activity className="w-5 h-5 text-blue-600" /> How This Works At Your Org
+      <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-sm p-6 md:p-8 space-y-6">
+        <h2 className="text-xl font-bold font-display text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <Activity className="w-5 h-5 text-brand-600" /> How This Works At Your Org
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
               title: "Plugs into",
               icon: Database,
-              accent: "bg-blue-50 text-blue-600",
+              accent: "bg-brand-50 text-brand-600",
               items: ["Epic / EHR", "GL / ERP (Oracle, Workday)", "Payroll (Kronos)", "Payer claims (835 / EDI)"],
             },
             {
@@ -193,7 +209,7 @@ export default function Overview({
             {
               title: "Replaces",
               icon: RefreshCcw,
-              accent: "bg-purple-50 text-purple-600",
+              accent: "bg-brand-50 text-brand-600",
               items: ["Manual spreadsheet consolidation", "Slow denial & variance chasing", "Static month-end decks"],
             },
           ].map((group) => {
@@ -204,11 +220,11 @@ export default function Overview({
                   <div className={`p-2 w-fit rounded-xl ${group.accent}`}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <h3 className="font-bold text-slate-800 text-sm">{group.title}</h3>
+                  <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">{group.title}</h3>
                 </div>
                 <ul className="space-y-2">
                   {group.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-slate-600 leading-snug">
+                    <li key={item} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-400 leading-snug">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                       <span>{item}</span>
                     </li>
@@ -220,7 +236,7 @@ export default function Overview({
         </div>
 
         {/* Integration Note */}
-        <div className="border-t border-slate-100 pt-5 flex items-start gap-3 text-slate-500">
+        <div className="border-t border-slate-100 dark:border-white/10 pt-5 flex items-start gap-3 text-slate-500 dark:text-slate-400">
           <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-500 mt-0.5" />
           <p className="text-xs leading-relaxed">
             Prototype on synthetic data. In production this connects to your EHR, GL, and claims feeds via read-only APIs — no PHI leaves your environment.
@@ -240,33 +256,33 @@ export default function Overview({
       </div>
 
       {/* Month-End Readiness progress widget */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-3">
+      <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-3">
         {/* Left column: stats and progress bar */}
-        <div className="p-8 bg-slate-50 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-100 space-y-6">
+        <div className="p-8 bg-slate-50 dark:bg-ink-900 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-100 dark:border-white/10 space-y-6">
           <div className="space-y-2">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100 uppercase uppercase">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-brand-50 text-brand-700 border border-brand-100 uppercase uppercase">
               Compliance Tracking
             </span>
-            <h3 className="text-lg font-bold text-slate-800">Stewardship Readiness</h3>
+            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">Stewardship Readiness</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
               Before submitting monthly results to corporate accounting, complete these core checkpoints.
             </p>
           </div>
 
           <div className="space-y-3">
-            <div className="flex justify-between items-baseline text-xs font-bold text-slate-700">
+            <div className="flex justify-between items-baseline text-xs font-bold text-slate-700 dark:text-slate-100">
               <span>Period Closed Progress</span>
-              <span className="font-mono text-blue-600 font-extrabold text-sm">{completionPercent}%</span>
+              <span className="font-mono text-brand-600 font-extrabold text-sm">{completionPercent}%</span>
             </div>
             {/* Visual Bar */}
-            <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-blue-600 rounded-full transition-all duration-500" 
+            <div className="w-full bg-slate-200 dark:bg-white/10 h-2.5 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-brand-600 rounded-full transition-all duration-500"
                 style={{ width: `${completionPercent}%` }}
               />
             </div>
             <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+              <Sparkles className="w-3.5 h-3.5 text-brand-500 shrink-0" />
               <span>{completedCount} of 4 regulatory actions signed.</span>
             </div>
           </div>
@@ -274,7 +290,7 @@ export default function Overview({
 
         {/* Right 2 columns: Task List */}
         <div className="md:col-span-2 p-6 md:p-8 space-y-4">
-          <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">Required Month-End Diagnostics</h4>
+          <h4 className="font-bold text-slate-800 dark:text-slate-100 text-xs uppercase tracking-wider">Required Month-End Diagnostics</h4>
           
           <div className="space-y-3">
             {tasksList.map((task) => (
@@ -294,14 +310,14 @@ export default function Overview({
                       task.checked 
                         ? "text-emerald-600 bg-emerald-50" 
                         : task.toggleable 
-                          ? "text-slate-300 hover:text-blue-500 hover:bg-slate-50" 
+                          ? "text-slate-300 hover:text-brand-500 hover:bg-slate-50"
                           : "text-slate-200 cursor-not-allowed"
                     }`}
                   >
                     <CheckCircle2 className={`w-4 h-4 ${task.checked ? "fill-emerald-100" : ""}`} />
                   </button>
                   <div className="space-y-0.5">
-                    <span className={`block text-xs font-bold ${task.checked ? "text-slate-700 line-through decoration-slate-400" : "text-slate-800"}`}>
+                    <span className={`block text-xs font-bold ${task.checked ? "text-slate-700 dark:text-slate-300 line-through decoration-slate-400" : "text-slate-800 dark:text-slate-100"}`}>
                       {task.label}
                     </span>
                     <span className="block text-[10px] text-slate-400 leading-normal">{task.desc}</span>
@@ -310,7 +326,7 @@ export default function Overview({
 
                 <button
                   onClick={() => onNavigate(task.link)}
-                  className="p-1 px-2.5 rounded-lg border border-slate-100 hover:border-blue-200 hover:bg-blue-50 text-[10px] font-bold text-slate-500 hover:text-blue-600 flex items-center gap-0.5 transition-all cursor-pointer whitespace-nowrap"
+                  className="p-1 px-2.5 rounded-lg border border-slate-100 dark:border-white/10 hover:border-brand-200 hover:bg-brand-50 text-[10px] font-bold text-slate-500 hover:text-brand-600 flex items-center gap-0.5 transition-all cursor-pointer whitespace-nowrap"
                 >
                   {task.lockRequired && !task.checked ? <Lock className="w-2.5 h-2.5 mr-0.5" /> : null}
                   Go <ChevronRight className="w-3 h-3" />
@@ -325,40 +341,40 @@ export default function Overview({
       {/* Three Primary Programmatic Pillars */}
 
       <div>
-        <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-          <Activity className="w-5 h-5 text-blue-600" /> Prototype Capabilities Overview
+        <h2 className="text-xl font-bold font-display text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
+          <Activity className="w-5 h-5 text-brand-600" /> Prototype Capabilities Overview
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Pillar 1 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:translate-y-[-2px] transition-all duration-300 space-y-4">
-            <div className="p-3 bg-blue-50 text-blue-600 w-fit rounded-xl">
+          <div className="bg-white dark:bg-ink-800 rounded-2xl p-6 border border-slate-100 dark:border-white/10 shadow-sm hover:translate-y-[-2px] transition-all duration-300 space-y-4">
+            <div className="p-3 bg-brand-50 text-brand-600 w-fit rounded-xl">
               <BarChart3 className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-slate-800 text-md">1. Budget-to-Actual Visibility</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <h3 className="font-bold text-slate-800 dark:text-slate-100 text-md">1. Budget-to-Actual Visibility</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               Provides deep operational granularity across regions and clinics, tracking Net Patient Revenue (NPR), Expense Watchlists, and operating variance ratios without compromising data security.
             </p>
           </div>
 
           {/* Pillar 2 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:translate-y-[-2px] transition-all duration-300 space-y-4">
+          <div className="bg-white dark:bg-ink-800 rounded-2xl p-6 border border-slate-100 dark:border-white/10 shadow-sm hover:translate-y-[-2px] transition-all duration-300 space-y-4">
             <div className="p-3 bg-teal-50 text-teal-600 w-fit rounded-xl">
               <TrendingUp className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-slate-800 text-md">2. Financial Driver Intelligence</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <h3 className="font-bold text-slate-800 dark:text-slate-100 text-md">2. Financial Driver Intelligence</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               Decomposes cost structures into critical clinical factors like premium nurse registry utilization, medical implants supply chain inflation, and claims insurance denial rates.
             </p>
           </div>
 
           {/* Pillar 3 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:translate-y-[-2px] transition-all duration-300 space-y-4">
-            <div className="p-3 bg-purple-50 text-purple-600 w-fit rounded-xl">
+          <div className="bg-white dark:bg-ink-800 rounded-2xl p-6 border border-slate-100 dark:border-white/10 shadow-sm hover:translate-y-[-2px] transition-all duration-300 space-y-4">
+            <div className="p-3 bg-brand-50 text-brand-600 w-fit rounded-xl">
               <Cpu className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-slate-800 text-md">3. Executive Financial Storytelling</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <h3 className="font-bold text-slate-800 dark:text-slate-100 text-md">3. Executive Financial Storytelling</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               Leverages large language models (featuring safe server-side proxy integration) to generate leadership-ready briefs that translate raw analytical tables into coherent actions.
             </p>
           </div>
@@ -366,47 +382,47 @@ export default function Overview({
       </div>
 
       {/* Guided CTA Navigation Section */}
-      <div className="border-t border-slate-100 pt-8">
-        <h3 className="text-sm font-semibold text-slate-500 mb-4 uppercase tracking-wider block">
+      <div className="border-t border-slate-100 dark:border-white/10 pt-8">
+        <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-4 uppercase tracking-wider block">
           Select Your Analytical Workspace Entrypoint:
         </h3>
         
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <button
             onClick={() => onNavigate("dashboard")}
-            className="flex items-center justify-between p-5 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50 text-left transition-all duration-200 group group-hover:border-slate-300 text-slate-800 font-semibold text-sm shadow-sm hover:shadow-md cursor-pointer"
+            className="flex items-center justify-between p-5 rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 text-left transition-all duration-200 group group-hover:border-slate-300 text-slate-800 dark:text-slate-100 font-semibold text-sm shadow-sm hover:shadow-md cursor-pointer"
           >
             <span className="space-y-1">
-              <span className="block text-slate-800">View Financial Dashboard</span>
-              <span className="block font-normal text-xs text-slate-500 text-wrap pr-4">Analyze KPIs, charts, and facility record filters</span>
+              <span className="block text-slate-800 dark:text-slate-100">View Financial Dashboard</span>
+              <span className="block font-normal text-xs text-slate-500 dark:text-slate-400 text-wrap pr-4">Analyze KPIs, charts, and facility record filters</span>
             </span>
-            <span className="p-2 bg-slate-50 rounded-xl text-slate-500 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+            <span className="p-2 bg-slate-50 rounded-xl text-slate-500 group-hover:bg-brand-600 group-hover:text-white transition-colors">
               <BarChart3 className="w-4 h-4" />
             </span>
           </button>
 
           <button
             onClick={() => onNavigate("serviceLines")}
-            className="flex items-center justify-between p-5 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50 text-left transition-all duration-200 group group-hover:border-slate-300 text-slate-800 font-semibold text-sm shadow-sm hover:shadow-md cursor-pointer"
+            className="flex items-center justify-between p-5 rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 text-left transition-all duration-200 group group-hover:border-slate-300 text-slate-800 dark:text-slate-100 font-semibold text-sm shadow-sm hover:shadow-md cursor-pointer"
           >
             <span className="space-y-1">
-              <span className="block text-slate-800">Open Service-Line View</span>
-              <span className="block font-normal text-xs text-slate-500 text-wrap pr-4">Oversee specific departments and annotate notes</span>
+              <span className="block text-slate-800 dark:text-slate-100">Open Service-Line View</span>
+              <span className="block font-normal text-xs text-slate-500 dark:text-slate-400 text-wrap pr-4">Oversee specific departments and annotate notes</span>
             </span>
-            <span className="p-2 bg-slate-50 rounded-xl text-slate-500 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+            <span className="p-2 bg-slate-50 rounded-xl text-slate-500 group-hover:bg-brand-600 group-hover:text-white transition-colors">
               <Globe className="w-4 h-4" />
             </span>
           </button>
 
           <button
             onClick={() => onNavigate("copilot")}
-            className="flex items-center justify-between p-5 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50 text-left transition-all duration-200 group group-hover:border-slate-300 text-slate-800 font-semibold text-sm shadow-sm hover:shadow-md cursor-pointer"
+            className="flex items-center justify-between p-5 rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 text-left transition-all duration-200 group group-hover:border-slate-300 text-slate-800 dark:text-slate-100 font-semibold text-sm shadow-sm hover:shadow-md cursor-pointer"
           >
             <span className="space-y-1">
-              <span className="block text-slate-800">Ask Finance Copilot</span>
-              <span className="block font-normal text-xs text-slate-500 text-wrap pr-4">Query financial variables using Gemini AI support</span>
+              <span className="block text-slate-800 dark:text-slate-100">Ask Finance Copilot</span>
+              <span className="block font-normal text-xs text-slate-500 dark:text-slate-400 text-wrap pr-4">Query financial variables using Gemini AI support</span>
             </span>
-            <span className="p-2 bg-slate-50 rounded-xl text-slate-500 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+            <span className="p-2 bg-slate-50 rounded-xl text-slate-500 group-hover:bg-brand-600 group-hover:text-white transition-colors">
               <Cpu className="w-4 h-4" />
             </span>
           </button>

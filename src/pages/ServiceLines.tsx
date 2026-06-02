@@ -136,12 +136,12 @@ export default function ServiceLines({
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
       
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
         <div>
-          <h2 className="text-xl font-bold font-sans text-slate-800">
+          <h2 className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100">
             Service Line Performance Hub
           </h2>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Review departmental margin contributions, patient volume variances, and execute compliance workflows.
           </p>
         </div>
@@ -150,19 +150,19 @@ export default function ServiceLines({
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleSaveExecutiveSummary}
-            className="px-3.5 py-2 border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-xs rounded-xl transition-all cursor-pointer"
+            className="px-3.5 py-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 text-slate-600 dark:text-slate-300 font-semibold text-xs rounded-xl transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             Save Executive Summary
           </button>
           <button
             onClick={handleGenerateReviewPacket}
-            className="px-3.5 py-2 border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-xs rounded-xl transition-all cursor-pointer"
+            className="px-3.5 py-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 text-slate-600 dark:text-slate-300 font-semibold text-xs rounded-xl transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             Generate Review Packet
           </button>
           <button
             onClick={handleMarkReviewComplete}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl transition-all shadow-md shadow-blue-50/50 cursor-pointer"
+            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs rounded-xl transition-all shadow-md shadow-brand-50/50 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
           >
             Mark Month-End Review Complete
           </button>
@@ -194,16 +194,16 @@ export default function ServiceLines({
           return (
             <div
               key={agg.serviceLine}
-              className={`bg-white rounded-3xl p-5 border shadow-xs transition-all flex flex-col justify-between hover:translate-y-[-2px] hover:shadow-md ${isFlagged ? "border-amber-300 ring-2 ring-amber-50" : "border-slate-100"}`}
+              className={`bg-white dark:bg-ink-800 rounded-3xl p-5 border shadow-xs transition-all flex flex-col justify-between hover:translate-y-[-2px] hover:shadow-md ${isFlagged ? "border-amber-300 ring-2 ring-amber-50" : "border-slate-100 dark:border-white/10"}`}
             >
               {/* Header inside card */}
-              <div className="flex items-start justify-between gap-2 border-b border-slate-50 pb-3">
+              <div className="flex items-start justify-between gap-2 border-b border-slate-50 dark:border-white/10 pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 bg-slate-50 rounded-xl text-blue-600">
+                  <div className="p-2.5 bg-slate-50 dark:bg-ink-900 rounded-xl text-brand-600">
                     <IconComponent className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-800 text-sm">{agg.serviceLine}</h3>
+                    <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">{agg.serviceLine}</h3>
                     <span className="text-[10px] text-slate-400 block font-medium">Assigned to {agg.owner}</span>
                   </div>
                 </div>
@@ -225,7 +225,7 @@ export default function ServiceLines({
               <div className="grid grid-cols-2 gap-y-3 gap-x-2 py-4">
                 <div>
                   <span className="text-[10px] text-slate-400 block">Net Revenue</span>
-                  <span className="text-sm font-bold text-slate-800 block mt-0.5">
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block mt-0.5">
                     {formatCurrency(agg.netRevenue)}
                   </span>
                 </div>
@@ -250,7 +250,7 @@ export default function ServiceLines({
               </div>
 
               {/* Key Driver Notes */}
-              <div className="bg-slate-50/60 rounded-xl p-3 border border-slate-100/50 mt-1 mb-4 flex-grow">
+              <div className="bg-slate-50/60 dark:bg-ink-900 rounded-xl p-3 border border-slate-100/50 dark:border-white/10 mt-1 mb-4 flex-grow">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide block mb-1">
                   Primary Stewardship Driver:
                 </span>
@@ -260,27 +260,27 @@ export default function ServiceLines({
               </div>
 
               {/* Workflow Actions footer of card */}
-              <div className="border-t border-slate-50 pt-3 flex items-center justify-between text-xs">
+              <div className="border-t border-slate-50 dark:border-white/10 pt-3 flex items-center justify-between text-xs">
                 <span className="text-[10px] text-slate-400 font-mono">
                   State: <strong className="font-semibold text-slate-500">{agg.reviewStatus}</strong>
                 </span>
 
                 {addingNoteFor === agg.serviceLine ? (
-                  <div className="absolute inset-x-0 bottom-0 bg-white p-4 rounded-3xl border border-slate-200 shadow-xl z-20 space-y-2">
+                  <div className="absolute inset-x-0 bottom-0 bg-white dark:bg-ink-800 p-4 rounded-3xl border border-slate-200 dark:border-white/10 shadow-xl z-20 space-y-2">
                     <div className="flex justify-between items-center">
-                      <h4 className="font-bold text-xs text-slate-700">Add Variance Note for {agg.serviceLine}</h4>
+                      <h4 className="font-bold text-xs text-slate-700 dark:text-slate-100">Add Variance Note for {agg.serviceLine}</h4>
                       <button onClick={() => setAddingNoteFor(null)} className="text-slate-400 text-xs">✕</button>
                     </div>
                     <textarea
                       value={inputNote}
                       onChange={(e) => setInputNote(e.target.value)}
                       rows={2}
-                      className="w-full text-xs border border-slate-200 rounded-lg p-2 focus:outline-hidden"
+                      className="w-full text-xs border border-slate-200 dark:border-white/10 dark:bg-ink-900 rounded-lg p-2 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500"
                       placeholder="Input the core driver variance data..."
                     />
                     <button
                       onClick={() => saveQuickNote(agg.serviceLine)}
-                      className="w-full py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg"
+                      className="w-full py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-lg focus-visible:ring-2 focus-visible:ring-brand-500"
                     >
                       Save Note
                     </button>
@@ -291,7 +291,7 @@ export default function ServiceLines({
                       setAddingNoteFor(agg.serviceLine);
                       setInputNote(hasOwnNote || "");
                     }}
-                    className="text-[10px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                    className="text-[10px] font-bold text-brand-600 hover:text-brand-800 flex items-center gap-1"
                   >
                     <PlusCircle className="w-3.5 h-3.5" /> Add Variance Note
                   </button>
@@ -303,12 +303,12 @@ export default function ServiceLines({
       </div>
 
       {/* Stewardship Checklist Card */}
-      <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
-          <h4 className="font-bold text-sm text-slate-800 flex items-center gap-1.5">
+          <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
             <Award className="w-4 h-4 text-sky-500 animate-pulse" /> Unified Director Audit Program
           </h4>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Ensure you review outlier service line ratios (e.g. Cardiology claim rejections and Emergency premium nursing overages) before certifying the monthly packet.
           </p>
         </div>
