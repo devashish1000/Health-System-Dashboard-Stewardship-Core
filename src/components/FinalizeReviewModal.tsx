@@ -311,7 +311,7 @@ export default function FinalizeReviewModal({
                       <span className="text-[8px] text-slate-400 font-bold font-mono">MD5 VERIFIED</span>
                     </div>
                     
-                    <span className="font-[serif] italic text-3xl font-semibold tracking-wide text-indigo-800 my-4 text-center">
+                    <span className="font-[serif] italic text-3xl font-semibold tracking-wide text-brand-800 my-4 text-center">
                       {signatureText}
                     </span>
                     <span className="text-[9px] font-bold tracking-widest text-slate-400 uppercase mt-2">
@@ -366,7 +366,7 @@ export default function FinalizeReviewModal({
                   </div>
                   <div>
                     <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Average Margin Level</span>
-                    <span className="font-bold font-mono text-indigo-700">{generatedCert.activeMargin}% Margin</span>
+                    <span className="font-bold font-mono text-brand-700">{generatedCert.activeMargin}% Margin</span>
                   </div>
                   <div>
                     <span className="text-[9px] text-slate-400 dark:text-slate-400 uppercase tracking-wider block">Outstanding Warnings</span>

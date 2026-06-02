@@ -72,7 +72,7 @@ export default function ResponsibleAI() {
         {/* Intended Use Cases */}
         <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-6 shadow-3xs space-y-3">
           <h3 className="font-bold text-sm text-ink-900 dark:text-slate-100 flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 block shrink-0">
+            <span className="p-1.5 rounded-lg bg-brand-50 text-brand-600 block shrink-0">
               <Compass className="w-4 h-4" />
             </span>
             <span>Intended Use Cases</span>
@@ -111,7 +111,7 @@ export default function ResponsibleAI() {
         
         <div className="bg-gradient-to-br from-ink-900 to-ink-800 text-white rounded-3xl p-8 relative overflow-hidden shadow-xl">
           <div className="absolute top-0 right-0 w-44 h-44 bg-sky-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-36 h-36 bg-purple-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-36 h-36 bg-brand-500/10 rounded-full blur-3xl" />
 
           <div className="relative z-10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6">

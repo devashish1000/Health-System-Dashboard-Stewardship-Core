@@ -110,7 +110,7 @@ export default function ServiceLineTrendModal({
       case "Cardiology":
         return { stroke: "#E11D48", fill: "rgba(225, 29, 72, 0.15)", bg: "text-rose-600 bg-rose-50 border-rose-100" };
       case "Neurology":
-        return { stroke: "#8B5CF6", fill: "rgba(139, 92, 246, 0.15)", bg: "text-purple-600 bg-purple-50 border-purple-100" };
+        return { stroke: "#982f6a", fill: "rgba(152, 47, 106, 0.15)", bg: "text-brand-600 bg-brand-50 border-brand-100" };
       case "Orthopedics":
         return { stroke: "#0D9488", fill: "rgba(13, 148, 136, 0.15)", bg: "text-teal-600 bg-teal-50 border-teal-100" };
       case "Emergency":
@@ -257,7 +257,7 @@ export default function ServiceLineTrendModal({
                           <div className="bg-ink-900 text-white p-3.5 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
                             <div className="flex justify-between items-baseline gap-4 border-b border-slate-800 pb-1.5">
                               <span className="font-bold uppercase text-slate-300">{data.monthLabel} 2026</span>
-                              <span className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold border ${data.isProjected ? "bg-indigo-500/15 border-indigo-400 text-indigo-300" : "bg-emerald-500/15 border-emerald-400 text-emerald-300"}`}>
+                              <span className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold border ${data.isProjected ? "bg-brand-500/15 border-brand-400 text-brand-300" : "bg-emerald-500/15 border-emerald-400 text-emerald-300"}`}>
                                 {data.isProjected ? "PROJECTION" : "HISTORICAL"}
                               </span>
                             </div>
@@ -320,7 +320,7 @@ export default function ServiceLineTrendModal({
             
             {/* Takeaways / Insights */}
             <div className="md:col-span-7 bg-slate-50/40 dark:bg-ink-900 p-5 rounded-2xl border border-slate-100 dark:border-white/10 flex gap-4">
-              <Sparkles className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+              <Sparkles className="w-5 h-5 text-brand-500 shrink-0 mt-0.5" />
               <div className="space-y-1.5">
                 <span className="block text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">AI Strategy Outlook</span>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">

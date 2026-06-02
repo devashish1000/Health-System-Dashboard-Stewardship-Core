@@ -156,16 +156,16 @@ export default function Forecast({ records }: ForecastProps) {
       </div>
 
       {/* AI-Assisted Finance Narrative Explanation Panel */}
-      <div className="bg-gradient-to-r from-purple-500/5 via-sky-500/5 to-teal-500/5 border border-slate-100 dark:border-white/10 rounded-3xl p-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-200/10 rounded-full blur-2xl" />
+      <div className="bg-gradient-to-r from-brand-500/5 via-sky-500/5 to-teal-500/5 border border-slate-100 dark:border-white/10 rounded-3xl p-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-brand-200/10 rounded-full blur-2xl" />
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-sky-200/10 rounded-full blur-2xl" />
 
         <div className="relative z-10 space-y-4">
           <div className="flex items-center gap-2">
-            <Cpu className="w-5 h-5 text-purple-600 animate-pulse" />
+            <Cpu className="w-5 h-5 text-brand-600 animate-pulse" />
             <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-widest flex items-center gap-1.5">
               <span>What Changed This Month?</span>
-              <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">AI Narrative</span>
+              <span className="text-[10px] bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-bold">AI Narrative</span>
             </h3>
           </div>
 

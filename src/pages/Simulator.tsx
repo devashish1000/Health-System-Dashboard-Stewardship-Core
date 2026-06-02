@@ -127,7 +127,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-100">Improve Labor Cost Efficiency</span>
-                <span className="font-mono text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-sm">
+                <span className="font-mono text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-sm">
                   +{laborImprovement}% savings
                 </span>
               </div>
@@ -138,7 +138,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                 step="0.5"
                 value={laborImprovement}
                 onChange={(e) => handleSliderChange(setLaborImprovement, parseFloat(e.target.value))}
-                className="w-full accent-indigo-600 h-1.5 bg-slate-100 dark:bg-ink-900 rounded-lg cursor-ew-resize"
+                className="w-full accent-brand-600 h-1.5 bg-slate-100 dark:bg-ink-900 rounded-lg cursor-ew-resize"
               />
               <div className="flex justify-between text-[10px] text-slate-400">
                 <span>Baseline Allocation</span>
@@ -219,7 +219,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-100">Reduce Payment Reimbursement Latency</span>
-                <span className="font-mono text-purple-600 font-bold bg-purple-50 px-2 py-0.5 rounded-sm">
+                <span className="font-mono text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-sm">
                   -{reimbursementReduction} Days AR delay
                 </span>
               </div>
@@ -230,7 +230,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                 step="1"
                 value={reimbursementReduction}
                 onChange={(e) => handleSliderChange(setReimbursementReduction, parseInt(e.target.value))}
-                className="w-full accent-purple-600 h-1.5 bg-slate-100 dark:bg-ink-900 rounded-lg cursor-ew-resize"
+                className="w-full accent-brand-600 h-1.5 bg-slate-100 dark:bg-ink-900 rounded-lg cursor-ew-resize"
               />
               <div className="flex justify-between text-[10px] text-slate-400">
                 <span>Baseline payment duration (49 AR days)</span>
@@ -300,7 +300,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                   </div>
                   <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= 7.4 ? "bg-indigo-400" : "bg-rose-400"}`}
+                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= 7.4 ? "bg-brand-400" : "bg-rose-400"}`}
                       style={{ width: `${Math.min(100, (simulatedMargin / 7.4) * 100)}%` }}
                     />
                   </div>

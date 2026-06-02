@@ -367,7 +367,7 @@ export default function Dashboard({
                   }}
                   className="text-[10px] font-bold text-sky-600 hover:text-sky-800 flex items-center gap-0.5"
                 >
-                  <Sparkles className="w-3 h-3 text-purple-400 animate-pulse" /> Explain
+                  <Sparkles className="w-3 h-3 text-brand-400 animate-pulse" /> Explain
                 </button>
               </div>
             </motion.div>
@@ -397,7 +397,7 @@ export default function Dashboard({
                   }}
                   className="text-[10px] font-bold text-sky-600 hover:text-sky-800 flex items-center gap-0.5"
                 >
-                  <Sparkles className="w-3 h-3 text-purple-400" /> Explain
+                  <Sparkles className="w-3 h-3 text-brand-400" /> Explain
                 </button>
               </div>
             </motion.div>
@@ -427,7 +427,7 @@ export default function Dashboard({
                   }}
                   className="text-[10px] font-bold text-sky-600 hover:text-sky-800 flex items-center gap-0.5"
                 >
-                  <Sparkles className="w-3 h-3 text-purple-400" /> Explain
+                  <Sparkles className="w-3 h-3 text-brand-400" /> Explain
                 </button>
               </div>
             </motion.div>
@@ -457,7 +457,7 @@ export default function Dashboard({
                   }}
                   className="text-[10px] font-bold text-sky-600 hover:text-sky-800 flex items-center gap-0.5"
                 >
-                  <Sparkles className="w-3 h-3 text-purple-400" /> Explain
+                  <Sparkles className="w-3 h-3 text-brand-400" /> Explain
                 </button>
               </div>
             </motion.div>
@@ -469,7 +469,7 @@ export default function Dashboard({
               className="bg-white dark:bg-ink-800 rounded-2xl p-4 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-brand-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
             >
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-purple-500 transition-colors">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-brand-500 transition-colors">
                   Labor Cost Ratio
                 </span>
                 <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
@@ -487,7 +487,7 @@ export default function Dashboard({
                   }}
                   className="text-[10px] font-bold text-sky-600 hover:text-sky-800 flex items-center gap-0.5"
                 >
-                  <Sparkles className="w-3 h-3 text-purple-400" /> Explain
+                  <Sparkles className="w-3 h-3 text-brand-400" /> Explain
                 </button>
               </div>
             </motion.div>
@@ -517,7 +517,7 @@ export default function Dashboard({
                   }}
                   className="text-[10px] font-bold text-sky-600 hover:text-sky-800 flex items-center gap-0.5"
                 >
-                  <Sparkles className="w-3 h-3 text-purple-400 animate-pulse" /> Explain
+                  <Sparkles className="w-3 h-3 text-brand-400 animate-pulse" /> Explain
                 </button>
               </div>
             </motion.div>
@@ -526,7 +526,7 @@ export default function Dashboard({
 
           {/* Interactive KPI Intelligence Drawer (Render in-line when active) */}
           {activeExplainKey && KPI_EXPLAINER_DATA[activeExplainKey] && (
-            <div className="bg-gradient-to-r from-sky-50 via-indigo-50 to-purple-50 rounded-2xl p-5 border border-sky-100 relative shadow-xs animate-fade-in flex flex-col sm:flex-row gap-4 items-start">
+            <div className="bg-gradient-to-r from-brand-50 via-brand-50 to-sky-50 rounded-2xl p-5 border border-brand-100 relative shadow-xs animate-fade-in flex flex-col sm:flex-row gap-4 items-start">
               <div className="p-3 bg-white rounded-xl text-sky-600 shrink-0 shadow-xs border border-sky-100">
                 <Cpu className="w-6 h-6 animate-pulse" />
               </div>

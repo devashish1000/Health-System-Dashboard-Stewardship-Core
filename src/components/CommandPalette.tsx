@@ -355,9 +355,9 @@ export default function CommandPalette({
           <button 
             type="button"
             onClick={() => { setMode("ai"); setSearch(""); setAiResponse(null); }}
-            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${mode === "ai" ? "bg-purple-600/10 text-purple-400 border border-purple-500/20" : "text-slate-400 hover:text-slate-200"}`}
+            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${mode === "ai" ? "bg-brand-600/10 text-brand-400 border border-brand-500/20" : "text-slate-400 hover:text-slate-200"}`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 text-brand-400 animate-pulse" />
             AI Analytical Prompt (/ai)
           </button>
         </div>
@@ -384,7 +384,7 @@ export default function CommandPalette({
             <button
               onClick={handleAiSubmit}
               disabled={isAiThinking}
-              className="py-1 px-3 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1"
+              className="py-1 px-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1"
             >
               Analyze
               <CornerDownLeft className="w-3 h-3" />
@@ -507,16 +507,16 @@ export default function CommandPalette({
               {/* AI response block */}
               {isAiThinking && (
                 <div className="py-12 flex flex-col items-center justify-center space-y-3">
-                  <div className="w-8 h-8 rounded-full border-t-2 border-r-2 border-purple-500 animate-spin" />
-                  <span className="text-xs font-mono text-purple-400 uppercase tracking-widest animate-pulse">Running Financial Intelligence Pipeline...</span>
+                  <div className="w-8 h-8 rounded-full border-t-2 border-r-2 border-brand-500 animate-spin" />
+                  <span className="text-xs font-mono text-brand-400 uppercase tracking-widest animate-pulse">Running Financial Intelligence Pipeline...</span>
                 </div>
               )}
 
               {aiResponse && (
                 <div className="space-y-4 animate-fade-in py-2">
                   <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                    <div className="flex items-center gap-1.5 text-purple-400 font-bold font-sans text-xs pb-1.5 border-b border-slate-800">
-                      <Sparkles className="w-4 h-4 text-purple-400" />
+                    <div className="flex items-center gap-1.5 text-brand-400 font-bold font-sans text-xs pb-1.5 border-b border-slate-800">
+                      <Sparkles className="w-4 h-4 text-brand-400" />
                       AUTOMATED SYNTHETIC ANSWER
                     </div>
                     <p className="text-xs text-slate-200 leading-relaxed font-normal">
@@ -538,7 +538,7 @@ export default function CommandPalette({
                         onClose();
                         onTriggerToast("Switched to Full Copilot view.", "info");
                       }}
-                      className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-[11px] font-bold cursor-pointer transition-all flex items-center gap-1"
+                      className="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-[11px] font-bold cursor-pointer transition-all flex items-center gap-1"
                     >
                       Open Full Copilot Console
                       <ChevronRight className="w-3 h-3" />

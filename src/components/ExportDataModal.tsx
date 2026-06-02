@@ -148,7 +148,7 @@ export default function ExportDataModal({
               onClick={handleExportLedgerJSON}
               className="w-full p-4 rounded-xl border border-slate-100 dark:border-white/10 hover:border-brand-200 hover:bg-brand-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"
             >
-              <div className="p-2.5 rounded-lg bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0">
+              <div className="p-2.5 rounded-lg bg-brand-50 text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-all shrink-0">
                 <FileCode className="w-5 h-5" />
               </div>
               <div className="space-y-1">

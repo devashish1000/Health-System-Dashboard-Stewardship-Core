@@ -223,7 +223,7 @@ export default function VisualRegression() {
       <div className="border-b border-slate-100 dark:border-white/10 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            <Gauge className="w-5 h-5 text-indigo-600" />
+            <Gauge className="w-5 h-5 text-brand-600" />
             Engineering QA & System Guardrails Suite
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -234,28 +234,28 @@ export default function VisualRegression() {
           <button 
             type="button"
             onClick={() => setActiveTab("pixel")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "pixel" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "pixel" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
           >
             Pixel Auditor
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab("chaos")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "chaos" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "chaos" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
           >
             Chaos Injector
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab("temporal")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "temporal" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "temporal" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
           >
             Time Travel
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab("a11y")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "a11y" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "a11y" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
           >
             WCAG A11y
           </button>
@@ -303,13 +303,13 @@ export default function VisualRegression() {
                         }}
                         className={`w-full text-left p-3 rounded-xl border transition-all cursor-pointer block ${
                           isActive 
-                            ? "bg-indigo-50/50 border-indigo-200 text-indigo-900 shadow-3xs animate-fade-in" 
+                            ? "bg-brand-50/50 border-brand-200 text-brand-900 shadow-3xs animate-fade-in" 
                             : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50/55"
                         }`}
                       >
                         <div className="flex justify-between items-start">
                           <span className="text-xs font-bold block">{st.name}</span>
-                          <span className="text-[8px] bg-indigo-50 text-indigo-600 font-bold px-1.5 rounded-sm uppercase tracking-wider font-mono">
+                          <span className="text-[8px] bg-brand-50 text-brand-600 font-bold px-1.5 rounded-sm uppercase tracking-wider font-mono">
                             {st.category}
                           </span>
                         </div>
@@ -345,7 +345,7 @@ export default function VisualRegression() {
                         }}
                         className="sr-only peer" 
                       />
-                      <div className="w-9 h-5 bg-slate-200 peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                      <div className="w-9 h-5 bg-slate-200 peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
                     </label>
                   </div>
 
@@ -364,21 +364,21 @@ export default function VisualRegression() {
                 <div className="grid grid-cols-3 gap-1 bg-slate-50 p-1 rounded-xl">
                   <button
                     onClick={() => setActiveViewport("desktop")}
-                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "desktop" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
+                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "desktop" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
                   >
                     <Monitor className="w-4 h-4 mb-1" />
                     <span className="text-[9px] font-bold">Desktop</span>
                   </button>
                   <button
                     onClick={() => setActiveViewport("tablet")}
-                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "tablet" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
+                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "tablet" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
                   >
                     <Tablet className="w-4 h-4 mb-1" />
                     <span className="text-[9px] font-bold">Tablet</span>
                   </button>
                   <button
                     onClick={() => setActiveViewport("mobile")}
-                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "mobile" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
+                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "mobile" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
                   >
                     <Smartphone className="w-4 h-4 mb-1" />
                     <span className="text-[9px] font-bold">Mobile</span>
@@ -405,7 +405,7 @@ export default function VisualRegression() {
                   <button
                     onClick={triggerPixelScan}
                     disabled={isScanning}
-                    className="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5"
+                    className="px-3 py-1 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5"
                   >
                     <RefreshCw className={`w-3 h-3 ${isScanning ? "animate-spin" : ""}`} />
                     Audit Screen
@@ -472,7 +472,7 @@ export default function VisualRegression() {
 
                       {selectedState.id === "cmd-palette" && (
                         <div className="p-3 bg-slate-800 rounded-xl border border-slate-800 space-y-1">
-                          <span className="font-bold text-[11px] flex items-center gap-1"><span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" /> Command palette</span>
+                          <span className="font-bold text-[11px] flex items-center gap-1"><span className="w-1.5 h-1.5 bg-brand-500 rounded-full" /> Command palette</span>
                           <p className="text-[8px] text-slate-400 leading-normal">Fast overlay menu offering immediate navigation shortcut structures.</p>
                         </div>
                       )}
@@ -488,7 +488,7 @@ export default function VisualRegression() {
                         style={{ width: `${100 - sliderPosition}%`, minWidth: "480px", right: 0 }}
                       >
                         <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                          <span className="text-[9px] uppercase font-bold tracking-wider text-indigo-400">REALTIME CLIENT RENDER</span>
+                          <span className="text-[9px] uppercase font-bold tracking-wider text-brand-400">REALTIME CLIENT RENDER</span>
                           <span className="text-[8px] text-yellow-500 font-mono font-bold uppercase">LIVE DOM NODE</span>
                         </div>
 
@@ -529,7 +529,7 @@ export default function VisualRegression() {
 
                           {selectedState.id === "cmd-palette" && (
                             <div className={`p-3 bg-slate-800 rounded-xl border space-y-1 ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20" : "border-slate-800"}`}>
-                              <span className="font-bold text-[11px] flex items-center gap-1"><span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" /> Command palette</span>
+                              <span className="font-bold text-[11px] flex items-center gap-1"><span className="w-1.5 h-1.5 bg-brand-500 rounded-full" /> Command palette</span>
                               <p className="text-[8px] text-slate-400 leading-normal">Fast overlay menu offering immediate navigation shortcut structures.</p>
                             </div>
                           )}
@@ -648,7 +648,7 @@ export default function VisualRegression() {
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-slate-600 font-bold">API Gateway Latency Time</span>
-                      <span className="font-mono text-indigo-600 font-bold">{apiLatency} ms</span>
+                      <span className="font-mono text-brand-600 font-bold">{apiLatency} ms</span>
                     </div>
                     <input 
                       type="range" 
@@ -657,7 +657,7 @@ export default function VisualRegression() {
                       step="50"
                       value={apiLatency}
                       onChange={(e) => setApiLatency(parseInt(e.target.value))}
-                      className="w-full accent-indigo-600 cursor-pointer h-1 bg-slate-100 rounded-lg appearance-none"
+                      className="w-full accent-brand-600 cursor-pointer h-1 bg-slate-100 rounded-lg appearance-none"
                     />
                     <div className="flex justify-between text-[9px] text-slate-400 font-mono">
                       <span>Normal (50ms)</span>
@@ -787,7 +787,7 @@ export default function VisualRegression() {
               <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <div>
                   <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                    <History className="w-4 h-4 text-indigo-600 animate-spin-slow" />
+                    <History className="w-4 h-4 text-brand-600 animate-spin-slow" />
                     Temporal Cohort Dry-Runner
                   </h3>
                   <p className="text-[11px] text-slate-500">Dry-run projections and adjust historical baseline references to audit cohort drift trends.</p>
@@ -811,7 +811,7 @@ export default function VisualRegression() {
                             }}
                             className={`w-full text-left p-3 rounded-xl border text-xs flex justify-between items-center cursor-pointer transition-all ${
                               isActive 
-                                ? "bg-indigo-50/50 border-indigo-200 text-indigo-900 shadow-3xs" 
+                                ? "bg-brand-50/50 border-brand-200 text-brand-900 shadow-3xs" 
                                 : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50/60"
                             }`}
                           >
@@ -835,7 +835,7 @@ export default function VisualRegression() {
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-slate-600 font-bold">Nursing Overtime Registry Bias</span>
-                      <span className="font-mono text-indigo-600 font-bold">+${registryWageOvercharge}k drift</span>
+                      <span className="font-mono text-brand-600 font-bold">+${registryWageOvercharge}k drift</span>
                     </div>
                     <input 
                       type="range" 
@@ -844,7 +844,7 @@ export default function VisualRegression() {
                       step="10"
                       value={registryWageOvercharge}
                       onChange={(e) => setRegistryWageOvercharge(parseInt(e.target.value))}
-                      className="w-full accent-indigo-600 cursor-pointer h-1 bg-slate-100 rounded-lg appearance-none"
+                      className="w-full accent-brand-600 cursor-pointer h-1 bg-slate-100 rounded-lg appearance-none"
                     />
                     <div className="flex justify-between text-[9px] text-slate-400 font-mono">
                       <span>0 (Base rate reliance)</span>
@@ -856,7 +856,7 @@ export default function VisualRegression() {
                   <button
                     onClick={triggerTemporalAudit}
                     disabled={isTemporalRunning}
-                    className="w-full py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 disabled:opacity-50 transition-colors cursor-pointer shadow-3xs flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700 disabled:opacity-50 transition-colors cursor-pointer shadow-3xs flex items-center justify-center gap-1.5"
                   >
                     <FastForward className="w-4 h-4 text-white" />
                     {isTemporalRunning ? "Synthesizing Cohort Walk..." : "Evaluate Projection Model"}
@@ -914,7 +914,7 @@ export default function VisualRegression() {
 
               {/* Time Travel Ledger log */}
               <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-2.5 text-slate-200">
-                <span className="text-[10px] uppercase font-bold text-indigo-400 font-mono tracking-wider block">Deterministic Run Trail Log</span>
+                <span className="text-[10px] uppercase font-bold text-brand-400 font-mono tracking-wider block">Deterministic Run Trail Log</span>
                 <div className="text-[11px] font-mono space-y-1.5 text-slate-400 leading-relaxed">
                   <p className="flex justify-between"><span>[09:12:00] INIT DETERMINISTIC_SEED_SECURE</span> <span className="text-emerald-400 font-bold">// Done</span></p>
                   <p className="flex justify-between"><span>[09:12:01] INJECT RECONSTRUCTED COHORT EXPENSE</span> <span className="text-emerald-400 font-bold">+${registryWageOvercharge}k added</span></p>
@@ -941,7 +941,7 @@ export default function VisualRegression() {
               <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <div>
                   <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                    <Accessibility className="w-4 h-4 text-indigo-600 animate-pulse" />
+                    <Accessibility className="w-4 h-4 text-brand-600 animate-pulse" />
                     WCAG 2.2 Contrast & Accessibility Suite
                   </h3>
                   <p className="text-[11px] text-slate-500">Run real-time automated audit scans verification across active document models checking design system compliance hierarchies.</p>
@@ -968,7 +968,7 @@ export default function VisualRegression() {
                   <button
                     onClick={triggerA11yAudit}
                     disabled={isA11yAuditing}
-                    className="w-full py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 disabled:opacity-50 transition-colors cursor-pointer shadow-3xs flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700 disabled:opacity-50 transition-colors cursor-pointer shadow-3xs flex items-center justify-center gap-1.5"
                   >
                     <RefreshCw className={`w-4 h-4 ${isA11yAuditing ? "animate-spin" : ""}`} />
                     {isA11yAuditing ? "Auditing active styles..." : "Re-Scan UI Components"}
@@ -1009,7 +1009,7 @@ export default function VisualRegression() {
                     >
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono text-indigo-600 bg-indigo-50 px-1 rounded-sm font-bold uppercase">{r.ruleCode}</span>
+                          <span className="text-[10px] font-mono text-brand-600 bg-brand-50 px-1 rounded-sm font-bold uppercase">{r.ruleCode}</span>
                           <span className="font-bold text-slate-800 dark:text-slate-100">{r.elementName}</span>
                         </div>
                         <p className="text-[10.5px] text-slate-500 leading-relaxed font-sans">{r.description}</p>

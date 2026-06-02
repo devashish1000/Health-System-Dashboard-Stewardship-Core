@@ -201,7 +201,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
         <button
           onClick={handleGenerateBrief}
           disabled={isLoading}
-          className="px-4 py-2 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 disabled:opacity-55 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
+          className="px-4 py-2 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 disabled:opacity-55 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
         >
           <FileText className="w-4 h-4" /> Synthesize Executive Brief
         </button>
@@ -311,7 +311,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Ask about margin targets, service risks, cost drivers, or enter findings..."
-                className="flex-grow text-xs border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl px-4 py-3 placeholder:text-slate-400 focus:outline-hidden focus:ring-1 focus:ring-purple-200"
+                className="flex-grow text-xs border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl px-4 py-3 placeholder:text-slate-400 focus:outline-hidden focus:ring-1 focus:ring-brand-200"
                 disabled={isLoading}
               />
               <button

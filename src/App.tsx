@@ -5,6 +5,7 @@ import {
   Shield, Activity, Lock, Search, Eye, Sun, Moon
 } from "lucide-react";
 import BrandLogo from "./components/BrandLogo";
+import { SparkMark } from "./components/BrandMotif";
 import { useTheme } from "./lib/useTheme";
 import { SYNTHETIC_RECORDS, FinanceRecord } from "./data/syntheticFinanceData";
 import { ProjectPage, ControlTowerFilters, ToastMessage, UserPersona, CertifiedSignoff } from "./types";
@@ -253,7 +254,7 @@ export default function App() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <div className="min-h-screen bg-white text-ink-900 flex flex-col font-sans">
         <Toast toasts={toasts} onRemove={handleRemoveToast} />
         <Login
           onLogin={(persona) => {
@@ -283,7 +284,10 @@ export default function App() {
           
           {/* Sidebar Corporate Brand Title Panel */}
           <div className="p-6 border-b border-ink-800 flex items-center justify-between">
-            <BrandLogo chip height={28} />
+            <div className="flex items-center gap-2.5">
+              <SparkMark size={22} />
+              <BrandLogo chip height={28} />
+            </div>
             {/* Mobile close trigger */}
             <button
               onClick={() => setIsMobileSidebarOpen(false)}
@@ -476,7 +480,7 @@ export default function App() {
                         name: "Dr. Aris Vance",
                         title: "Clinical Director",
                         initials: "AV",
-                        grad: "from-purple-600 to-indigo-500"
+                        grad: "from-brand-400 to-brand-600"
                       };
                     case "auditor":
                       return {
@@ -491,7 +495,7 @@ export default function App() {
                         name: "Devashish Neupane",
                         title: "Senior Strategic Analyst",
                         initials: "DN",
-                        grad: "from-brand-600 to-indigo-500"
+                        grad: "from-brand-600 to-brand-800"
                       };
                   }
                 };

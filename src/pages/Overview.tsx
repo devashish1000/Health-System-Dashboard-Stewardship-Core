@@ -1,11 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { 
-  Landmark, TrendingUp, Cpu, BarChart3, HelpCircle, Activity, Globe, Heart,
+  TrendingUp, Cpu, BarChart3, HelpCircle, Activity, Globe, Heart,
   CheckSquare, Sparkles, CheckCircle2, ChevronRight, Lock,
   Zap, Clock, ShieldCheck, Database, Users, RefreshCcw
 } from "lucide-react";
 import { ProjectPage, FinanceRecord } from "../types";
+import { BrandSweep, SparkMark } from "../components/BrandMotif";
 
 interface OverviewProps {
   onNavigate: (page: ProjectPage) => void;
@@ -82,6 +83,8 @@ export default function Overview({
     <div className="space-y-12 max-w-6xl mx-auto px-4 py-6 animate-fade-in">
       {/* Hero Welcome Unit */}
       <div className="relative rounded-3xl bg-gradient-to-br from-ink-900 via-ink-800 to-ink-700 text-white p-8 md:p-12 shadow-xl overflow-hidden">
+        {/* Signature CommonSpirit sweep */}
+        <BrandSweep tone="dark" className="absolute inset-0 w-full h-full pointer-events-none" />
         {/* Subtle decorative grid/mesh in the background */}
         <div className="absolute inset-0 opacity-15 mix-blend-overlay">
           <div className="absolute inset-0 bg-[radial-gradient(#e0f2fe_1px,transparent_1px)] [background-size:16px_16px]" />
@@ -89,10 +92,10 @@ export default function Overview({
         
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-200 border border-brand-400/20">
-            <Landmark className="w-3.5 h-3.5 text-brand-400" /> Executive Intelligence Control Panel
+            <SparkMark size={16} /> Executive Intelligence Control Panel
           </div>
           
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight font-sans leading-tight">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight font-display leading-tight">
             Healthcare Financial Performance <br className="hidden md:block"/>Control Tower
           </h1>
           
@@ -148,13 +151,12 @@ export default function Overview({
             { label: "Month-end variance review", value: "~5 days → <1 day", icon: Clock, accent: "brand" },
             { label: "Denial leakage surfaced", value: "~$1.8M / cycle", icon: TrendingUp, accent: "teal" },
             { label: "Premium agency-labor overspend flagged", value: "~$1.2M", icon: BarChart3, accent: "amber" },
-            { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "purple" },
+            { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "brand" },
           ].map((stat) => {
             const accentMap: Record<string, string> = {
               brand: "bg-brand-50 text-brand-600",
               teal: "bg-teal-50 text-teal-600",
               amber: "bg-amber-50 text-amber-600",
-              purple: "bg-purple-50 text-purple-600",
             };
             const Icon = stat.icon;
             return (
@@ -187,7 +189,7 @@ export default function Overview({
 
       {/* How This Works At Your Org */}
       <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-sm p-6 md:p-8 space-y-6">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+        <h2 className="text-xl font-bold font-display text-slate-800 dark:text-slate-100 flex items-center gap-2">
           <Activity className="w-5 h-5 text-brand-600" /> How This Works At Your Org
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -207,7 +209,7 @@ export default function Overview({
             {
               title: "Replaces",
               icon: RefreshCcw,
-              accent: "bg-purple-50 text-purple-600",
+              accent: "bg-brand-50 text-brand-600",
               items: ["Manual spreadsheet consolidation", "Slow denial & variance chasing", "Static month-end decks"],
             },
           ].map((group) => {
@@ -339,7 +341,7 @@ export default function Overview({
       {/* Three Primary Programmatic Pillars */}
 
       <div>
-        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
+        <h2 className="text-xl font-bold font-display text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
           <Activity className="w-5 h-5 text-brand-600" /> Prototype Capabilities Overview
         </h2>
         
@@ -368,7 +370,7 @@ export default function Overview({
 
           {/* Pillar 3 */}
           <div className="bg-white dark:bg-ink-800 rounded-2xl p-6 border border-slate-100 dark:border-white/10 shadow-sm hover:translate-y-[-2px] transition-all duration-300 space-y-4">
-            <div className="p-3 bg-purple-50 text-purple-600 w-fit rounded-xl">
+            <div className="p-3 bg-brand-50 text-brand-600 w-fit rounded-xl">
               <Cpu className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-slate-800 dark:text-slate-100 text-md">3. Executive Financial Storytelling</h3>

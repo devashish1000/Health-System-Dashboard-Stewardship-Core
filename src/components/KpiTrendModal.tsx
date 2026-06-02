@@ -148,8 +148,8 @@ export default function KpiTrendModal({
           desc: "The percentage of net clinical revenues consumed by staffing, direct nursing hours, and contract physician overtime.",
           key: "labor",
           unit: "%",
-          color: "#8B5CF6",
-          fill: "rgba(139, 92, 246, 0.1)",
+          color: "#982f6a",
+          fill: "rgba(152, 47, 106, 0.1)",
           target: 40.0,
           targetLabel: "Stewardship Target (40.0%)",
           isCurrency: false
@@ -304,7 +304,7 @@ export default function KpiTrendModal({
                           <div className="bg-ink-900 text-white p-3 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
                             <div className="flex justify-between items-baseline gap-4 border-b border-slate-800 pb-1">
                               <span className="font-bold uppercase text-slate-300">{data.monthLabel} 2026</span>
-                              <span className={`px-1 rounded text-[8px] font-bold ${data.isProjected ? "text-indigo-400 bg-indigo-500/10" : "text-emerald-400 bg-emerald-500/10"}`}>
+                              <span className={`px-1 rounded text-[8px] font-bold ${data.isProjected ? "text-brand-400 bg-brand-500/10" : "text-emerald-400 bg-emerald-500/10"}`}>
                                 {data.isProjected ? "PROJ" : "YTD ACTUAL"}
                               </span>
                             </div>
