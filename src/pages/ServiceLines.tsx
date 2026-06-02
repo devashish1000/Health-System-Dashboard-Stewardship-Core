@@ -6,6 +6,7 @@ import {
 import { FinanceRecord } from "../data/syntheticFinanceData";
 import { getServiceLineAggregates } from "../lib/financeCalculations";
 import { formatCurrency } from "../lib/utils";
+import PagePurpose from "../components/PagePurpose";
 
 interface ServiceLinesProps {
   records: FinanceRecord[];
@@ -167,6 +168,14 @@ export default function ServiceLines({
           </button>
         </div>
       </div>
+
+      <PagePurpose
+        title="Why this page matters"
+        what="Per-department margin, variance, and reviewer notes in one view."
+        value="Spot watchlist service lines before they erode the margin."
+        stat={{ label: "Illustrative denial flag", value: "~$1.8M" }}
+        icon={ShieldCheck}
+      />
 
       {/* 7 Required Service Line Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

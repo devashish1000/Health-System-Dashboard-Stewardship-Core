@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { askGeminiFinance, CopilotResponse } from "../lib/ai";
 import { formatCurrency } from "../lib/utils";
+import PagePurpose from "../components/PagePurpose";
 
 interface Message {
   id: string;
@@ -205,6 +206,14 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
           <FileText className="w-4 h-4" /> Synthesize Executive Brief
         </button>
       </div>
+
+      <PagePurpose
+        title="Why this page matters"
+        what="Ask plain-English finance questions, grounded in the data."
+        value="Turns raw tables into a board-ready brief in minutes, not hours."
+        stat={{ label: "Brief time", value: "hrs → min" }}
+        icon={Cpu}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         

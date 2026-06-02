@@ -6,6 +6,7 @@ import {
   Activity, Check, Terminal, FileText, ChevronRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import PagePurpose from "../components/PagePurpose";
 
 // --- Types & Interfaces ---
 
@@ -260,6 +261,13 @@ export default function VisualRegression() {
           </button>
         </div>
       </div>
+
+      <PagePurpose
+        title="Why this page matters"
+        what="Visual-regression, chaos, and accessibility QA harness."
+        value="Signals an engineering quality bar fit for production."
+        icon={Eye}
+      />
 
       <AnimatePresence mode="wait">
         

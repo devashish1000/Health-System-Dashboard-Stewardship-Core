@@ -7,6 +7,7 @@ import {
 import { calculateKpis } from "../lib/financeCalculations";
 import { FinanceRecord } from "../data/syntheticFinanceData";
 import { formatCurrency } from "../lib/utils";
+import PagePurpose from "../components/PagePurpose";
 
 interface SimulatorProps {
   records: FinanceRecord[];
@@ -101,6 +102,14 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
           <RefreshCw className="w-3.5 h-3.5" /> Reset Variables
         </button>
       </div>
+
+      <PagePurpose
+        title="Why this page matters"
+        what="Pull levers — labor, denials, volume — and watch margin react live."
+        value="Pressure-test decisions before committing real budget."
+        stat={{ label: "Live levers", value: "5" }}
+        icon={Sliders}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         

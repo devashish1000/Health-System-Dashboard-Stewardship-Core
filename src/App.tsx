@@ -25,6 +25,8 @@ import Toast from "./components/Toast";
 import ExportDataModal from "./components/ExportDataModal";
 import FinalizeReviewModal from "./components/FinalizeReviewModal";
 import CommandPalette from "./components/CommandPalette";
+import GuidedTour from "./components/GuidedTour";
+import SyntheticDataBadge from "./components/SyntheticDataBadge";
 
 const INITIAL_FILTERS: ControlTowerFilters = {
   facility: "",
@@ -96,6 +98,7 @@ export default function App() {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isFinalizeModalOpen, setIsFinalizeModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isTourOpen, setIsTourOpen] = useState(false);
   
   // Global Filters state with LocalStorage Synchronization
   const [filters, setFilters] = useState<ControlTowerFilters>(() => {
@@ -145,6 +148,13 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem("commonspirit_is_logged_in", isLoggedIn ? "true" : "false");
+  }, [isLoggedIn]);
+
+  // First-run guided tour trigger (only once, when logged in)
+  useEffect(() => {
+    if (isLoggedIn && localStorage.getItem("commonspirit_tour_seen") !== "true") {
+      setIsTourOpen(true);
+    }
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -256,6 +266,9 @@ export default function App() {
       
       {/* Toast Overlay Component */}
       <Toast toasts={toasts} onRemove={handleRemoveToast} />
+
+      {/* Persistent synthetic demo data pill */}
+      <SyntheticDataBadge />
 
       {/* Main Structural Frame */}
       <div className="flex flex-grow relative">
@@ -401,6 +414,13 @@ export default function App() {
                   className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl cursor-pointer transition-colors shadow-3xs"
                 >
                   Export Data
+                </button>
+                <button
+                  onClick={() => setIsTourOpen(true)}
+                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl cursor-pointer transition-colors shadow-3xs flex items-center gap-1.5"
+                >
+                  <HelpCircle className="w-3.5 h-3.5 text-slate-500" />
+                  Take Tour
                 </button>
                 <button
                   onClick={handleFinalizeReviewClick}
@@ -583,6 +603,16 @@ export default function App() {
         }}
         records={records}
         onTriggerToast={triggerToast}
+      />
+
+      {/* First-run / on-demand Guided Tour Overlay */}
+      <GuidedTour
+        isOpen={isTourOpen}
+        onClose={() => {
+          setIsTourOpen(false);
+          localStorage.setItem("commonspirit_tour_seen", "true");
+        }}
+        onNavigate={setCurrentPage}
       />
 
     </div>
