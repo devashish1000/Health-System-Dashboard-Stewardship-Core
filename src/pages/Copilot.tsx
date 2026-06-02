@@ -136,6 +136,17 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
     }
   };
 
+  // Render inline markdown bold (**text**) within a line as <strong> segments
+  const renderInline = (text: string) => {
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
+        return <strong key={i} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+      }
+      return <React.Fragment key={i}>{part}</React.Fragment>;
+    });
+  };
+
   // Convert markdown-style response to structured elements safely for layout pairing
   const parseMarkdownHtml = (text: string) => {
     // Basic formatting for a clean portfolio layout
@@ -143,30 +154,30 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
     return lines.map((line, idx) => {
       const trimmed = line.trim();
       if (trimmed.startsWith("###")) {
-        return <h4 key={idx} className="font-bold text-slate-800 text-sm mt-4 mb-2 first:mt-0">{trimmed.replace("###", "")}</h4>;
+        return <h4 key={idx} className="font-bold text-slate-800 text-sm mt-4 mb-2 first:mt-0">{renderInline(trimmed.replace("###", "").trim())}</h4>;
       }
       if (trimmed.startsWith("##")) {
-        return <h3 key={idx} className="font-bold text-blue-700 text-md mt-5 mb-3 border-b border-slate-100 pb-1">{trimmed.replace("##", "")}</h3>;
+        return <h3 key={idx} className="font-bold text-blue-700 text-md mt-5 mb-3 border-b border-slate-100 pb-1">{renderInline(trimmed.replace("##", "").trim())}</h3>;
       }
       if (trimmed.startsWith("#")) {
-        return <h2 key={idx} className="font-extrabold text-[#0F172A] text-lg mt-6 mb-4">{trimmed.replace("#", "")}</h2>;
+        return <h2 key={idx} className="font-extrabold text-[#0F172A] text-lg mt-6 mb-4">{renderInline(trimmed.replace("#", "").trim())}</h2>;
+      }
+      if (trimmed.startsWith("**") && trimmed.endsWith("**") && trimmed.indexOf("**", 2) === trimmed.length - 2) {
+        return <p key={idx} className="text-xs font-bold text-blue-600 my-2">{trimmed.replace(/\*\*/g, "")}</p>;
       }
       if (trimmed.startsWith("*") || trimmed.startsWith("-")) {
         // Render bullet points nicely
         return (
           <li key={idx} className="text-xs text-slate-600 list-disc ml-5 mb-1 bg-transparent border-none p-0 inline-block w-full">
-            {trimmed.substring(1).trim()}
+            {renderInline(trimmed.substring(1).trim())}
           </li>
         );
       }
       if (trimmed.startsWith("1.") || trimmed.startsWith("2.") || trimmed.startsWith("3.")) {
-        return <p key={idx} className="text-xs font-semibold text-slate-700 ml-4 my-1">{trimmed}</p>;
-      }
-      if (trimmed.startsWith("**") && trimmed.endsWith("**")) {
-        return <p key={idx} className="text-xs font-bold text-blue-605 my-2">{trimmed.replace(/\*\*/g, "")}</p>;
+        return <p key={idx} className="text-xs font-semibold text-slate-700 ml-4 my-1">{renderInline(trimmed)}</p>;
       }
       if (!trimmed) return <div key={idx} className="h-2" />;
-      return <p key={idx} className="text-xs text-slate-600 leading-relaxed my-1.5">{trimmed}</p>;
+      return <p key={idx} className="text-xs text-slate-600 leading-relaxed my-1.5">{renderInline(trimmed)}</p>;
     });
   };
 
@@ -206,7 +217,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                 <h3 className="font-bold text-xs uppercase tracking-wider text-slate-200">
                   Secure Copilot Instance
                 </h3>
-                <span className="text-[10px] text-slate-400 block font-mono">Model: Gemini 3.5 Flash Protocol</span>
+                <span className="text-[10px] text-slate-400 block font-mono">Model: Gemini 2.5 Flash Protocol</span>
               </div>
             </div>
             
