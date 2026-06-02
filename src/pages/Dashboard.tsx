@@ -14,6 +14,7 @@ import EmptyState from "../components/EmptyState";
 import { formatCurrency } from "../lib/utils";
 import ServiceLineTrendModal from "../components/ServiceLineTrendModal";
 import KpiTrendModal from "../components/KpiTrendModal";
+import PagePurpose from "../components/PagePurpose";
 
 interface DashboardProps {
   records: FinanceRecord[];
@@ -311,6 +312,14 @@ export default function Dashboard({
           </div>
         </div>
       </div>
+
+      <PagePurpose
+        title="Why this page matters"
+        what="Filterable KPIs, budget-vs-actual, and margin trends across every facility."
+        value="Replaces static month-end decks with live, drill-down financials."
+        stat={{ label: "Facilities tracked", value: "37 records" }}
+        icon={Layers}
+      />
 
       {/* If records array is empty (due to over-aggressive filtering), render empty state */}
       {records.length === 0 ? (

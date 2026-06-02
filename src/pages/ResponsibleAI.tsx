@@ -3,6 +3,7 @@ import {
   ShieldAlert, BookOpen, Compass, ShieldCheck, Mail, Linkedin, Globe, MapPin, 
   Terminal, Award, Star, UserCheck
 } from "lucide-react";
+import PagePurpose from "../components/PagePurpose";
 
 export default function ResponsibleAI() {
   const profile = {
@@ -31,6 +32,13 @@ export default function ResponsibleAI() {
           Ethical system guardrails, intended use criteria, and professional portfolio bio.
         </p>
       </div>
+
+      <PagePurpose
+        title="Why this page matters"
+        what="Guardrails, intended-use limits, and a synthetic-data statement."
+        value="Builds trust that AI supports — not replaces — human decisions."
+        icon={ShieldCheck}
+      />
 
       {/* Ethical Guardrails Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

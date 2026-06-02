@@ -1,7 +1,8 @@
 import React from "react";
 import { 
   Landmark, TrendingUp, Cpu, BarChart3, HelpCircle, Activity, Globe, Heart,
-  CheckSquare, Sparkles, CheckCircle2, ChevronRight, Lock
+  CheckSquare, Sparkles, CheckCircle2, ChevronRight, Lock,
+  Zap, Clock, ShieldCheck, Database, Users, RefreshCcw
 } from "lucide-react";
 import { ProjectPage, FinanceRecord } from "../types";
 
@@ -117,6 +118,113 @@ export default function Overview({
               <span className="text-xl font-bold font-mono mt-0.5 block">Stewardship</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Problem Statement Band */}
+      <div className="rounded-3xl bg-gradient-to-r from-blue-600 to-teal-600 text-white p-6 md:p-8 shadow-md flex items-start gap-4">
+        <div className="p-2.5 bg-white/15 rounded-xl shrink-0">
+          <Zap className="w-5 h-5 text-white" />
+        </div>
+        <div className="space-y-1">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-blue-100">The Problem We Solve</span>
+          <p className="text-base md:text-xl font-semibold leading-snug">
+            Finance teams spend days each month reconciling margin variance across facilities in spreadsheets. This control tower surfaces it — and the drivers behind it — in seconds.
+          </p>
+        </div>
+      </div>
+
+      {/* ROI Callouts */}
+      <div className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: "Month-end variance review", value: "~5 days → <1 day", icon: Clock, accent: "blue" },
+            { label: "Denial leakage surfaced", value: "~$1.8M / cycle", icon: TrendingUp, accent: "teal" },
+            { label: "Premium agency-labor overspend flagged", value: "~$1.2M", icon: BarChart3, accent: "amber" },
+            { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "purple" },
+          ].map((stat) => {
+            const accentMap: Record<string, string> = {
+              blue: "bg-blue-50 text-blue-600",
+              teal: "bg-teal-50 text-teal-600",
+              amber: "bg-amber-50 text-amber-600",
+              purple: "bg-purple-50 text-purple-600",
+            };
+            const Icon = stat.icon;
+            return (
+              <div key={stat.label} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className={`p-2 w-fit rounded-xl ${accentMap[stat.accent]}`}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400 bg-slate-50 border border-slate-100 rounded px-1.5 py-0.5">
+                    Illustrative
+                  </span>
+                </div>
+                <div className="space-y-0.5">
+                  <span className="block text-lg font-extrabold text-slate-800 font-mono">{stat.value}</span>
+                  <span className="block text-xs text-slate-500 leading-snug">{stat.label}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="text-[10px] text-slate-400 text-center">Illustrative figures based on synthetic demo data.</p>
+      </div>
+
+      {/* How This Works At Your Org */}
+      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
+        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+          <Activity className="w-5 h-5 text-blue-600" /> How This Works At Your Org
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Plugs into",
+              icon: Database,
+              accent: "bg-blue-50 text-blue-600",
+              items: ["Epic / EHR", "GL / ERP (Oracle, Workday)", "Payroll (Kronos)", "Payer claims (835 / EDI)"],
+            },
+            {
+              title: "Used by",
+              icon: Users,
+              accent: "bg-teal-50 text-teal-600",
+              items: ["Regional CFO", "Service-line directors", "Revenue-cycle leads", "Compliance"],
+            },
+            {
+              title: "Replaces",
+              icon: RefreshCcw,
+              accent: "bg-purple-50 text-purple-600",
+              items: ["Manual spreadsheet consolidation", "Slow denial & variance chasing", "Static month-end decks"],
+            },
+          ].map((group) => {
+            const Icon = group.icon;
+            return (
+              <div key={group.title} className="space-y-3">
+                <div className="flex items-center gap-2.5">
+                  <div className={`p-2 w-fit rounded-xl ${group.accent}`}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-sm">{group.title}</h3>
+                </div>
+                <ul className="space-y-2">
+                  {group.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs text-slate-600 leading-snug">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Integration Note */}
+        <div className="border-t border-slate-100 pt-5 flex items-start gap-3 text-slate-500">
+          <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-500 mt-0.5" />
+          <p className="text-xs leading-relaxed">
+            Prototype on synthetic data. In production this connects to your EHR, GL, and claims feeds via read-only APIs — no PHI leaves your environment.
+          </p>
         </div>
       </div>
 

@@ -100,30 +100,30 @@ export default function Login({ onLogin }: LoginProps) {
         <div className="lg:col-span-7 space-y-6 text-left pr-0 lg:pr-8">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
             <ShieldCheck className="w-4 h-4 text-blue-400" />
-            <span>Interactive Stewardship Sandbox Portal</span>
+            <span>Built for Health-System Finance Teams</span>
           </div>
-          
+
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Financial Performance <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">Control Tower</span>
+            Days of margin-variance work, <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">done in seconds</span>
           </h2>
-          
+
           <p className="text-slate-400 text-sm leading-relaxed max-w-xl">
-            Welcome to the Stewardship Core financial gateway. Authorized personnel can audit service lines,
-            conduct volume-to-revenue forecasting, simulate multi-facility models, and certify budget variances.
+            Replace the month-end spreadsheet grind. Pinpoint where margin is leaking across every service line,
+            forecast volume-to-revenue in real time, and certify board-ready variances your CFO can sign off on — all in one control tower.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
             <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-1">
               <span className="text-xs font-bold text-blue-400 uppercase tracking-widest block">Simulation Sandbox</span>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Perfect for portfolio showcasing. Instantly toggle clinical, CFO, or compliance roles with pre-configured mock permissions.
+                Model rate, payer-mix, and volume scenarios across facilities and see the margin impact instantly — no rebuilding spreadsheets for every what-if.
               </p>
             </div>
             <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-1">
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block">Audit Compliance</span>
+              <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block">Audit-Ready Sign-off</span>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Enables certified sign-off triggers, pixel validation suite logs, and live LLM copilot diagnostic audits.
+                Every number carries a certified, traceable sign-off — so close cycles faster and walk into board and audit reviews with defensible numbers.
               </p>
             </div>
           </div>

@@ -10,6 +10,7 @@ import {
 import { FinanceRecord } from "../data/syntheticFinanceData";
 import { calculateKpis, getMonthlyHistory, calculateWaterfallSteps } from "../lib/financeCalculations";
 import { formatCurrency } from "../lib/utils";
+import PagePurpose from "../components/PagePurpose";
 
 interface ForecastProps {
   records: FinanceRecord[];
@@ -46,6 +47,14 @@ export default function Forecast({ records }: ForecastProps) {
           Last Calibrated: June 2, 2026
         </div>
       </div>
+
+      <PagePurpose
+        title="Why this page matters"
+        what="Rolling margin projection plus a driver waterfall."
+        value="Shows leadership exactly what moved the number — and why."
+        stat={{ label: "Operating target", value: "8.5%" }}
+        icon={TrendingUp}
+      />
 
       {/* Two core visual models row (Trend Forecast and Waterfall Variance Drivers) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

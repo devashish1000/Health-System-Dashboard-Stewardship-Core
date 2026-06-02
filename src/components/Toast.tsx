@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { CheckCircle, AlertCircle, Info, X } from "lucide-react";
 import { ToastMessage } from "../types";
 
@@ -8,14 +8,31 @@ interface ToastProps {
 }
 
 export default function Toast({ toasts, onRemove }: ToastProps) {
-  // Auto-dismiss timers managed in a single top-level effect so the number of
-  // hooks stays constant regardless of how many toasts are visible (Rules of Hooks).
+  // Keep onRemove in a ref so its (unstable) identity doesn't restart timers.
+  // The app re-renders every second (UTC clock); without this, the 4s dismiss
+  // timers would reset on every tick and toasts would never disappear.
+  const onRemoveRef = useRef(onRemove);
+  onRemoveRef.current = onRemove;
+
+  // Schedule exactly one auto-dismiss timer per toast id, set once when the
+  // toast first appears and not affected by unrelated re-renders.
+  const timersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   useEffect(() => {
-    const timers = toasts.map((toast) =>
-      setTimeout(() => onRemove(toast.id), 4000)
-    );
-    return () => timers.forEach(clearTimeout);
-  }, [toasts, onRemove]);
+    toasts.forEach((toast) => {
+      if (!timersRef.current[toast.id]) {
+        timersRef.current[toast.id] = setTimeout(() => {
+          delete timersRef.current[toast.id];
+          onRemoveRef.current(toast.id);
+        }, 4000);
+      }
+    });
+  }, [toasts]);
+
+  // Clear any pending timers on unmount.
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => Object.values(timers).forEach(clearTimeout);
+  }, []);
 
   if (toasts.length === 0) return null;
 
