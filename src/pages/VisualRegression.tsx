@@ -356,21 +356,21 @@ export default function VisualRegression() {
                 <div className="grid grid-cols-3 gap-1 bg-slate-50 p-1 rounded-xl">
                   <button
                     onClick={() => setActiveViewport("desktop")}
-                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "desktop" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-450 hover:text-slate-700"}`}
+                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "desktop" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
                   >
                     <Monitor className="w-4 h-4 mb-1" />
                     <span className="text-[9px] font-bold">Desktop</span>
                   </button>
                   <button
                     onClick={() => setActiveViewport("tablet")}
-                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "tablet" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-450 hover:text-slate-700"}`}
+                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "tablet" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
                   >
                     <Tablet className="w-4 h-4 mb-1" />
                     <span className="text-[9px] font-bold">Tablet</span>
                   </button>
                   <button
                     onClick={() => setActiveViewport("mobile")}
-                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "mobile" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-450 hover:text-slate-700"}`}
+                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors cursor-pointer ${activeViewport === "mobile" ? "bg-white text-indigo-600 shadow-3xs" : "text-slate-400 hover:text-slate-700"}`}
                   >
                     <Smartphone className="w-4 h-4 mb-1" />
                     <span className="text-[9px] font-bold">Mobile</span>
@@ -383,7 +383,7 @@ export default function VisualRegression() {
             {/* Sandbox Comparison workspace */}
             <div className="md:col-span-8 space-y-4">
               
-              <div className="bg-slate-900 text-slate-200 border border-slate-850 rounded-3xl overflow-hidden flex flex-col h-[380px] shadow-2xl relative">
+              <div className="bg-slate-900 text-slate-200 border border-slate-800 rounded-3xl overflow-hidden flex flex-col h-[380px] shadow-2xl relative">
                 
                 {/* Visual spec header */}
                 <div className="bg-[#0b0f19] px-5 py-3 border-b border-slate-950 flex justify-between items-center text-xs">
@@ -391,7 +391,7 @@ export default function VisualRegression() {
                     <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
                     <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
                     <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                    <span className="text-slate-450 ml-2">Audit-Frame:</span>
+                    <span className="text-slate-400 ml-2">Audit-Frame:</span>
                     <span className="text-white font-semibold">{getViewportDimensions().label}</span>
                   </div>
                   <button
@@ -425,34 +425,34 @@ export default function VisualRegression() {
                     {/* Standard baseline side */}
                     <div className="absolute inset-0 bg-[#0F172A] p-5 text-white space-y-4">
                       <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                        <span className="text-[9px] uppercase font-bold tracking-wider text-slate-450">BASELINE STANDARD (SPEC TYPE)</span>
+                        <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400">BASELINE STANDARD (SPEC TYPE)</span>
                         <span className="text-[8px] text-emerald-400 font-mono font-bold uppercase">Spec Ref v28</span>
                       </div>
                       
                       {selectedState.id === "exec-tower" && (
                         <div className="grid grid-cols-2 gap-3">
-                          <div className="p-3 bg-slate-850 rounded-xl border border-slate-800">
-                            <span className="text-[8px] uppercase font-bold text-slate-450 font-mono">Margin Average</span>
+                          <div className="p-3 bg-slate-800 rounded-xl border border-slate-800">
+                            <span className="text-[8px] uppercase font-bold text-slate-400 font-mono">Margin Average</span>
                             <div className="text-xl font-extrabold text-white mt-0.5">7.15%</div>
                           </div>
-                          <div className="p-3 bg-slate-850 rounded-xl border border-slate-800">
-                            <span className="text-[8px] uppercase font-bold text-slate-450 font-mono">Checklists Done</span>
-                            <div className="text-xl font-extrabold text-slate-350 mt-0.5">4 of 4</div>
+                          <div className="p-3 bg-slate-800 rounded-xl border border-slate-800">
+                            <span className="text-[8px] uppercase font-bold text-slate-400 font-mono">Checklists Done</span>
+                            <div className="text-xl font-extrabold text-slate-300 mt-0.5">4 of 4</div>
                           </div>
                         </div>
                       )}
 
                       {selectedState.id === "finance-kpis" && (
                         <div className="grid grid-cols-3 gap-2 text-center pt-1">
-                          <div className="p-2 bg-slate-850 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Net NPR</div><div className="font-bold text-xs">$48.37M</div></div>
-                          <div className="p-2 bg-slate-850 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Total Opex</div><div className="font-bold text-xs">$44.91M</div></div>
-                          <div className="p-2 bg-slate-850 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Payer Gap</div><div className="font-bold text-xs">7.15%</div></div>
+                          <div className="p-2 bg-slate-800 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Net NPR</div><div className="font-bold text-xs">$48.37M</div></div>
+                          <div className="p-2 bg-slate-800 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Total Opex</div><div className="font-bold text-xs">$44.91M</div></div>
+                          <div className="p-2 bg-slate-800 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Payer Gap</div><div className="font-bold text-xs">7.15%</div></div>
                         </div>
                       )}
 
                       {selectedState.id === "trend-modal" && (
                         <div className="space-y-3 pt-1">
-                          <div className="h-14 w-full bg-slate-850 rounded-lg border border-slate-800 flex items-center justify-center text-[10px] font-mono text-slate-500">
+                          <div className="h-14 w-full bg-slate-800 rounded-lg border border-slate-800 flex items-center justify-center text-[10px] font-mono text-slate-500">
                             [ LINE CHART VECTOR OUTLINES ]
                           </div>
                           <div className="flex justify-between text-[8px] text-slate-400">
@@ -463,7 +463,7 @@ export default function VisualRegression() {
                       )}
 
                       {selectedState.id === "cmd-palette" && (
-                        <div className="p-3 bg-slate-850 rounded-xl border border-slate-800 space-y-1">
+                        <div className="p-3 bg-slate-800 rounded-xl border border-slate-800 space-y-1">
                           <span className="font-bold text-[11px] flex items-center gap-1"><span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" /> Command palette</span>
                           <p className="text-[8px] text-slate-400 leading-normal">Fast overlay menu offering immediate navigation shortcut structures.</p>
                         </div>
@@ -488,28 +488,28 @@ export default function VisualRegression() {
                         <div className={`transition-transform duration-200 ${hasOffsetEnabled ? "translate-y-[1.5px] border-rose-500/30" : ""}`}>
                           {selectedState.id === "exec-tower" && (
                             <div className="grid grid-cols-2 gap-3">
-                              <div className={`p-3 bg-slate-850 rounded-xl border ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20 text-rose-100 animate-pulse" : "border-slate-800"}`}>
-                                <span className="text-[8px] uppercase font-bold text-slate-450 font-mono">Margin Average</span>
+                              <div className={`p-3 bg-slate-800 rounded-xl border ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20 text-rose-100 animate-pulse" : "border-slate-800"}`}>
+                                <span className="text-[8px] uppercase font-bold text-slate-400 font-mono">Margin Average</span>
                                 <div className="text-xl font-extrabold text-white mt-0.5">7.15%</div>
                               </div>
-                              <div className="p-3 bg-slate-850 rounded-xl border border-slate-800">
-                                <span className="text-[8px] uppercase font-bold text-slate-450 font-mono">Checklists Done</span>
-                                <div className="text-xl font-extrabold text-slate-350 mt-0.5">4 of 4</div>
+                              <div className="p-3 bg-slate-800 rounded-xl border border-slate-800">
+                                <span className="text-[8px] uppercase font-bold text-slate-400 font-mono">Checklists Done</span>
+                                <div className="text-xl font-extrabold text-slate-300 mt-0.5">4 of 4</div>
                               </div>
                             </div>
                           )}
 
                           {selectedState.id === "finance-kpis" && (
                             <div className="grid grid-cols-3 gap-2 text-center pt-1">
-                              <div className={`p-2 bg-slate-850 rounded-xl border ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20" : "border-slate-800"}`}><div className="text-[8px] text-slate-400">Net NPR</div><div className="font-bold text-xs">$48.37M</div></div>
-                              <div className="p-2 bg-slate-850 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Total Opex</div><div className="font-bold text-xs">$44.91M</div></div>
-                              <div className="p-2 bg-slate-850 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Payer Gap</div><div className="font-bold text-xs">7.15%</div></div>
+                              <div className={`p-2 bg-slate-800 rounded-xl border ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20" : "border-slate-800"}`}><div className="text-[8px] text-slate-400">Net NPR</div><div className="font-bold text-xs">$48.37M</div></div>
+                              <div className="p-2 bg-slate-800 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Total Opex</div><div className="font-bold text-xs">$44.91M</div></div>
+                              <div className="p-2 bg-slate-800 rounded-xl border border-slate-800"><div className="text-[8px] text-slate-400">Payer Gap</div><div className="font-bold text-xs">7.15%</div></div>
                             </div>
                           )}
 
                           {selectedState.id === "trend-modal" && (
                             <div className="space-y-3 pt-1">
-                              <div className={`h-14 w-full bg-slate-850 rounded-lg border flex items-center justify-center text-[10px] font-mono text-slate-500 ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20" : "border-slate-800"}`}>
+                              <div className={`h-14 w-full bg-slate-800 rounded-lg border flex items-center justify-center text-[10px] font-mono text-slate-500 ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20" : "border-slate-800"}`}>
                                 [ LINE CHART VECTOR OUTLINES ]
                               </div>
                               <div className="flex justify-between text-[8px] text-slate-400">
@@ -520,7 +520,7 @@ export default function VisualRegression() {
                           )}
 
                           {selectedState.id === "cmd-palette" && (
-                            <div className={`p-3 bg-slate-850 rounded-xl border space-y-1 ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20" : "border-slate-800"}`}>
+                            <div className={`p-3 bg-slate-800 rounded-xl border space-y-1 ${hasOffsetEnabled ? "border-rose-500/40 bg-rose-950/20" : "border-slate-800"}`}>
                               <span className="font-bold text-[11px] flex items-center gap-1"><span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" /> Command palette</span>
                               <p className="text-[8px] text-slate-400 leading-normal">Fast overlay menu offering immediate navigation shortcut structures.</p>
                             </div>
@@ -568,7 +568,7 @@ export default function VisualRegression() {
                 {hoveredPixelOffset && (
                   <div className="bg-[#0b0f19] px-4 py-2 text-[9px] font-mono text-slate-500 flex justify-between items-center border-t border-slate-950 shrink-0">
                     <span>COORDINATES: X={hoveredPixelOffset.x}px  Y={hoveredPixelOffset.y}px</span>
-                    <span className="text-slate-450">CHOMP: PIXEL_SAMPLED_OK</span>
+                    <span className="text-slate-400">CHOMP: PIXEL_SAMPLED_OK</span>
                   </div>
                 )}
               </div>
@@ -905,9 +905,9 @@ export default function VisualRegression() {
               </div>
 
               {/* Time Travel Ledger log */}
-              <div className="bg-slate-900 border border-slate-850 p-5 rounded-3xl space-y-2.5 text-slate-200">
+              <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-2.5 text-slate-200">
                 <span className="text-[10px] uppercase font-bold text-indigo-400 font-mono tracking-wider block">Deterministic Run Trail Log</span>
-                <div className="text-[11px] font-mono space-y-1.5 text-slate-450 leading-relaxed">
+                <div className="text-[11px] font-mono space-y-1.5 text-slate-400 leading-relaxed">
                   <p className="flex justify-between"><span>[09:12:00] INIT DETERMINISTIC_SEED_SECURE</span> <span className="text-emerald-400 font-bold">// Done</span></p>
                   <p className="flex justify-between"><span>[09:12:01] INJECT RECONSTRUCTED COHORT EXPENSE</span> <span className="text-emerald-400 font-bold">+${registryWageOvercharge}k added</span></p>
                   <p className="flex justify-between"><span>[09:12:02] COMPUTE Operating Margin Target Variance</span> <span className="text-emerald-400 font-bold">{actualSelectedMargin.toFixed(2)}% calculated</span></p>

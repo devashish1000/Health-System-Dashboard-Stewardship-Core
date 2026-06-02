@@ -78,7 +78,7 @@ export default function Login({ onLogin }: LoginProps) {
       {/* Top Brand Tagline */}
       <header className="relative z-10 flex items-center justify-between max-w-7xl mx-auto w-full border-b border-white/5 pb-4">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 bg-blue-650 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/10">
+          <div className="h-9 w-9 bg-blue-600 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/10">
             <Landmark className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -87,7 +87,7 @@ export default function Login({ onLogin }: LoginProps) {
           </div>
         </div>
         <div className="hidden sm:flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-slate-350 border border-white/10 uppercase">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-slate-300 border border-white/10 uppercase">
             Active Workspace Gateway
           </span>
         </div>
@@ -108,7 +108,7 @@ export default function Login({ onLogin }: LoginProps) {
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">Control Tower</span>
           </h2>
           
-          <p className="text-slate-450 text-sm leading-relaxed max-w-xl">
+          <p className="text-slate-400 text-sm leading-relaxed max-w-xl">
             Welcome to the Stewardship Core financial gateway. Authorized personnel can audit service lines,
             conduct volume-to-revenue forecasting, simulate multi-facility models, and certify budget variances.
           </p>
@@ -136,7 +136,7 @@ export default function Login({ onLogin }: LoginProps) {
             {/* Header Form */}
             <div className="text-center space-y-1 mb-6">
               <h3 className="text-lg font-bold text-white tracking-tight">Enterprise Credentials</h3>
-              <p className="text-xs text-slate-450">Select representing preset or enter temporary text to log in.</p>
+              <p className="text-xs text-slate-400">Select representing preset or enter temporary text to log in.</p>
             </div>
 
             {/* Form */}
@@ -189,7 +189,7 @@ export default function Login({ onLogin }: LoginProps) {
                         onClick={() => handlePersonaSelect(preset)}
                         className={`p-2.5 rounded-xl border text-left transition-all ${
                           isSelected
-                            ? "bg-blue-600/20 border-blue-500 text-blue-350"
+                            ? "bg-blue-600/20 border-blue-500 text-blue-300"
                             : "bg-white/[0.02] border-white/5 text-slate-400 hover:bg-white/[0.04]"
                         }`}
                       >

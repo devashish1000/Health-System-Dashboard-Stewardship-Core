@@ -348,14 +348,14 @@ export default function CommandPalette({
           <button 
             type="button"
             onClick={() => { setMode("commands"); setSearch(""); setAiResponse(null); }}
-            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer ${mode === "commands" ? "bg-blue-600/10 text-blue-400 border border-blue-500/20" : "text-slate-450 hover:text-slate-200"}`}
+            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer ${mode === "commands" ? "bg-blue-600/10 text-blue-400 border border-blue-500/20" : "text-slate-400 hover:text-slate-200"}`}
           >
             Terminal Commands (⌘K)
           </button>
           <button 
             type="button"
             onClick={() => { setMode("ai"); setSearch(""); setAiResponse(null); }}
-            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${mode === "ai" ? "bg-purple-600/10 text-purple-400 border border-purple-500/20" : "text-slate-450 hover:text-slate-200"}`}
+            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5 ${mode === "ai" ? "bg-purple-600/10 text-purple-400 border border-purple-500/20" : "text-slate-400 hover:text-slate-200"}`}
           >
             <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
             AI Analytical Prompt (/ai)
@@ -420,7 +420,7 @@ export default function CommandPalette({
                             className={`flex items-center justify-between px-3 py-2 rounded-xl cursor-pointer transition-all ${
                               isSelected 
                                 ? "bg-slate-800 text-white" 
-                                : "text-slate-350 hover:bg-slate-900/60 hover:text-white"
+                                : "text-slate-300 hover:bg-slate-900/60 hover:text-white"
                             }`}
                           >
                             <div className="flex items-center gap-3">
@@ -438,7 +438,7 @@ export default function CommandPalette({
                             </div>
                             <div className="flex items-center gap-2 font-mono">
                               {item.shortcut && (
-                                <span className="text-[10px] bg-slate-900 border border-slate-800 text-slate-450 px-1.5 py-0.5 rounded-sm lowercase font-bold">
+                                <span className="text-[10px] bg-slate-900 border border-slate-800 text-slate-400 px-1.5 py-0.5 rounded-sm lowercase font-bold">
                                   {item.shortcut}
                                 </span>
                               )}
@@ -475,28 +475,28 @@ export default function CommandPalette({
                     <button
                       type="button"
                       onClick={() => handleSuggestionClick("Why is Cardiology opex elevated?")}
-                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-850"
+                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
                       "Why is Cardiology opex elevated?"
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSuggestionClick("What causes the claim denial rate of 3.2%?")}
-                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-850"
+                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
                       "How to resolve Cardiology's 3.2% denial rate?"
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSuggestionClick("What is the current operating margin vs stewardship goal?")}
-                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-850"
+                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
                       "What is operating margin vs 8.5% goal?"
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSuggestionClick("Summarize net patient revenues YTD")}
-                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-850"
+                      className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
                       "Summarize Net Patient Revenues YTD"
                     </button>
@@ -515,7 +515,7 @@ export default function CommandPalette({
               {aiResponse && (
                 <div className="space-y-4 animate-fade-in py-2">
                   <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                    <div className="flex items-center gap-1.5 text-purple-400 font-bold font-sans text-xs pb-1.5 border-b border-slate-850">
+                    <div className="flex items-center gap-1.5 text-purple-400 font-bold font-sans text-xs pb-1.5 border-b border-slate-800">
                       <Sparkles className="w-4 h-4 text-purple-400" />
                       AUTOMATED SYNTHETIC ANSWER
                     </div>
@@ -560,7 +560,7 @@ export default function CommandPalette({
             <span className="flex items-center gap-1"><span className="px-1 py-0.5 rounded-sm bg-slate-800 text-slate-400">esc</span> exit</span>
             <span className="flex items-center gap-1"><span className="px-1 py-0.5 rounded-sm bg-slate-800 text-slate-400">tab</span> change mode</span>
           </span>
-          <span className="text-slate-450 uppercase font-bold tracking-wide">CommonSpirit Intel-Palette</span>
+          <span className="text-slate-400 uppercase font-bold tracking-wide">CommonSpirit Intel-Palette</span>
         </div>
 
       </div>

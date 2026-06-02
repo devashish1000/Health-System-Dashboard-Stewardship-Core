@@ -137,7 +137,7 @@ export default function ResponsibleAI() {
 
             {/* Profile Summary */}
             <div className="space-y-2">
-              <span className="text-[10px] text-sky-305 uppercase font-bold tracking-widest block">Executive Summary</span>
+              <span className="text-[10px] text-sky-300 uppercase font-bold tracking-widest block">Executive Summary</span>
               <p className="text-xs text-slate-200 leading-relaxed font-medium">
                 {profile.summary}
               </p>
@@ -145,7 +145,7 @@ export default function ResponsibleAI() {
 
             {/* Skills grid list */}
             <div className="space-y-3">
-              <span className="text-[10px] text-sky-305 uppercase font-bold tracking-widest block">Specialist Skills & Core Competency Matricies</span>
+              <span className="text-[10px] text-sky-300 uppercase font-bold tracking-widest block">Specialist Skills & Core Competency Matricies</span>
               <div className="flex flex-wrap gap-2 pt-1">
                 {profile.skills.map((skill) => (
                   <span

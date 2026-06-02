@@ -105,12 +105,18 @@ async function startServer() {
   app.post("/api/copilot", async (req, res) => {
     try {
       const { prompt, model: requestedModel } = req.body;
+
+      // Validate request body early
+      if (typeof prompt !== "string" || prompt.trim() === "") {
+        return res.status(400).json({ error: "A non-empty 'prompt' string is required." });
+      }
+
       const lowerPrompt = (prompt || "").toLowerCase().trim();
 
       // Check if user requested a question we have preconfigured
       let matchedResponse = "";
       for (const [key, val] of Object.entries(SAFE_DETERMINISTIC_RESPONSES)) {
-        if (lowerPrompt === key || lowerPrompt.includes(key) || key.includes(lowerPrompt)) {
+        if (lowerPrompt && (lowerPrompt === key || lowerPrompt.includes(key))) {
           matchedResponse = val;
           break;
         }
@@ -131,7 +137,7 @@ async function startServer() {
       }
 
       // Initialize server-side Gemini client
-      console.log(`Calling Gemini API via model gemini-3.5-flash with prompt length ${prompt.length}`);
+      console.log(`Calling Gemini API via model gemini-2.5-flash with prompt length ${prompt.length}`);
       const ai = new GoogleGenAI({
         apiKey: apiKey,
         httpOptions: {
@@ -142,7 +148,7 @@ async function startServer() {
       });
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           systemInstruction: `You are an executive healthcare finance co-pilot assistant for a large nonprofit, mission-driven health system (like CommonSpirit Health). 

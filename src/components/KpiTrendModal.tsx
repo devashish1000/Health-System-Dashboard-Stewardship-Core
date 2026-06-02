@@ -235,7 +235,7 @@ export default function KpiTrendModal({
             <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
             <div className="space-y-1">
               <h4 className="font-bold text-xs text-slate-800 uppercase tracking-wide">Metric Significance</h4>
-              <p className="text-xs text-slate-550 leading-relaxed font-normal">
+              <p className="text-xs text-slate-500 leading-relaxed font-normal">
                 {meta.desc} Controlled against active filters, current workspace average reflects standard **{meta.isCurrency ? formatCurrency(avgYtdValue * 1e6) : `${avgYtdValue.toFixed(1)}${meta.unit}`}** across historical YTD months.
               </p>
             </div>
@@ -317,7 +317,7 @@ export default function KpiTrendModal({
                               </div>
                               <div className="flex justify-between gap-4 text-[10px] text-slate-400 pt-1 border-t border-slate-800/60">
                                 <span>Volatility Bounds:</span>
-                                <span className="font-semibold font-mono text-slate-350">
+                                <span className="font-semibold font-mono text-slate-300">
                                   {meta.isCurrency ? `$${lowRange}M - $${highRange}M` : `${lowRange}% - ${highRange}%`}
                                 </span>
                               </div>
@@ -368,7 +368,7 @@ export default function KpiTrendModal({
             </div>
           </div>
 
-          <div className="flex justify-between items-center text-xs font-medium text-slate-450 pt-2 font-mono">
+          <div className="flex justify-between items-center text-xs font-medium text-slate-400 pt-2 font-mono">
             <span>Stewardship Metrics Suite</span>
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />

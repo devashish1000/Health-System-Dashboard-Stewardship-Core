@@ -213,6 +213,7 @@ export default function App() {
   const handleFinalizeReviewClick = () => {
     if (userPersona === "analyst") {
       triggerToast("Access Denied: Senior CFO credentials are required to execute board-level cycle closing.", "warning");
+      return;
     }
     setIsFinalizeModalOpen(true);
   };
@@ -313,7 +314,7 @@ export default function App() {
           <div className="p-5 border-t border-[#1e293b] space-y-3.5">
             {/* Persona Selection Dropdown */}
             <div className="space-y-1">
-              <label className="text-[9px] font-bold tracking-wider text-slate-550 uppercase block">Workspace Role</label>
+              <label className="text-[9px] font-bold tracking-wider text-slate-500 uppercase block">Workspace Role</label>
               <div className="relative">
                 <select
                   value={userPersona}
@@ -343,7 +344,7 @@ export default function App() {
             {/* Sandbox reset trigger */}
             <button
               onClick={handleRestoreSystemDefaults}
-              className="w-full py-1 text-[10px] font-bold border border-rose-500/10 hover:border-rose-500/20 text-rose-450 hover:bg-rose-500/5 hover:text-rose-400 rounded-lg cursor-pointer transition-colors"
+              className="w-full py-1 text-[10px] font-bold border border-rose-500/10 hover:border-rose-500/20 text-rose-400 hover:bg-rose-500/5 hover:text-rose-400 rounded-lg cursor-pointer transition-colors"
             >
               Restore System Defaults
             </button>
@@ -360,7 +361,7 @@ export default function App() {
               <span>Lock / Sign Out Session</span>
             </button>
 
-            <div className="text-[9px] text-slate-450 text-center leading-normal">
+            <div className="text-[9px] text-slate-400 text-center leading-normal">
               Healthcare Finance Control Tower <br/>
               Version 1.0.0 • Portfolio Prototype
             </div>

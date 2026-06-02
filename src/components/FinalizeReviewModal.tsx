@@ -126,22 +126,22 @@ export default function FinalizeReviewModal({
         {/* Step Progression Indicators */}
         <div className="bg-slate-50 border-b border-slate-100 px-6 py-3 flex items-center justify-between text-[11px] shrink-0 font-semibold text-slate-400">
           <div className={`flex items-center gap-1 ${step >= 1 ? "text-blue-600 font-bold" : ""}`}>
-            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 1 ? "bg-blue-600 text-white" : "bg-slate-250 text-slate-500"}`}>1</span>
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 1 ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-500"}`}>1</span>
             <span>Pre-flight Audit</span>
           </div>
           <div className="h-0.5 bg-slate-200 w-8" />
           <div className={`flex items-center gap-1 ${step >= 2 ? "text-blue-600 font-bold" : ""}`}>
-            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 2 ? "bg-blue-600 text-white" : "bg-slate-250 text-slate-500"}`}>2</span>
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 2 ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-500"}`}>2</span>
             <span>Attestation</span>
           </div>
           <div className="h-0.5 bg-slate-200 w-8" />
           <div className={`flex items-center gap-1 ${step >= 3 ? "text-blue-600 font-bold" : ""}`}>
-            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 3 ? "bg-blue-600 text-white" : "bg-slate-250 text-slate-500"}`}>3</span>
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 3 ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-500"}`}>3</span>
             <span>Signature</span>
           </div>
           <div className="h-0.5 bg-slate-200 w-8" />
           <div className={`flex items-center gap-1 ${step >= 4 ? "text-emerald-600 font-bold" : ""}`}>
-            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 4 ? "bg-emerald-600 text-white" : "bg-slate-250 text-slate-500"}`}>4</span>
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${step >= 4 ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-500"}`}>4</span>
             <span>Certificate</span>
           </div>
         </div>
@@ -204,7 +204,7 @@ export default function FinalizeReviewModal({
 
               {/* Warning about roles */}
               {!isCFO && (
-                <div className="bg-amber-50 border border-amber-150 p-4 rounded-2xl text-amber-850 flex gap-3 text-xs leading-relaxed">
+                <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl text-amber-800 flex gap-3 text-xs leading-relaxed">
                   <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div className="space-y-1">
                     <span className="font-bold text-amber-900 block">Strategic Analyst Persona Warning</span>
@@ -314,7 +314,7 @@ export default function FinalizeReviewModal({
                     <span className="font-[serif] italic text-3xl font-semibold tracking-wide text-indigo-800 my-4 text-center">
                       {signatureText}
                     </span>
-                    <span className="text-[9px] font-bold tracking-widest text-slate-450 uppercase mt-2">
+                    <span className="text-[9px] font-bold tracking-widest text-slate-400 uppercase mt-2">
                       Authorized Signature Seal • CommonSpirit Health System
                     </span>
                   </div>
@@ -375,7 +375,7 @@ export default function FinalizeReviewModal({
                 </div>
 
                 {generatedCert.comments && (
-                  <div className="pt-2 border-t border-slate-200 text-[11px] text-slate-650">
+                  <div className="pt-2 border-t border-slate-200 text-[11px] text-slate-600">
                     <span className="font-bold text-slate-500 block mb-0.5">Certifier Remarks:</span>
                     <p className="italic bg-white p-2 rounded-lg border border-slate-100">{generatedCert.comments}</p>
                   </div>
