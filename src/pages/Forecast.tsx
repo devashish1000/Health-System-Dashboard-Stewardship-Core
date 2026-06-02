@@ -1,39 +1,45 @@
 import React from "react";
-import {
-  TrendingUp, TrendingDown, HelpCircle, Activity, Landmark, Calendar,
-  ArrowUpRight, ArrowDownRight, Users, Info, ShieldAlert, Cpu
-} from "lucide-react";
+import { TrendingUp, TrendingDown, Cpu } from "lucide-react";
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   BarChart, Bar, Cell
 } from "recharts";
 import { FinanceRecord } from "../data/syntheticFinanceData";
 import { calculateKpis, getMonthlyHistory, calculateWaterfallSteps } from "../lib/financeCalculations";
-import { formatCurrency } from "../lib/utils";
+import { formatPercent, formatPoints, formatAxisPercent } from "../lib/formatters";
+import { chartTheme, chartMargins } from "../lib/chartTheme";
+import { seriesLabels, illustrativeNote } from "../lib/chartSemantics";
+import ChartTooltip from "../components/charts/ChartTooltip";
 import PagePurpose from "../components/PagePurpose";
 
 interface ForecastProps {
   records: FinanceRecord[];
 }
 
+const TARGET_OPERATING_MARGIN = 8.5;
+
+function symmetricPercentDomain(values: number[]): [number, number] {
+  const maxAbs = Math.max(...values.map((v) => Math.abs(v)), 0.5);
+  return [-maxAbs, maxAbs];
+}
+
 export default function Forecast({ records }: ForecastProps) {
   const currentKpis = calculateKpis(records);
   const monthlyHistory = getMonthlyHistory(records);
   const waterfallSteps = calculateWaterfallSteps(currentKpis);
+  const driverYDomain = symmetricPercentDomain(waterfallSteps.map((s) => s.value));
 
-  // Grouped contribution coordinates
   const driverContributions = [
-    { name: "Labor Cost Ratio Impact", value: "-1.4 pts", label: "Registry nursing premiums", status: "unfavorable", icon: TrendingDown },
-    { name: "Payer Mix Index Impact", value: "-0.7 pts", label: "Medicare elective proportion", status: "unfavorable", icon: TrendingDown },
-    { name: "Denial Rates Impact", value: "-0.4 pts", label: "Commercial claim pre-auths", status: "unfavorable", icon: TrendingDown },
-    { name: "Patient Case Volume", value: "+0.8 pts", label: "Strong diagnostic CT/MRI referrals", status: "favorable", icon: TrendingUp },
-    { name: "Reimbursement AR Timing", value: "-0.3 pts", label: "Technical billing backlogs", status: "unfavorable", icon: TrendingDown }
+    { name: "Labor Cost Ratio Impact", value: formatPoints(-1.4), label: "Registry nursing premiums", status: "unfavorable", icon: TrendingDown },
+    { name: "Payer Mix Index Impact", value: formatPoints(-0.7), label: "Medicare elective proportion", status: "unfavorable", icon: TrendingDown },
+    { name: "Denial Rates Impact", value: formatPoints(-0.4), label: "Commercial claim pre-auths", status: "unfavorable", icon: TrendingDown },
+    { name: "Patient Case Volume", value: formatPoints(0.8), label: "Strong diagnostic CT/MRI referrals", status: "favorable", icon: TrendingUp },
+    { name: "Reimbursement AR Timing", value: formatPoints(-0.3), label: "Technical billing backlogs", status: "unfavorable", icon: TrendingDown }
   ];
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
-      
-      {/* Overview Intro Banner */}
+
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
         <div>
           <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
@@ -50,35 +56,62 @@ export default function Forecast({ records }: ForecastProps) {
 
       <PagePurpose
         title="Why this page matters"
-        what="Rolling margin projection plus a driver waterfall."
+        what="Rolling margin projection plus a margin driver bridge."
         value="Shows leadership exactly what moved the number — and why."
-        stat={{ label: "Operating target", value: "8.5%" }}
+        stat={{ label: "Operating target", value: formatPercent(TARGET_OPERATING_MARGIN) }}
         icon={TrendingUp}
       />
 
-      {/* Two core visual models row (Trend Forecast and Waterfall Variance Drivers) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        {/* 1. Monthly Margin Forecast chart with shaded target */}
         <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Monthly Margin Shaded Baseline Forecast (%)
             </h3>
-            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1">Target Operating Margin Target Alignment (8.5%)</span>
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1 tabular-nums">
+              Target Operating Margin Alignment ({formatPercent(TARGET_OPERATING_MARGIN)})
+            </span>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={monthlyHistory} margin={{ top: 15, right: 15, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" stroke="#94a3b8" fontSize={11} />
-                <YAxis domain={[0, 15]} stroke="#94a3b8" fontSize={11} />
-                <Tooltip />
+              <LineChart data={monthlyHistory} margin={chartMargins.compact}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
+                <XAxis dataKey="name" stroke={chartTheme.axis} fontSize={11} />
+                <YAxis
+                  domain={["auto", "auto"]}
+                  stroke={chartTheme.axis}
+                  fontSize={11}
+                  tickFormatter={formatAxisPercent}
+                />
+                <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
-                {/* Benchmark line representing minimum viable health system safety margin */}
-                <Line type="monotone" dataKey="targetMargin" name="Target Floor (8.5%)" stroke="#EF4444" strokeWidth={1} strokeDasharray="4 4" dot={false} />
-                <Line type="monotone" dataKey="actualMargin" name="Actual Margin %" stroke="#982f6a" strokeWidth={3} dot={{ r: 5 }} />
-                <Line type="monotone" dataKey="forecastMargin" name="Projected Smooth Forecast %" stroke="#A78BFA" strokeWidth={2} strokeDasharray="3 3" dot={{ r: 4 }} />
+                <Line
+                  type="monotone"
+                  dataKey="targetMargin"
+                  name={`Target Floor (${formatPercent(TARGET_OPERATING_MARGIN)})`}
+                  stroke={chartTheme.negative}
+                  strokeWidth={1}
+                  strokeDasharray="4 4"
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="actualMargin"
+                  name={seriesLabels.actual}
+                  stroke={chartTheme.actual}
+                  strokeWidth={3}
+                  dot={{ r: 5 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="forecastMargin"
+                  name={seriesLabels.forecast}
+                  stroke={chartTheme.forecast}
+                  strokeWidth={2}
+                  strokeDasharray="3 3"
+                  dot={{ r: 4 }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -87,42 +120,56 @@ export default function Forecast({ records }: ForecastProps) {
           </p>
         </div>
 
-        {/* 2. Visual Waterfall bridge of variance drivers */}
         <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Operational Variance Driver Waterfall (%)
+              Margin Driver Bridge (%)
             </h3>
-            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1">Marginal Bridge: Target 8.5% down to Actual {currentKpis.operatingMargin}%</span>
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1 tabular-nums">
+              Target {formatPercent(TARGET_OPERATING_MARGIN)} down to Actual {formatPercent(currentKpis.operatingMargin)}
+            </span>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={waterfallSteps} margin={{ top: 15, right: 10, left: -25, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="label" fontSize={8} stroke="#94a3b8" interval={0} />
-                <YAxis domain={[0, 12]} fontSize={11} stroke="#94a3b8" />
-                <Tooltip formatter={(value) => `${Number(value) > 0 ? "+" : ""}${value}%`} />
-                <Bar dataKey="value" fill="#38BDF8" radius={[4, 4, 0, 0]}>
+              <BarChart data={waterfallSteps} margin={chartMargins.compact}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
+                <XAxis dataKey="label" fontSize={8} stroke={chartTheme.axis} interval={0} />
+                <YAxis
+                  domain={driverYDomain}
+                  fontSize={11}
+                  stroke={chartTheme.axis}
+                  tickFormatter={formatAxisPercent}
+                />
+                <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
+                <Bar dataKey="value" fill={chartTheme.neutral} radius={[4, 4, 0, 0]}>
                   {waterfallSteps.map((entry, idx) => (
-                    <Cell key={`cell-${idx}`} fill={entry.isCumulative ? "#982f6a" : (entry.value >= 0 ? "#2DD4BF" : "#EF4444")} />
+                    <Cell
+                      key={`cell-${idx}`}
+                      fill={
+                        entry.isCumulative
+                          ? chartTheme.actual
+                          : entry.value >= 0
+                            ? chartTheme.positive
+                            : chartTheme.negative
+                      }
+                    />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
           <p className="text-[10px] text-slate-400">
-            Favorable drivers increment green bars, unfavorable drivers decrease red bars. Cumulative anchors are dark charcoal.
+            Favorable drivers increment green bars, unfavorable drivers decrease red bars. Cumulative anchors use actual series color. {illustrativeNote}
           </p>
         </div>
 
       </div>
 
-      {/* Driver Contributions Checklist */}
       <div>
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 block">
           Explainable Financial Driver Contributions
         </h3>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
           {driverContributions.map((contr) => {
             const Icon = contr.icon;
@@ -137,7 +184,7 @@ export default function Forecast({ records }: ForecastProps) {
                   <span className={`p-1.5 rounded-lg shrink-0 ${isFavorable ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"}`}>
                     <Icon className="w-4 h-4" />
                   </span>
-                  <span className={`text-xs font-bold font-mono ${isFavorable ? "text-emerald-600" : "text-rose-600"}`}>
+                  <span className={`text-xs font-bold font-mono tabular-nums ${isFavorable ? "text-emerald-600" : "text-rose-600"}`}>
                     {contr.value}
                   </span>
                 </div>
@@ -155,7 +202,6 @@ export default function Forecast({ records }: ForecastProps) {
         </div>
       </div>
 
-      {/* AI-Assisted Finance Narrative Explanation Panel */}
       <div className="bg-gradient-to-r from-brand-500/5 via-sky-500/5 to-teal-500/5 border border-slate-100 dark:border-white/10 rounded-3xl p-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-brand-200/10 rounded-full blur-2xl" />
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-sky-200/10 rounded-full blur-2xl" />
