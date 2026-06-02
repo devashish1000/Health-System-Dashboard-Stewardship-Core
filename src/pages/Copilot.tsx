@@ -154,19 +154,21 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
     return lines.map((line, idx) => {
       const trimmed = line.trim();
       if (trimmed.startsWith("###")) {
-        return <h4 key={idx} className="font-bold text-slate-800 text-sm mt-4 mb-2 first:mt-0">{renderInline(trimmed.replace("###", "").trim())}</h4>;
+        return <h4 key={idx} className="font-bold text-slate-800 text-sm mt-4 mb-2 first:mt-0">{renderInline(trimmed.replace(/^#+/, "").trim())}</h4>;
       }
       if (trimmed.startsWith("##")) {
-        return <h3 key={idx} className="font-bold text-blue-700 text-md mt-5 mb-3 border-b border-slate-100 pb-1">{renderInline(trimmed.replace("##", "").trim())}</h3>;
+        return <h3 key={idx} className="font-bold text-blue-700 text-md mt-5 mb-3 border-b border-slate-100 pb-1">{renderInline(trimmed.replace(/^#+/, "").trim())}</h3>;
       }
       if (trimmed.startsWith("#")) {
-        return <h2 key={idx} className="font-extrabold text-[#0F172A] text-lg mt-6 mb-4">{renderInline(trimmed.replace("#", "").trim())}</h2>;
+        return <h2 key={idx} className="font-extrabold text-[#0F172A] text-lg mt-6 mb-4">{renderInline(trimmed.replace(/^#+/, "").trim())}</h2>;
       }
       if (trimmed.startsWith("**") && trimmed.endsWith("**") && trimmed.indexOf("**", 2) === trimmed.length - 2) {
         return <p key={idx} className="text-xs font-bold text-blue-600 my-2">{trimmed.replace(/\*\*/g, "")}</p>;
       }
-      if (trimmed.startsWith("*") || trimmed.startsWith("-")) {
-        // Render bullet points nicely
+      // Bullets require a space after the marker ("* " or "- ") so that lines
+      // beginning with inline bold (e.g. "**Heading** text") aren't mistaken
+      // for list items.
+      if (trimmed.startsWith("* ") || trimmed.startsWith("- ")) {
         return (
           <li key={idx} className="text-xs text-slate-600 list-disc ml-5 mb-1 bg-transparent border-none p-0 inline-block w-full">
             {renderInline(trimmed.substring(1).trim())}
