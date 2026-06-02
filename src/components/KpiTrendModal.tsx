@@ -3,11 +3,18 @@ import {
   X, TrendingUp, Sparkles, Target, Coins, Activity, AlertCircle, ArrowUpRight, BarChart4, DollarSign, Users, ShieldAlert
 } from "lucide-react";
 import { 
-  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, LineChart, Line
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Line
 } from "recharts";
 import { FinanceRecord } from "../types";
 import { calculateKpis } from "../lib/financeCalculations";
-import { formatCurrency } from "../lib/utils";
+import {
+  formatCurrency,
+  formatPercent,
+  formatAxisMillions,
+  formatAxisPercent,
+} from "../lib/formatters";
+import { chartTheme } from "../lib/chartTheme";
+import ChartTooltip, { type TooltipValueKind } from "./charts/ChartTooltip";
 
 interface KpiTrendModalProps {
   isOpen: boolean;
@@ -100,7 +107,7 @@ export default function KpiTrendModal({
           desc: "Total incoming clinical collections from third-party commercial payers and CMS channels.",
           key: "npr",
           unit: "$M",
-          color: "#982f6a",
+          color: chartTheme.actual,
           fill: "rgba(152, 47, 106, 0.1)",
           target: 9.8,
           targetLabel: "Budgeted Target ($9.8M)",
@@ -148,7 +155,7 @@ export default function KpiTrendModal({
           desc: "The percentage of net clinical revenues consumed by staffing, direct nursing hours, and contract physician overtime.",
           key: "labor",
           unit: "%",
-          color: "#982f6a",
+          color: chartTheme.actual,
           fill: "rgba(152, 47, 106, 0.1)",
           target: 40.0,
           targetLabel: "Stewardship Target (40.0%)",
@@ -160,8 +167,8 @@ export default function KpiTrendModal({
           desc: "Statistical run-rate forecast modeling the closing operating margin based on current admission cycles.",
           key: "forecast",
           unit: "%",
-          color: "#06B6D4",
-          fill: "rgba(6, 182, 212, 0.1)",
+          color: chartTheme.forecast,
+          fill: "rgba(13, 148, 136, 0.1)",
           target: 8.5,
           targetLabel: "Target Closed Margin (8.5%)",
           isCurrency: false
@@ -187,16 +194,19 @@ export default function KpiTrendModal({
 
   const interval = getKpiInterval(kpiType);
 
+  const tooltipValueKind: TooltipValueKind = meta.isCurrency ? "millions" : "percent";
+
   const chartData = monthlyData.map((d, index) => {
     const val = d[meta.key] as number;
     const currentInterval = d.isProjected ? interval * (1 + (index - 4) * 0.12) : interval;
+    const lowBound = parseFloat(Math.max(0, val - currentInterval).toFixed(2));
+    const highBound = parseFloat((val + currentInterval).toFixed(2));
     return {
       ...d,
       kpiValue: val,
-      confidenceRange: [
-        parseFloat(Math.max(0, val - currentInterval).toFixed(2)),
-        parseFloat((val + currentInterval).toFixed(2))
-      ]
+      lowBound,
+      highBound,
+      confidenceRange: [lowBound, highBound]
     };
   });
 
@@ -236,7 +246,7 @@ export default function KpiTrendModal({
             <div className="space-y-1">
               <h4 className="font-bold text-xs text-slate-800 dark:text-slate-100 uppercase tracking-wide">Metric Significance</h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
-                {meta.desc} Controlled against active filters, current workspace average reflects standard **{meta.isCurrency ? formatCurrency(avgYtdValue * 1e6) : `${avgYtdValue.toFixed(1)}${meta.unit}`}** across historical YTD months.
+                {meta.desc} Controlled against active filters, current workspace average reflects standard **{meta.isCurrency ? formatCurrency(avgYtdValue * 1e6) : formatPercent(avgYtdValue, { decimals: 1 })}** across historical YTD months.
               </p>
             </div>
           </div>
@@ -253,7 +263,7 @@ export default function KpiTrendModal({
                   Historical YTD
                 </span>
                 <span className="flex items-center gap-1.5 text-slate-500">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-slate-300 opacity-60" style={{ border: `1px dashed ${meta.color}` }} />
+                  <span className="w-2.5 h-2.5 rounded-sm opacity-60" style={{ border: `1px dashed ${chartTheme.forecast}`, backgroundColor: chartTheme.forecast }} />
                   Projection Period
                 </span>
                 <span className="flex items-center gap-1.5 text-slate-500">
@@ -290,44 +300,28 @@ export default function KpiTrendModal({
                     tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
                     axisLine={{ stroke: '#cbd5e1', strokeWidth: 1 }}
                     tickLine={false}
-                    tickFormatter={(tick) => meta.isCurrency ? `$${tick}M` : `${tick}%`}
+                    tickFormatter={(tick) =>
+                      meta.isCurrency ? formatAxisMillions(tick) : formatAxisPercent(tick)
+                    }
                     domain={['auto', 'auto']}
                   />
                   <Tooltip
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        const data = payload[0].payload;
-                        const val = data.kpiValue;
-                        const lowRange = data.confidenceRange[0];
-                        const highRange = data.confidenceRange[1];
-                        return (
-                          <div className="bg-ink-900 text-white p-3 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
-                            <div className="flex justify-between items-baseline gap-4 border-b border-slate-800 pb-1">
-                              <span className="font-bold uppercase text-slate-300">{data.monthLabel} 2026</span>
-                              <span className={`px-1 rounded text-[8px] font-bold ${data.isProjected ? "text-brand-400 bg-brand-500/10" : "text-emerald-400 bg-emerald-500/10"}`}>
-                                {data.isProjected ? "PROJ" : "YTD ACTUAL"}
-                              </span>
-                            </div>
-                            <div className="pt-1 flex flex-col gap-1">
-                              <div className="flex justify-between gap-4">
-                                <span className="text-slate-400 font-medium">Recorded Value:</span>
-                                <span className="font-bold text-white font-mono">
-                                  {meta.isCurrency ? `$${val}M` : `${val}%`}
-                                </span>
-                              </div>
-                              <div className="flex justify-between gap-4 text-[10px] text-slate-400 pt-1 border-t border-slate-800/60">
-                                <span>Volatility Bounds:</span>
-                                <span className="font-semibold font-mono text-slate-300">
-                                  {meta.isCurrency ? `$${lowRange}M - $${highRange}M` : `${lowRange}% - ${highRange}%`}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                      return null;
-                    }}
+                    content={(props) => (
+                      <ChartTooltip
+                        {...props}
+                        payload={props.payload?.filter(
+                          (p) =>
+                            p.dataKey === "kpiValue" ||
+                            p.dataKey === "lowBound" ||
+                            p.dataKey === "highBound"
+                        )}
+                        valueKind={tooltipValueKind}
+                        labelFormatter={(l) => `${l} 2026`}
+                      />
+                    )}
                   />
+                  <Line type="monotone" dataKey="lowBound" hide stroke="transparent" dot={false} name="Volatility Low" />
+                  <Line type="monotone" dataKey="highBound" hide stroke="transparent" dot={false} name="Volatility High" />
                   <ReferenceLine 
                     y={meta.target} 
                     stroke="#EF4444" 
@@ -348,14 +342,16 @@ export default function KpiTrendModal({
                   <Area
                     type="monotone"
                     dataKey="kpiValue"
+                    name="Recorded Value"
                     stroke={meta.color}
                     strokeWidth={2.5}
                     fill={`url(#gradient-${kpiType})`}
                     dot={(props: any) => {
                       const { cx, cy, payload } = props;
+                      const dotStroke = payload.isProjected ? chartTheme.forecast : meta.color;
                       if (payload.isProjected) {
                         return (
-                          <circle cx={cx} cy={cy} r={3.5} fill="#FFFFFF" stroke={meta.color} strokeWidth={1} strokeDasharray="2 2" key={payload.month} />
+                          <circle cx={cx} cy={cy} r={3.5} fill="#FFFFFF" stroke={dotStroke} strokeWidth={1} strokeDasharray="2 2" key={payload.month} />
                         );
                       }
                       return (
