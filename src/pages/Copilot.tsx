@@ -142,7 +142,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
     return parts.map((part, i) => {
       if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
-        return <strong key={i} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+        return <strong key={i} className="font-bold text-slate-900 dark:text-slate-100">{part.slice(2, -2)}</strong>;
       }
       return <React.Fragment key={i}>{part}</React.Fragment>;
     });
@@ -155,16 +155,16 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
     return lines.map((line, idx) => {
       const trimmed = line.trim();
       if (trimmed.startsWith("###")) {
-        return <h4 key={idx} className="font-bold text-slate-800 text-sm mt-4 mb-2 first:mt-0">{renderInline(trimmed.replace(/^#+/, "").trim())}</h4>;
+        return <h4 key={idx} className="font-bold text-slate-800 dark:text-slate-100 text-sm mt-4 mb-2 first:mt-0">{renderInline(trimmed.replace(/^#+/, "").trim())}</h4>;
       }
       if (trimmed.startsWith("##")) {
-        return <h3 key={idx} className="font-bold text-blue-700 text-md mt-5 mb-3 border-b border-slate-100 pb-1">{renderInline(trimmed.replace(/^#+/, "").trim())}</h3>;
+        return <h3 key={idx} className="font-bold text-brand-700 text-md mt-5 mb-3 border-b border-slate-100 dark:border-white/10 pb-1">{renderInline(trimmed.replace(/^#+/, "").trim())}</h3>;
       }
       if (trimmed.startsWith("#")) {
-        return <h2 key={idx} className="font-extrabold text-[#0F172A] text-lg mt-6 mb-4">{renderInline(trimmed.replace(/^#+/, "").trim())}</h2>;
+        return <h2 key={idx} className="font-extrabold text-ink-900 dark:text-slate-100 text-lg mt-6 mb-4">{renderInline(trimmed.replace(/^#+/, "").trim())}</h2>;
       }
       if (trimmed.startsWith("**") && trimmed.endsWith("**") && trimmed.indexOf("**", 2) === trimmed.length - 2) {
-        return <p key={idx} className="text-xs font-bold text-blue-600 my-2">{trimmed.replace(/\*\*/g, "")}</p>;
+        return <p key={idx} className="text-xs font-bold text-brand-600 my-2">{trimmed.replace(/\*\*/g, "")}</p>;
       }
       // Bullets require a space after the marker ("* " or "- ") so that lines
       // beginning with inline bold (e.g. "**Heading** text") aren't mistaken
@@ -188,12 +188,12 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
       
       {/* Intro Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
         <div>
-          <h2 className="text-xl font-bold font-sans text-slate-800 flex items-center gap-2">
+          <h2 className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 flex items-center gap-2">
             AI Finance Copilot
           </h2>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Smart financial assistant leveraging Google Gemini for executive reporting, budget walks, and operational analysis.
           </p>
         </div>
@@ -201,7 +201,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
         <button
           onClick={handleGenerateBrief}
           disabled={isLoading}
-          className="px-4 py-2 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 disabled:opacity-55 cursor-pointer"
+          className="px-4 py-2 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 disabled:opacity-55 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
         >
           <FileText className="w-4 h-4" /> Synthesize Executive Brief
         </button>
@@ -218,10 +218,10 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
         {/* Chat Stream Panel (2 cols) */}
-        <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col h-[520px] overflow-hidden">
-          
+        <div className="lg:col-span-2 bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-sm flex flex-col h-[520px] overflow-hidden">
+
           {/* Header */}
-          <div className="bg-[#0F172A] border-b border-slate-800 text-white px-6 py-4 flex items-center justify-between">
+          <div className="bg-ink-900 border-b border-slate-800 text-white px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping shrink-0" />
               <div>
@@ -250,7 +250,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/40">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/40 dark:bg-ink-900">
             {messages.map((msg) => {
               const isBot = msg.sender === "bot";
               return (
@@ -259,12 +259,12 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                   className={`flex gap-3 max-w-xl ${isBot ? "mr-auto" : "ml-auto flex-row-reverse"}`}
                 >
                   {/* Avatar */}
-                  <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center font-bold text-xs ${isBot ? "bg-[#0F172A] text-white" : "bg-blue-600 text-white"}`}>
+                  <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center font-bold text-xs ${isBot ? "bg-ink-900 text-white" : "bg-brand-600 text-white"}`}>
                     {isBot ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
                   </div>
 
                   {/* Bubble */}
-                  <div className={`p-4 rounded-3xl shadow-3xs text-xs relative ${isBot ? "bg-white border border-slate-100 text-slate-700 rounded-tl-none" : "bg-[#0F172A] border border-slate-800 text-white rounded-tr-none"}`}>
+                  <div className={`p-4 rounded-3xl shadow-3xs text-xs relative ${isBot ? "bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 text-slate-700 dark:text-slate-200 rounded-tl-none" : "bg-ink-900 border border-slate-800 text-white rounded-tr-none"}`}>
                     <div className="space-y-1">
                       {isBot ? parseMarkdownHtml(msg.text) : <p className="leading-relaxed font-semibold">{msg.text}</p>}
                     </div>
@@ -285,7 +285,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
                   <Loader className="w-4 h-4 text-slate-400 animate-spin" />
                 </div>
-                <div className="bg-white border border-slate-100 rounded-3xl rounded-tl-none p-4 shadow-3xs space-y-2">
+                <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl rounded-tl-none p-4 shadow-3xs space-y-2">
                   <div className="text-[10px] text-slate-400 font-mono animate-pulse">
                     {currentLoadingMessage}
                   </div>
@@ -298,7 +298,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
           </div>
 
           {/* Console Input Bar */}
-          <div className="p-4 border-t border-slate-100 bg-white">
+          <div className="p-4 border-t border-slate-100 dark:border-white/10 bg-white dark:bg-ink-800">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -311,13 +311,13 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Ask about margin targets, service risks, cost drivers, or enter findings..."
-                className="flex-grow text-xs border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 focus:outline-hidden focus:ring-1 focus:ring-purple-200"
+                className="flex-grow text-xs border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl px-4 py-3 placeholder:text-slate-400 focus:outline-hidden focus:ring-1 focus:ring-purple-200"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !inputText.trim()}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl transition-all disabled:opacity-40 shrink-0 cursor-pointer"
+                className="bg-brand-600 hover:bg-brand-700 text-white px-4 py-3 rounded-xl transition-all disabled:opacity-40 shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -329,8 +329,8 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
         {/* Quick Driver Analysis Deck (1 col) */}
         <div className="space-y-6">
           
-          <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm space-y-3">
-            <h4 className="font-bold text-xs text-[#0F172A] uppercase tracking-wider block border-b border-slate-50 pb-2">
+          <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-3">
+            <h4 className="font-bold text-xs text-ink-900 dark:text-slate-100 uppercase tracking-wider block border-b border-slate-50 dark:border-white/10 pb-2">
               Suggested Driver Queries
             </h4>
             <p className="text-[10px] text-slate-400 leading-tight">
@@ -342,7 +342,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                   key={chip}
                   onClick={() => handleSendMessage(chip)}
                   disabled={isLoading}
-                   className="w-full text-left p-3 rounded-xl border border-slate-50 hover:border-blue-200/50 hover:bg-blue-500/5 text-slate-600 hover:text-blue-600 text-xs font-semibold transition-all transition-colors line-clamp-1 truncate cursor-pointer disabled:opacity-50"
+                   className="w-full text-left p-3 rounded-xl border border-slate-50 dark:border-white/10 hover:border-brand-200/50 hover:bg-brand-500/5 text-slate-600 dark:text-slate-300 hover:text-brand-600 text-xs font-semibold transition-all transition-colors line-clamp-1 truncate cursor-pointer disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-brand-500"
                 >
                   {chip}
                 </button>
@@ -366,18 +366,18 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
 
       {/* Renders separate formatted section for Document Brief when generated */}
       {isBriefGenerated && generatedBriefText && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-md relative animate-fade-in space-y-4 max-w-4xl mx-auto">
-          <div className="border-b border-slate-200 pb-4 flex justify-between items-center flex-col sm:flex-row gap-4">
+        <div className="bg-white dark:bg-ink-800 border border-slate-200 dark:border-white/10 rounded-3xl p-8 shadow-md relative animate-fade-in space-y-4 max-w-4xl mx-auto">
+          <div className="border-b border-slate-200 dark:border-white/10 pb-4 flex justify-between items-center flex-col sm:flex-row gap-4">
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600">Unified Health System Executive Output</span>
-              <h3 className="text-xl font-bold text-slate-800">Synthesized Stewardship briefing Brief</h3>
+              <span className="text-[10px] uppercase font-bold tracking-widest text-brand-600">Unified Health System Executive Output</span>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">Synthesized Stewardship briefing Brief</h3>
               <p className="text-xs text-slate-400">Generated on June 2, 2026 • Grounded on Synthetic Baseline</p>
             </div>
             
             <div className="flex gap-2">
               <button 
                 onClick={() => window.print()}
-                className="p-2 border border-slate-200 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
+                className="p-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-600 transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
                 title="Print Document"
               >
                 <Printer className="w-4 h-4" />
@@ -387,7 +387,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                   navigator.clipboard.writeText(generatedBriefText);
                   alert("Copied document brief to clipboard.");
                 }}
-                className="p-2 border border-slate-200 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
+                className="p-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-600 transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
                 title="Copy to Clipboard"
               >
                 <Clipboard className="w-4 h-4" />
@@ -395,11 +395,11 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
             </div>
           </div>
 
-          <div className="text-slate-700 bg-slate-50/40 p-6 rounded-2xl border border-slate-100 max-h-[400px] overflow-y-auto font-sans text-xs leading-relaxed space-y-4">
+          <div className="text-slate-700 dark:text-slate-200 bg-slate-50/40 dark:bg-ink-900 p-6 rounded-2xl border border-slate-100 dark:border-white/10 max-h-[400px] overflow-y-auto font-sans text-xs leading-relaxed space-y-4">
             {parseMarkdownHtml(generatedBriefText)}
           </div>
           
-          <div className="text-[10px] text-slate-400 italic text-center pt-2 border-t border-slate-100">
+          <div className="text-[10px] text-slate-400 italic text-center pt-2 border-t border-slate-100 dark:border-white/10">
             Intended use: Senior executive planning review and workbook validation. Human oversight is mandatory.
           </div>
         </div>

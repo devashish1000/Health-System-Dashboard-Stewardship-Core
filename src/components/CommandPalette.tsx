@@ -341,14 +341,14 @@ export default function CommandPalette({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] px-4 pb-4 bg-slate-950/80 backdrop-blur-md overflow-hidden">
-      <div className="w-full max-w-2xl bg-[#0F172A]/95 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh] text-slate-300">
+      <div className="w-full max-w-2xl bg-ink-900/95 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh] text-slate-300">
         
         {/* Nav tabs */}
         <div className="flex border-b border-slate-800 px-4 py-2 gap-4 text-xs font-bold font-sans">
           <button 
             type="button"
             onClick={() => { setMode("commands"); setSearch(""); setAiResponse(null); }}
-            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer ${mode === "commands" ? "bg-blue-600/10 text-blue-400 border border-blue-500/20" : "text-slate-400 hover:text-slate-200"}`}
+            className={`py-1.5 px-3 rounded-lg transition-colors cursor-pointer ${mode === "commands" ? "bg-brand-600/10 text-brand-400 border border-brand-500/20" : "text-slate-400 hover:text-slate-200"}`}
           >
             Terminal Commands (⌘K)
           </button>
@@ -424,7 +424,7 @@ export default function CommandPalette({
                             }`}
                           >
                             <div className="flex items-center gap-3">
-                              <div className={`p-2 rounded-lg ${isSelected ? "bg-slate-700 text-blue-400" : "bg-slate-900 text-slate-500"}`}>
+                              <div className={`p-2 rounded-lg ${isSelected ? "bg-slate-700 text-brand-400" : "bg-slate-900 text-slate-500"}`}>
                                 <Icon className="w-4 h-4" />
                               </div>
                               <div>
@@ -443,7 +443,7 @@ export default function CommandPalette({
                                 </span>
                               )}
                               {isSelected && (
-                                <ChevronRight className="w-3.5 h-3.5 text-blue-400" />
+                                <ChevronRight className="w-3.5 h-3.5 text-brand-400" />
                               )}
                             </div>
                           </div>

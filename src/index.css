@@ -1,5 +1,50 @@
 @import "tailwindcss";
 
+/* Dark mode via a `.dark` class on <html> (Tailwind v4 custom variant). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   CommonSpirit design tokens — single source of truth.
+   Brand magenta anchored at brand-600 (#982f6a, sampled from commonspirit.org).
+   Charcoal "ink" ramp for dark shells. Figtree (display) + Inter (body).
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Figtree", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #fdf2f7;
+  --color-brand-100: #fbe3ee;
+  --color-brand-200: #f5c2d8;
+  --color-brand-300: #e892b8;
+  --color-brand-400: #cf5e93;
+  --color-brand-500: #b03b76;
+  --color-brand-600: #982f6a;
+  --color-brand-700: #7e2659;
+  --color-brand-800: #661f48;
+  --color-brand-900: #4f193a;
+
+  --color-ink-700: #3a3a40;
+  --color-ink-800: #2a2a2e;
+  --color-ink-900: #1c1c1f;
+  --color-ink-950: #141416;
+}
+
+/* Base typography */
+body {
+  font-family: var(--font-sans);
+}
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+/* Dark mode: explicit, opt-in via `dark:` utilities on content surfaces
+   (handled per-component) so intentionally-dark shells with light text are
+   never inverted. Here we only set the global page canvas + default text. */
+.dark body {
+  background-color: #141416;
+  color: #e8e8eb;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

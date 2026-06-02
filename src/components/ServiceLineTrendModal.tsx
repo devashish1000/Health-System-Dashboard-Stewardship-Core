@@ -118,7 +118,7 @@ export default function ServiceLineTrendModal({
       case "Primary Care":
         return { stroke: "#0284C7", fill: "rgba(2, 132, 199, 0.15)", bg: "text-sky-600 bg-sky-50 border-sky-100" };
       default:
-        return { stroke: "#2563EB", fill: "rgba(37, 99, 235, 0.15)", bg: "text-blue-600 bg-blue-50 border-blue-100" };
+        return { stroke: "#982f6a", fill: "rgba(152, 47, 106, 0.15)", bg: "text-brand-600 bg-brand-50 border-brand-100" };
     }
   };
 
@@ -127,10 +127,10 @@ export default function ServiceLineTrendModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl max-w-4xl w-full overflow-hidden my-8 animate-fade-in">
-        
+      <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-2xl max-w-4xl w-full overflow-hidden my-8 animate-fade-in">
+
         {/* Header Block */}
-        <div className="bg-[#0F172A] text-white px-6 py-4.5 flex items-center justify-between">
+        <div className="bg-ink-900 text-white px-6 py-4.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={`px-2.5 py-1 rounded-full text-xs font-bold border ${theme.bg}`}>
               {serviceLine}
@@ -158,8 +158,8 @@ export default function ServiceLineTrendModal({
           {/* Service Line KPIs Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             
-            <div className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">Average YTD Margin</span>
+            <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
+              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">Average YTD Margin</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className={`text-xl font-mono font-extrabold ${avgActualMargin >= 8.5 ? "text-emerald-600" : (avgActualMargin < 1.0 ? "text-rose-600" : "text-slate-800")}`}>
                   {avgActualMargin.toFixed(2)}%
@@ -168,28 +168,28 @@ export default function ServiceLineTrendModal({
               </div>
             </div>
 
-            <div className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">YTD Collected Revenue</span>
+            <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
+              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">YTD Collected Revenue</span>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-xl font-mono font-extrabold text-slate-800">
+                <span className="text-xl font-mono font-extrabold text-slate-800 dark:text-slate-100">
                   ${totalYtdRevenue.toFixed(1)}M
                 </span>
                 <span className="text-[9px] text-slate-400 font-semibold uppercase">usd</span>
               </div>
             </div>
 
-            <div className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">Accumulated Volume</span>
+            <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
+              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">Accumulated Volume</span>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-xl font-mono font-extrabold text-slate-800">
+                <span className="text-xl font-mono font-extrabold text-slate-800 dark:text-slate-100">
                   {totalYtdVolume.toLocaleString()}
                 </span>
                 <span className="text-[9px] text-slate-400 font-semibold uppercase">cases</span>
               </div>
             </div>
 
-            <div className="bg-slate-50/70 p-4 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">Average Claim Denials</span>
+            <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
+              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">Average Claim Denials</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className={`text-xl font-mono font-extrabold ${avgActualDenials > 3.0 ? "text-amber-600" : "text-emerald-600"}`}>
                   {avgActualDenials.toFixed(1)}%
@@ -203,8 +203,8 @@ export default function ServiceLineTrendModal({
           {/* Recharts 12-Month Operating Margin Trend Chart */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
-              <span className="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                <Activity className="w-3.5 h-3.5 text-blue-600" />
+              <span className="text-[11px] font-extrabold text-slate-700 dark:text-slate-100 uppercase tracking-wider flex items-center gap-1.5">
+                <Activity className="w-3.5 h-3.5 text-brand-600" />
                 Operating Margin Cycle (%)
               </span>
               <div className="flex gap-4 text-[10px] font-bold">
@@ -223,7 +223,7 @@ export default function ServiceLineTrendModal({
               </div>
             </div>
 
-            <div className="w-full bg-slate-50 p-4 rounded-2xl border border-slate-100 h-72">
+            <div className="w-full bg-slate-50 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10 h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={monthlyData}
@@ -254,7 +254,7 @@ export default function ServiceLineTrendModal({
                       if (active && payload && payload.length) {
                         const data = payload[0].payload;
                         return (
-                          <div className="bg-[#0F172A] text-white p-3.5 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
+                          <div className="bg-ink-900 text-white p-3.5 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
                             <div className="flex justify-between items-baseline gap-4 border-b border-slate-800 pb-1.5">
                               <span className="font-bold uppercase text-slate-300">{data.monthLabel} 2026</span>
                               <span className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold border ${data.isProjected ? "bg-indigo-500/15 border-indigo-400 text-indigo-300" : "bg-emerald-500/15 border-emerald-400 text-emerald-300"}`}>
@@ -319,11 +319,11 @@ export default function ServiceLineTrendModal({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5 pt-2">
             
             {/* Takeaways / Insights */}
-            <div className="md:col-span-7 bg-slate-50/40 p-5 rounded-2xl border border-slate-100 flex gap-4">
+            <div className="md:col-span-7 bg-slate-50/40 dark:bg-ink-900 p-5 rounded-2xl border border-slate-100 dark:border-white/10 flex gap-4">
               <Sparkles className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
               <div className="space-y-1.5">
-                <span className="block text-xs font-bold text-slate-800 uppercase tracking-wider">AI Strategy Outlook</span>
-                <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">AI Strategy Outlook</span>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
                   Our projection models indicate **{serviceLine}** margin will appreciate over Q3, driven by volume recovery and standardizing contract nurse registry pathways. Regional oversight targets should prioritize capping commercial claim denial rates below 2.0% to unlock restricted month-end capital.
                 </p>
                 <div className="pt-2 text-[10px] text-slate-400 font-medium font-mono">
@@ -333,10 +333,10 @@ export default function ServiceLineTrendModal({
             </div>
 
             {/* CTAs / Action Hub */}
-            <div className="md:col-span-5 bg-blue-50/20 p-5 rounded-2xl border border-blue-100/40 flex flex-col justify-between">
+            <div className="md:col-span-5 bg-brand-50/20 p-5 rounded-2xl border border-brand-100/40 flex flex-col justify-between">
               <div className="space-y-1">
-                <span className="block text-xs font-extrabold text-blue-900 uppercase">Audit & Stewardship Actions</span>
-                <span className="block text-[10px] text-slate-500 leading-tight">
+                <span className="block text-xs font-extrabold text-brand-900 uppercase">Audit & Stewardship Actions</span>
+                <span className="block text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
                   Variance comments and audits are synchronized to month-end close reports.
                 </span>
               </div>
@@ -346,7 +346,7 @@ export default function ServiceLineTrendModal({
                     onClose();
                     onOpenAnnotation();
                   }}
-                  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold text-center cursor-pointer transition-colors shadow-3xs flex items-center justify-center gap-1.5"
+                  className="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold text-center cursor-pointer transition-colors shadow-3xs flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
                 >
                   <Eye className="w-3.5 h-3.5" />
                   Annotate Variance Note
@@ -359,7 +359,7 @@ export default function ServiceLineTrendModal({
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-50 border-t border-slate-100 px-6 py-3 flex justify-between items-center text-[10px] text-slate-400 font-mono">
+        <div className="bg-slate-50 dark:bg-ink-900 border-t border-slate-100 dark:border-white/10 px-6 py-3 flex justify-between items-center text-[10px] text-slate-400 dark:text-slate-400 font-mono">
           <span className="flex items-center gap-1">
             <Target className="w-3.5 h-3.5 text-slate-400" />
             CommonSpirit Financial Strategy Suite v1.0

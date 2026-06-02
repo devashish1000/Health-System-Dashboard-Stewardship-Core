@@ -41,7 +41,7 @@ export default function Toast({ toasts, onRemove }: ToastProps) {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className="flex items-start justify-between bg-white border border-slate-100 rounded-xl p-4 shadow-xl transition-all duration-300 animate-fade-in-up md:max-w-md"
+          className="flex items-start justify-between bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-xl p-4 shadow-xl transition-all duration-300 animate-fade-in-up md:max-w-md"
         >
           <div className="flex gap-3">
             {toast.type === "success" && (
@@ -53,11 +53,11 @@ export default function Toast({ toasts, onRemove }: ToastProps) {
             {toast.type === "info" && (
               <Info className="w-5 h-5 text-sky-500 shrink-0 mt-0.5" />
             )}
-            <p className="text-sm font-medium text-slate-700">{toast.text}</p>
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-100">{toast.text}</p>
           </div>
           <button
             onClick={() => onRemove(toast.id)}
-            className="text-slate-400 hover:text-slate-600 transition-colors shrink-0 ml-3"
+            className="text-slate-400 dark:text-slate-400 hover:text-slate-600 transition-colors shrink-0 ml-3"
           >
             <X className="w-4 h-4" />
           </button>

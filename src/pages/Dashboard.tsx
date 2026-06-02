@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   TrendingUp, TrendingDown, Landmark, ShieldAlert, BadgeInfo, Eye, HelpCircle,
   Briefcase, Calendar, MapPin, Building, ToggleLeft, Layers, Wallet, Users, Info, Sparkles, Cpu
@@ -84,6 +85,11 @@ export default function Dashboard({
   onSelectRow,
   onResetFilters
 }: DashboardProps) {
+  const kpiCardVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } }
+  };
+
   const [activeExplainKey, setActiveExplainKey] = useState<string | null>(null);
   const [selectedTrendServiceLine, setSelectedTrendServiceLine] = useState<string | null>(null);
   const [selectedKpiTrend, setSelectedKpiTrend] = useState<"npr" | "opex" | "margin" | "variance" | "labor" | "forecast" | null>(null);
@@ -113,7 +119,7 @@ export default function Dashboard({
   records.forEach(r => {
     payerDistribution[r.payer_type] = (payerDistribution[r.payer_type] || 0) + r.net_patient_revenue;
   });
-  const pieColors = ["#2563EB", "#38BDF8", "#2DD4BF", "#F59E0B", "#A78BFA"];
+  const pieColors = ["#982f6a", "#38BDF8", "#2DD4BF", "#F59E0B", "#A78BFA"];
   const payerPieData = Object.entries(payerDistribution).map(([name, val]) => ({
     name,
     value: Math.round(val / 1000)
@@ -153,17 +159,17 @@ export default function Dashboard({
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
       
       {/* 8-Filter Stewardship Control Deck */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+      <div className="bg-white dark:bg-ink-800 rounded-3xl p-6 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-3">
           <div className="flex items-center gap-2">
-            <Layers className="w-5 h-5 text-blue-600" />
-            <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wide">
+            <Layers className="w-5 h-5 text-brand-600" />
+            <h2 className="text-sm font-bold text-ink-900 dark:text-slate-100 uppercase tracking-wide">
               Stewardship Filter Control Deck
             </h2>
           </div>
           <button
             onClick={onResetFilters}
-            className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+            className="text-xs font-semibold text-brand-600 hover:text-brand-800 transition-colors"
           >
             Reset All Filters
           </button>
@@ -327,22 +333,30 @@ export default function Dashboard({
       ) : (
         <>
           {/* Main KPIs Row */}
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-            
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-6 gap-4"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { transition: { staggerChildren: 0.07 } }
+            }}
+          >
+
             {/* KPI 1 */}
-            <div 
+            <motion.div
+              variants={kpiCardVariants}
               onClick={() => setSelectedKpiTrend("npr")}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
+              className="bg-white dark:bg-ink-800 rounded-2xl p-4 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-brand-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
             >
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-blue-500 transition-colors">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-brand-500 transition-colors">
                   Net Patient Revenue
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 mt-1 block">
+                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
                   {formatCurrency(currentKpis.netPatientRevenue)}
                 </span>
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-slate-50 pt-2.5">
+              <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
                 <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-sm">
                   +3.2% vs budget
                 </span>
@@ -356,22 +370,23 @@ export default function Dashboard({
                   <Sparkles className="w-3 h-3 text-purple-400 animate-pulse" /> Explain
                 </button>
               </div>
-            </div>
+            </motion.div>
 
             {/* KPI 2 */}
-            <div 
+            <motion.div
+              variants={kpiCardVariants}
               onClick={() => setSelectedKpiTrend("opex")}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
+              className="bg-white dark:bg-ink-800 rounded-2xl p-4 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-brand-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
             >
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-amber-500 transition-colors">
                   Operating Expense
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 mt-1 block">
+                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
                   {formatCurrency(currentKpis.operatingExpense)}
                 </span>
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-slate-50 pt-2.5">
+              <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
                 <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-sm">
                   +4.8% vs budget
                 </span>
@@ -385,22 +400,23 @@ export default function Dashboard({
                   <Sparkles className="w-3 h-3 text-purple-400" /> Explain
                 </button>
               </div>
-            </div>
+            </motion.div>
 
             {/* KPI 3 */}
-            <div 
+            <motion.div
+              variants={kpiCardVariants}
               onClick={() => setSelectedKpiTrend("margin")}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
+              className="bg-white dark:bg-ink-800 rounded-2xl p-4 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-brand-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
             >
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-emerald-500 transition-colors">
                   Operating Margin
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 mt-1 block">
+                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
                   {currentKpis.operatingMargin}%
                 </span>
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-slate-50 pt-2.5">
+              <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
                 <span className="text-[10px] font-semibold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded-sm">
                   -1.1 pts target
                 </span>
@@ -414,12 +430,13 @@ export default function Dashboard({
                   <Sparkles className="w-3 h-3 text-purple-400" /> Explain
                 </button>
               </div>
-            </div>
+            </motion.div>
 
             {/* KPI 4 */}
-            <div 
+            <motion.div
+              variants={kpiCardVariants}
               onClick={() => setSelectedKpiTrend("variance")}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
+              className="bg-white dark:bg-ink-800 rounded-2xl p-4 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-brand-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
             >
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-rose-500 transition-colors">
@@ -429,7 +446,7 @@ export default function Dashboard({
                   {currentKpis.budgetVariance >= 0 ? "+" : ""}{(currentKpis.budgetVariance / 1e6).toFixed(1)}M
                 </span>
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-slate-50 pt-2.5">
+              <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
                 <span className="text-[10px] font-semibold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded-sm">
                   High Priority
                 </span>
@@ -443,22 +460,23 @@ export default function Dashboard({
                   <Sparkles className="w-3 h-3 text-purple-400" /> Explain
                 </button>
               </div>
-            </div>
+            </motion.div>
 
             {/* KPI 5 */}
-            <div 
+            <motion.div
+              variants={kpiCardVariants}
               onClick={() => setSelectedKpiTrend("labor")}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
+              className="bg-white dark:bg-ink-800 rounded-2xl p-4 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-brand-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
             >
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-purple-500 transition-colors">
                   Labor Cost Ratio
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 mt-1 block">
+                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
                   {currentKpis.netPatientRevenue > 0 ? ((currentKpis.laborCost / currentKpis.netPatientRevenue) * 100).toFixed(1) + "%" : "0%"}
                 </span>
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-slate-50 pt-2.5">
+              <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
                 <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-sm">
                   +2.4 pts budget
                 </span>
@@ -472,22 +490,23 @@ export default function Dashboard({
                   <Sparkles className="w-3 h-3 text-purple-400" /> Explain
                 </button>
               </div>
-            </div>
+            </motion.div>
 
             {/* KPI 6 */}
-            <div 
+            <motion.div
+              variants={kpiCardVariants}
               onClick={() => setSelectedKpiTrend("forecast")}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
+              className="bg-white dark:bg-ink-800 rounded-2xl p-4 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-brand-200 transition-all duration-300 relative flex flex-col justify-between cursor-pointer group"
             >
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block group-hover:text-cyan-500 transition-colors">
                   Month-End Forecast
                 </span>
-                <span className="text-xl font-bold font-sans text-slate-800 mt-1 block">
+                <span className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 mt-1 block">
                   {currentKpis.forecastedMargin}%
                 </span>
               </div>
-              <div className="mt-3 flex items-center justify-between border-t border-slate-50 pt-2.5">
+              <div className="mt-3 flex items-center justify-between border-t border-slate-50 dark:border-white/10 pt-2.5">
                 <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-sm">
                   Below target
                 </span>
@@ -501,9 +520,9 @@ export default function Dashboard({
                   <Sparkles className="w-3 h-3 text-purple-400 animate-pulse" /> Explain
                 </button>
               </div>
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
 
           {/* Interactive KPI Intelligence Drawer (Render in-line when active) */}
           {activeExplainKey && KPI_EXPLAINER_DATA[activeExplainKey] && (
@@ -512,7 +531,7 @@ export default function Dashboard({
                 <Cpu className="w-6 h-6 animate-pulse" />
               </div>
               <div className="space-y-2 flex-grow">
-                <h4 className="font-bold text-sm text-slate-800 flex items-center gap-2">
+                <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
                   <span>AI Driver Explanation: {KPI_EXPLAINER_DATA[activeExplainKey].title}</span>
                   <span className="text-[10px] bg-sky-200 text-sky-800 px-2 py-0.5 rounded-full font-bold">Interactive Copilot</span>
                 </h4>
@@ -546,7 +565,7 @@ export default function Dashboard({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Chart A: Budget vs Actual Variance */}
-            <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm space-y-4">
+            <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Budget vs Actual Variance ($ Millions)
@@ -562,19 +581,19 @@ export default function Dashboard({
                     <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
                     <Legend iconSize={10} wrapperStyle={{ fontSize: 11 }} />
                     <Bar dataKey="Budget" fill="#94a3b8" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="Actual" fill="#2563EB" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Actual" fill="#982f6a" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
             {/* Chart B: Monthly Margin Target vs Actual vs Forecast */}
-            <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm space-y-4">
+            <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Operating Margin Ratio (%) and Forecast
                 </h3>
-                <span className="text-[10px] px-2 py-0.5 font-bold rounded-sm bg-blue-50 text-blue-700">8.5% Target Baseline</span>
+                <span className="text-[10px] px-2 py-0.5 font-bold rounded-sm bg-brand-50 text-brand-700">8.5% Target Baseline</span>
               </div>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -598,7 +617,7 @@ export default function Dashboard({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {/* Chart D: Volume-to-Revenue Bridge */}
-            <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm space-y-4">
+            <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   NPR Change Volume-to-Revenue Bridge ($ Thousand)
@@ -614,7 +633,7 @@ export default function Dashboard({
                     <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
                     <Bar dataKey="cumulative" name="Cumulative Value" fill="#38BDF8">
                       {revenueBridgeData.map((entry, idx) => (
-                        <Cell key={`cell-${idx}`} fill={entry.value >= 0 ? "#2563EB" : "#EF4444"} />
+                        <Cell key={`cell-${idx}`} fill={entry.value >= 0 ? "#982f6a" : "#EF4444"} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -623,7 +642,7 @@ export default function Dashboard({
             </div>
 
             {/* Chart G: Payer Mix Distribution Donut */}
-            <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm space-y-4">
+            <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Primary Payer Mix NPR Distribution ($K)
@@ -656,7 +675,7 @@ export default function Dashboard({
                     <div key={entry.name} className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: pieColors[idx % pieColors.length] }} />
                       <span className="text-slate-500">{entry.name}:</span>
-                      <span className="font-bold text-slate-800">${entry.value.toLocaleString()}K</span>
+                      <span className="font-bold text-slate-800 dark:text-slate-100">${entry.value.toLocaleString()}K</span>
                     </div>
                   ))}
                 </div>
@@ -669,10 +688,10 @@ export default function Dashboard({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Panel H: Month-End Close Narrative Summary */}
-            <div className="col-span-1 md:col-span-2 bg-[#0F172A] border border-slate-800 text-white rounded-2xl p-6 shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
-                <BadgeInfo className="w-5 h-5 text-blue-400" />
-                <h3 className="font-bold text-sm text-blue-300 uppercase tracking-wider">
+            <div className="col-span-1 md:col-span-2 bg-ink-900 border border-ink-800 text-white rounded-2xl p-6 shadow-sm space-y-4">
+              <div className="flex items-center gap-2 border-b border-ink-800 pb-3">
+                <BadgeInfo className="w-5 h-5 text-brand-400" />
+                <h3 className="font-bold text-sm text-brand-300 uppercase tracking-wider">
                   Analyst Observation: Month-End Close Narrative
                 </h3>
               </div>
@@ -694,12 +713,12 @@ export default function Dashboard({
             </div>
 
             {/* Weekly Labor Ratio Trend Card */}
-            <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm space-y-4 flex flex-col justify-between">
+            <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4 flex flex-col justify-between">
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
                   Labor cost vs Target Trend
                 </h3>
-                <span className="text-sm font-bold text-slate-800 block">System Weekly Labor Cost Ratio %</span>
+                <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block">System Weekly Labor Cost Ratio %</span>
                 <p className="text-[10px] text-slate-400 leading-relaxed mt-1">
                   Labor ratio average registered at 42.6%, exceeding the safe maximum threshold limit of 40%.
                 </p>
@@ -723,10 +742,10 @@ export default function Dashboard({
           </div>
 
           {/* Table of Service Lines Performance Matrix - Click Row to Open */}
-          <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div className="bg-white dark:bg-ink-800 rounded-3xl p-6 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-white/10 pb-3">
               <div>
-                <h3 className="font-bold text-slate-800 text-sm uppercase tracking-wider">
+                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm uppercase tracking-wider">
                   Service Line Performance Audit Matrix
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -768,10 +787,10 @@ export default function Dashboard({
                         }}
                         className="hover:bg-slate-50/80 transition-colors cursor-pointer group"
                       >
-                        <td className="py-3.5 px-4 font-bold text-[#0F172A] group-hover:text-blue-600 transition-colors">
+                        <td className="py-3.5 px-4 font-bold text-ink-900 dark:text-slate-100 group-hover:text-brand-600 transition-colors">
                           <div className="flex items-center gap-1.5">
                             <span>{agg.serviceLine}</span>
-                            <TrendingUp className="w-3.5 h-3.5 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <TrendingUp className="w-3.5 h-3.5 text-brand-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                           </div>
                         </td>
                         <td className="py-3.5 px-4 text-right font-mono text-slate-700">{formatCurrency(agg.netRevenue)}</td>

@@ -34,12 +34,12 @@ export default function Forecast({ records }: ForecastProps) {
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
       
       {/* Overview Intro Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
             Forecast & Variance Driver Modeling
           </h2>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Continuous operating margin projection, variance walk, and driver impact attribution modeling.
           </p>
         </div>
@@ -60,12 +60,12 @@ export default function Forecast({ records }: ForecastProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         {/* 1. Monthly Margin Forecast chart with shaded target */}
-        <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm space-y-4">
+        <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Monthly Margin Shaded Baseline Forecast (%)
             </h3>
-            <span className="text-sm font-semibold text-slate-800 block mt-1">Target Operating Margin Target Alignment (8.5%)</span>
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1">Target Operating Margin Target Alignment (8.5%)</span>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -77,7 +77,7 @@ export default function Forecast({ records }: ForecastProps) {
                 <Legend wrapperStyle={{ fontSize: 11 }} />
                 {/* Benchmark line representing minimum viable health system safety margin */}
                 <Line type="monotone" dataKey="targetMargin" name="Target Floor (8.5%)" stroke="#EF4444" strokeWidth={1} strokeDasharray="4 4" dot={false} />
-                <Line type="monotone" dataKey="actualMargin" name="Actual Margin %" stroke="#2563EB" strokeWidth={3} dot={{ r: 5 }} />
+                <Line type="monotone" dataKey="actualMargin" name="Actual Margin %" stroke="#982f6a" strokeWidth={3} dot={{ r: 5 }} />
                 <Line type="monotone" dataKey="forecastMargin" name="Projected Smooth Forecast %" stroke="#A78BFA" strokeWidth={2} strokeDasharray="3 3" dot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
@@ -88,12 +88,12 @@ export default function Forecast({ records }: ForecastProps) {
         </div>
 
         {/* 2. Visual Waterfall bridge of variance drivers */}
-        <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm space-y-4">
+        <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Operational Variance Driver Waterfall (%)
             </h3>
-            <span className="text-sm font-semibold text-slate-800 block mt-1">Marginal Bridge: Target 8.5% down to Actual {currentKpis.operatingMargin}%</span>
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1">Marginal Bridge: Target 8.5% down to Actual {currentKpis.operatingMargin}%</span>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -104,7 +104,7 @@ export default function Forecast({ records }: ForecastProps) {
                 <Tooltip formatter={(value) => `${Number(value) > 0 ? "+" : ""}${value}%`} />
                 <Bar dataKey="value" fill="#38BDF8" radius={[4, 4, 0, 0]}>
                   {waterfallSteps.map((entry, idx) => (
-                    <Cell key={`cell-${idx}`} fill={entry.isCumulative ? "#0F172A" : (entry.value >= 0 ? "#2DD4BF" : "#EF4444")} />
+                    <Cell key={`cell-${idx}`} fill={entry.isCumulative ? "#982f6a" : (entry.value >= 0 ? "#2DD4BF" : "#EF4444")} />
                   ))}
                 </Bar>
               </BarChart>
@@ -131,7 +131,7 @@ export default function Forecast({ records }: ForecastProps) {
             return (
               <div
                 key={contr.name}
-                className="bg-white border border-slate-100 rounded-2xl p-4 shadow-2xs space-y-3"
+                className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-2xl p-4 shadow-2xs space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <span className={`p-1.5 rounded-lg shrink-0 ${isFavorable ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"}`}>
@@ -142,7 +142,7 @@ export default function Forecast({ records }: ForecastProps) {
                   </span>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-800 leading-tight">
+                  <h4 className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">
                     {contr.name.replace(" Impact", "")}
                   </h4>
                   <p className="text-[10px] text-slate-400 leading-tight mt-1 font-medium">
@@ -156,14 +156,14 @@ export default function Forecast({ records }: ForecastProps) {
       </div>
 
       {/* AI-Assisted Finance Narrative Explanation Panel */}
-      <div className="bg-gradient-to-r from-purple-500/5 via-sky-500/5 to-teal-500/5 border border-slate-100 rounded-3xl p-6 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-purple-500/5 via-sky-500/5 to-teal-500/5 border border-slate-100 dark:border-white/10 rounded-3xl p-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-purple-200/10 rounded-full blur-2xl" />
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-sky-200/10 rounded-full blur-2xl" />
 
         <div className="relative z-10 space-y-4">
           <div className="flex items-center gap-2">
             <Cpu className="w-5 h-5 text-purple-600 animate-pulse" />
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest flex items-center gap-1.5">
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-widest flex items-center gap-1.5">
               <span>What Changed This Month?</span>
               <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">AI Narrative</span>
             </h3>
@@ -171,28 +171,28 @@ export default function Forecast({ records }: ForecastProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             <div className="space-y-1">
-              <span className="text-xs font-bold text-slate-700 block">Executive Summary</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Executive Summary</span>
               <p className="text-xs text-slate-600 leading-relaxed font-semibold">
                 “Operating margin declined primarily due to higher labor cost ratio, unfavorable payer mix, and increased denial activity in two service lines.”
               </p>
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs font-bold text-slate-700 block">Key Drivers</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Key Drivers</span>
               <p className="text-xs text-slate-500 leading-relaxed">
                 “Labor cost contributed the largest unfavorable variance, followed by payer mix and reimbursement timing of commercial provider billings.”
               </p>
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs font-bold text-slate-700 block">Recommended Financial Review</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Recommended Financial Review</span>
               <p className="text-xs text-slate-500 leading-relaxed">
                 “Validate labor variance, review reimbursement timing, compare actual service-line volume against forecast, and assess denial trends.”
               </p>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-400 italic">
+          <div className="pt-4 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between text-[10px] text-slate-400 italic">
             <span>Decision-Support Note: All figures are synthetic and intended to demonstrate financial analytics workflow design.</span>
             <span>Grounding Scope: Flash System Baseline</span>
           </div>

@@ -97,12 +97,12 @@ export default function ExportDataModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
       {/* Container Card */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-xl max-w-lg w-full overflow-hidden animate-fade-in">
-        
+      <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-xl max-w-lg w-full overflow-hidden animate-fade-in">
+
         {/* Header */}
-        <div className="bg-[#0F172A] text-white px-6 py-4 flex items-center justify-between">
+        <div className="bg-ink-900 text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-blue-400" />
+            <FileSpreadsheet className="w-5 h-5 text-brand-400" />
             <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">
               Operations Export Suite
             </h3>
@@ -117,11 +117,11 @@ export default function ExportDataModal({
 
         {/* Content */}
         <div className="p-6 space-y-6">
-          <div className="text-slate-500 text-xs leading-relaxed space-y-1.5">
+          <div className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed space-y-1.5">
             <p>
               Under **CommonSpirit Health** financial stewardship protocols, custom data exports must be recorded and matched against compliance oversight metrics.
             </p>
-            <p className="text-[10px] text-slate-400">
+            <p className="text-[10px] text-slate-400 dark:text-slate-400">
               Currently compiling statistics for **{filteredRecords.length} filtered facility records** in the workspace sandbox.
             </p>
           </div>
@@ -130,14 +130,14 @@ export default function ExportDataModal({
             {/* Box 1: CSV */}
             <button
               onClick={handleExportCSV}
-              className="w-full p-4 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"
+              className="w-full p-4 rounded-xl border border-slate-100 dark:border-white/10 hover:border-brand-200 hover:bg-brand-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"
             >
               <div className="p-2.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all shrink-0">
                 <FileSpreadsheet className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <span className="block text-xs font-bold text-slate-800">Export Active Dataset (CSV)</span>
-                <span className="block text-[10px] text-slate-400 leading-snug">
+                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Export Active Dataset (CSV)</span>
+                <span className="block text-[10px] text-slate-400 dark:text-slate-400 leading-snug">
                   Downloads a comma-separated audit table of all current filtered records, including Net Patient Revenues, Expenses, and custom variance annotations.
                 </span>
               </div>
@@ -146,14 +146,14 @@ export default function ExportDataModal({
             {/* Box 2: JSON ledger */}
             <button
               onClick={handleExportLedgerJSON}
-              className="w-full p-4 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"
+              className="w-full p-4 rounded-xl border border-slate-100 dark:border-white/10 hover:border-brand-200 hover:bg-brand-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"
             >
               <div className="p-2.5 rounded-lg bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all shrink-0">
                 <FileCode className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <span className="block text-xs font-bold text-slate-800">Export Sign-off Ledger (JSON)</span>
-                <span className="block text-[10px] text-slate-400 leading-snug">
+                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Export Sign-off Ledger (JSON)</span>
+                <span className="block text-[10px] text-slate-400 dark:text-slate-400 leading-snug">
                   Provides a cryptographically hash-audited ledger in raw JSON detailing past certified session cycles, timestamped signatories, and comment blocks.
                 </span>
               </div>
@@ -162,14 +162,14 @@ export default function ExportDataModal({
             {/* Box 3: Print */}
             <button
               onClick={handlePrintDraft}
-              className="w-full p-4 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"
+              className="w-full p-4 rounded-xl border border-slate-100 dark:border-white/10 hover:border-brand-200 hover:bg-brand-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"
             >
               <div className="p-2.5 rounded-lg bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-all shrink-0">
                 <Printer className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <span className="block text-xs font-bold text-slate-800">Print Operational Briefing</span>
-                <span className="block text-[10px] text-slate-400 leading-snug">
+                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Print Operational Briefing</span>
+                <span className="block text-[10px] text-slate-400 dark:text-slate-400 leading-snug">
                   Formats the active viewport layout for physical distribution or standard PDF driver rendering, discarding control buttons and sidebars.
                 </span>
               </div>
@@ -178,7 +178,7 @@ export default function ExportDataModal({
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-400 font-medium">
+        <div className="bg-slate-50 dark:bg-ink-900 px-6 py-4 border-t border-slate-100 dark:border-white/10 flex items-center gap-2 text-[10px] text-slate-400 dark:text-slate-400 font-medium">
           <HelpCircle className="w-4 h-4 text-slate-400 shrink-0" />
           <span>Files contain dummy synthetic performance values for clinical demonstration only.</span>
         </div>

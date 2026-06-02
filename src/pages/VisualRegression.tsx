@@ -220,17 +220,17 @@ export default function VisualRegression() {
     <div className="space-y-6 max-w-5xl mx-auto px-4 py-4 animate-fade-in text-slate-800">
       
       {/* Top Main Heading */}
-      <div className="border-b border-slate-100 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="border-b border-slate-100 dark:border-white/10 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
             <Gauge className="w-5 h-5 text-indigo-600" />
             Engineering QA & System Guardrails Suite
           </h2>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Comprehensive testing sandbox showcasing high-fidelity production auditing, chaos resilience, temporal audits, and WCAG accessibility standards.
           </p>
         </div>
-        <div className="flex bg-slate-100/85 p-1 rounded-2xl gap-1 border border-slate-200">
+        <div className="flex bg-slate-100/85 dark:bg-ink-800 p-1 rounded-2xl gap-1 border border-slate-200 dark:border-white/10">
           <button 
             type="button"
             onClick={() => setActiveTab("pixel")}
@@ -284,7 +284,7 @@ export default function VisualRegression() {
             <div className="md:col-span-4 space-y-4">
               
               {/* Target Selector */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-4 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Target Component State</span>
                   <p className="text-[11px] text-slate-500">Choose simulated app states to trigger visual comparison reviews.</p>
@@ -323,16 +323,16 @@ export default function VisualRegression() {
               </div>
 
               {/* Bug Injection */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-4 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Artificial Bug Injection</span>
                   <p className="text-[11px] text-slate-500">Inject styling defects to inspect accuracy sensitivity threshold scales.</p>
                 </div>
                 
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3.5">
+                <div className="bg-slate-50 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10 space-y-3.5">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-bold block text-slate-700">Add Margin Top Offset (+1.5px)</span>
+                      <span className="text-xs font-bold block text-slate-700 dark:text-slate-100">Add Margin Top Offset (+1.5px)</span>
                       <span className="text-[10px] text-slate-400 block">Triggers minor padding layout drift.</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -359,7 +359,7 @@ export default function VisualRegression() {
               </div>
 
               {/* Viewport simulation */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-3 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-3 shadow-3xs">
                 <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Simulated Viewport Range</span>
                 <div className="grid grid-cols-3 gap-1 bg-slate-50 p-1 rounded-xl">
                   <button
@@ -418,11 +418,11 @@ export default function VisualRegression() {
                   {isScanning && (
                     <div className="absolute inset-0 z-30 pointer-events-none overflow-hidden">
                       <div 
-                        className="absolute inset-x-0 h-1.5 bg-blue-500 shadow-[0_0_15px_#3b82f6]"
+                        className="absolute inset-x-0 h-1.5 bg-brand-500 shadow-[0_0_15px_#982f6a]"
                         style={{ top: `${scanProgress}%` }}
                       />
                       <div 
-                        className="absolute inset-0 bg-blue-500/5" 
+                        className="absolute inset-0 bg-brand-500/5" 
                         style={{ clipPath: `inset(0 0 ${100 - scanProgress}% 0)` }}
                       />
                     </div>
@@ -431,7 +431,7 @@ export default function VisualRegression() {
                   <div className={`relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl max-w-full ${getViewportDimensions().width} h-[240px] transition-all duration-300`}>
                     
                     {/* Standard baseline side */}
-                    <div className="absolute inset-0 bg-[#0F172A] p-5 text-white space-y-4">
+                    <div className="absolute inset-0 bg-ink-900 p-5 text-white space-y-4">
                       <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
                         <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400">BASELINE STANDARD (SPEC TYPE)</span>
                         <span className="text-[8px] text-emerald-400 font-mono font-bold uppercase">Spec Ref v28</span>
@@ -480,11 +480,11 @@ export default function VisualRegression() {
 
                     {/* Draggable Active State container */}
                     <div 
-                      className="absolute inset-y-0 right-0 bg-[#0F172A] p-5 text-white overflow-hidden transition-all duration-75"
+                      className="absolute inset-y-0 right-0 bg-ink-900 p-5 text-white overflow-hidden transition-all duration-75"
                       style={{ left: `${sliderPosition}%` }}
                     >
                       <div 
-                        className="absolute inset-0 bg-[#0F172A] p-5 text-white space-y-4 overflow-hidden"
+                        className="absolute inset-0 bg-ink-900 p-5 text-white space-y-4 overflow-hidden"
                         style={{ width: `${100 - sliderPosition}%`, minWidth: "480px", right: 0 }}
                       >
                         <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
@@ -547,10 +547,10 @@ export default function VisualRegression() {
 
                     {/* Split Slider Handle */}
                     <div 
-                      className="absolute inset-y-0 w-0.5 bg-blue-500 cursor-ew-resize hover:bg-blue-600 transition-colors z-20"
+                      className="absolute inset-y-0 w-0.5 bg-brand-500 cursor-ew-resize hover:bg-brand-600 transition-colors z-20"
                       style={{ left: `${sliderPosition}%` }}
                     >
-                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 bg-blue-500 text-white p-0.5 rounded-full shadow-lg border border-white flex items-center justify-center">
+                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 bg-brand-500 text-white p-0.5 rounded-full shadow-lg border border-white flex items-center justify-center">
                         <Maximize className="w-2.5 h-2.5 rotate-45" />
                       </div>
                     </div>
@@ -582,24 +582,24 @@ export default function VisualRegression() {
               </div>
 
               {/* Status Report Logs for Tab 1 */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-4 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Fidelity Audit Metrics</span>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col">
+                  <div className="p-3.5 bg-slate-50 dark:bg-ink-900 rounded-xl border border-slate-100 dark:border-white/10 flex flex-col">
                     <span className="text-[10px] text-slate-400 font-bold uppercase">Match Accuracy</span>
                     <span className={`text-xl font-extrabold mt-1 font-mono ${hasOffsetEnabled ? "text-amber-600" : "text-emerald-600"}`}>
                       {hasOffsetEnabled ? "99.41%" : "100.00%"}
                     </span>
                     <span className="text-[9px] text-slate-400 mt-0.5">Tolerance SLA is 99.8%</span>
                   </div>
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col">
+                  <div className="p-3.5 bg-slate-50 dark:bg-ink-900 rounded-xl border border-slate-100 dark:border-white/10 flex flex-col">
                     <span className="text-[10px] text-slate-400 font-bold uppercase">Mismatched Coordinates</span>
-                    <span className="text-xl font-extrabold mt-1 text-slate-700 font-mono">
+                    <span className="text-xl font-extrabold mt-1 text-slate-700 dark:text-slate-100 font-mono">
                       {hasOffsetEnabled ? "134 px" : "0 px"}
                     </span>
                     <span className="text-[9px] text-slate-400 mt-0.5">Automated visual delta</span>
                   </div>
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col">
+                  <div className="p-3.5 bg-slate-50 dark:bg-ink-900 rounded-xl border border-slate-100 dark:border-white/10 flex flex-col">
                     <span className="text-[10px] text-slate-400 font-bold uppercase">QA Assessment</span>
                     <span className={`text-sm font-bold mt-2 flex items-center gap-1 ${hasOffsetEnabled ? "text-amber-600" : "text-emerald-600"}`}>
                       {hasOffsetEnabled ? (
@@ -633,9 +633,9 @@ export default function VisualRegression() {
           >
             <div className="md:col-span-5 space-y-4">
               
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-4 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
                     <Bomb className="w-4 h-4 text-rose-500 animate-pulse" />
                     Chaos Jitter Injector
                   </h3>
@@ -689,9 +689,9 @@ export default function VisualRegression() {
                   </div>
 
                   {/* Authentication Auth endpoint fail toggle */}
-                  <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between">
+                  <div className="p-3 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10 flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-bold block text-slate-700">Payer Auth Fail Override</span>
+                      <span className="text-xs font-bold block text-slate-700 dark:text-slate-100">Payer Auth Fail Override</span>
                       <span className="text-[10px] text-slate-400 block">Force HTTP 503 Gateway Timeout.</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
@@ -757,9 +757,9 @@ export default function VisualRegression() {
               </div>
 
               {/* Graceful Failures verification card */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 shadow-3xs flex items-center justify-between">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 shadow-3xs flex items-center justify-between">
                 <div className="space-y-1">
-                  <span className="text-xs font-bold text-slate-800 block">Graceful Failure Verification</span>
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-100 block">Graceful Failure Verification</span>
                   <p className="text-[11px] text-slate-500">Workspace is protected by resilient local index caching & backup service routines.</p>
                 </div>
                 <div className="flex items-center gap-1.5 text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100 text-xs font-bold">
@@ -784,9 +784,9 @@ export default function VisualRegression() {
           >
             <div className="md:col-span-5 space-y-4">
               
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-4 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
                     <History className="w-4 h-4 text-indigo-600 animate-spin-slow" />
                     Temporal Cohort Dry-Runner
                   </h3>
@@ -821,7 +821,7 @@ export default function VisualRegression() {
                             </div>
                             <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${
                               ep.status === "Optimized" ? "bg-emerald-50 text-emerald-700" :
-                              ep.status === "Balanced" ? "bg-blue-50 text-blue-700" : "bg-rose-50 text-rose-700"
+                              ep.status === "Balanced" ? "bg-brand-50 text-brand-700" : "bg-rose-50 text-rose-700"
                             }`}>
                               {ep.operatingMargin}
                             </span>
@@ -871,11 +871,11 @@ export default function VisualRegression() {
             <div className="md:col-span-7 space-y-4">
               
               {/* Projection card metrics */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-5 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-5 shadow-3xs">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Audited Epoch: {selectedEpoch.epoch}</span>
                   <div className="flex items-baseline gap-2 mt-2">
-                    <span className="text-3xl font-extrabold text-[#0F172A] font-mono tracking-tight">
+                    <span className="text-3xl font-extrabold text-ink-900 dark:text-slate-100 font-mono tracking-tight">
                       {isTemporalRunning ? "Calculating..." : `${actualSelectedMargin.toFixed(2)}%`}
                     </span>
                     <span className="text-xs text-slate-400">Audited Projection</span>
@@ -883,17 +883,17 @@ export default function VisualRegression() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                  <div className="p-3 bg-slate-50 dark:bg-ink-900 border border-slate-100 dark:border-white/10 rounded-xl">
                     <span className="text-[10px] text-slate-400 font-bold font-mono">Target Floor standard</span>
-                    <span className="text-sm font-bold text-slate-700 block mt-1">8.5% margin</span>
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-100 block mt-1">8.5% margin</span>
                   </div>
-                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                  <div className="p-3 bg-slate-50 dark:bg-ink-900 border border-slate-100 dark:border-white/10 rounded-xl">
                     <span className="text-[10px] text-slate-400 font-bold font-mono font-sans">Reliability Coefficient</span>
                     <span className="text-sm font-bold text-emerald-600 block mt-1">99.8% Core Accuracy</span>
                   </div>
                 </div>
 
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3">
+                <div className="bg-slate-50 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10 space-y-3">
                   <div className="flex justify-between text-xs font-bold">
                     <span className="text-slate-600">Cohort drift variance indicator</span>
                     <span className={`${actualSelectedMargin >= 8.5 ? "text-emerald-600" : "text-rose-500"} font-mono`}>
@@ -938,9 +938,9 @@ export default function VisualRegression() {
           >
             <div className="md:col-span-5 space-y-4">
               
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-4 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-4 shadow-3xs">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
                     <Accessibility className="w-4 h-4 text-indigo-600 animate-pulse" />
                     WCAG 2.2 Contrast & Accessibility Suite
                   </h3>
@@ -950,10 +950,10 @@ export default function VisualRegression() {
                 <div className="space-y-4 pt-2">
                   
                   {/* Big score block */}
-                  <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between">
+                  <div className="p-5 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10 flex items-center justify-between">
                     <div>
                       <span className="text-[10px] text-slate-400 font-bold block uppercase font-mono">Accessibility Score</span>
-                      <span className="text-4xl font-extrabold text-[#0F172A] block mt-1 font-mono">
+                      <span className="text-4xl font-extrabold text-ink-900 dark:text-slate-100 block mt-1 font-mono">
                         {isA11yAuditing ? "Scanning" : `${a11yScore}%`}
                       </span>
                     </div>
@@ -978,9 +978,9 @@ export default function VisualRegression() {
               </div>
 
               {/* keyboard guidelines note */}
-              <div className="bg-slate-50 p-4 border border-slate-100 rounded-3xl space-y-2">
-                <span className="text-xs font-bold text-slate-700 block">Keyboard Flow Path (A11y Tab-Index)</span>
-                <div className="text-[10px] text-slate-600 space-y-1 bg-white p-3 rounded-xl border border-slate-100 inline-block w-full">
+              <div className="bg-slate-50 dark:bg-ink-900 p-4 border border-slate-100 dark:border-white/10 rounded-3xl space-y-2">
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Keyboard Flow Path (A11y Tab-Index)</span>
+                <div className="text-[10px] text-slate-600 dark:text-slate-300 space-y-1 bg-white dark:bg-ink-800 p-3 rounded-xl border border-slate-100 dark:border-white/10 inline-block w-full">
                   <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-700">
                     <Check className="w-3.5 h-3.5 text-emerald-500" /> Focus outline wraps focus elements correctly on Tab key.
                   </div>
@@ -995,7 +995,7 @@ export default function VisualRegression() {
             {/* WCAG Compliance Item Rules logs */}
             <div className="md:col-span-7 space-y-4">
               
-              <div className="bg-white border border-slate-100 rounded-3xl p-5 space-y-3.5 shadow-3xs">
+              <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-5 space-y-3.5 shadow-3xs">
                 <div>
                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Targeted CSS Element Checker</span>
                   <p className="text-[11px] text-slate-500">Inspecting layout containers for AAA specifications ratios (Contrast minimum target 4.5:1).</p>
@@ -1005,12 +1005,12 @@ export default function VisualRegression() {
                   {a11yRules.map((r) => (
                     <div 
                       key={r.id}
-                      className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex justify-between items-start text-xs gap-3"
+                      className="p-3 bg-slate-50 dark:bg-ink-900 rounded-xl border border-slate-100 dark:border-white/10 flex justify-between items-start text-xs gap-3"
                     >
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-mono text-indigo-600 bg-indigo-50 px-1 rounded-sm font-bold uppercase">{r.ruleCode}</span>
-                          <span className="font-bold text-slate-800">{r.elementName}</span>
+                          <span className="font-bold text-slate-800 dark:text-slate-100">{r.elementName}</span>
                         </div>
                         <p className="text-[10.5px] text-slate-500 leading-relaxed font-sans">{r.description}</p>
                       </div>

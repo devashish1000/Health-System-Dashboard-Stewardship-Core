@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Landmark, Lock, Mail, ArrowRight, ShieldCheck, RefreshCcw, Check } from "lucide-react";
+import { Lock, Mail, ArrowRight, ShieldCheck, RefreshCcw, Check } from "lucide-react";
 import { UserPersona } from "../types";
+import BrandLogo from "../components/BrandLogo";
 
 interface LoginProps {
   onLogin: (persona: UserPersona) => void;
@@ -72,19 +73,13 @@ export default function Login({ onLogin }: LoginProps) {
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col justify-between p-6 relative overflow-hidden font-sans text-slate-100">
       {/* Decorative ambient blurred backgrounds */}
-      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-600/10 rounded-full blur-3xl -mr-48 -mt-48 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-brand-600/10 rounded-full blur-3xl -mr-48 -mt-48 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[35rem] h-[35rem] bg-indigo-600/10 rounded-full blur-3xl -ml-40 -mb-40 pointer-events-none" />
 
       {/* Top Brand Tagline */}
       <header className="relative z-10 flex items-center justify-between max-w-7xl mx-auto w-full border-b border-white/5 pb-4">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 bg-blue-600 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/10">
-            <Landmark className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <span className="text-[9px] font-bold tracking-widest text-[#94A3B8] uppercase block leading-none">Health System Dashboard</span>
-            <span className="text-sm font-bold tracking-tight text-white mt-0.5 uppercase">Stewardship Core</span>
-          </div>
+          <BrandLogo chip height={28} />
         </div>
         <div className="hidden sm:flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-slate-300 border border-white/10 uppercase">
@@ -98,24 +93,24 @@ export default function Login({ onLogin }: LoginProps) {
         
         {/* Left Side: Editorial Introduction Block */}
         <div className="lg:col-span-7 space-y-6 text-left pr-0 lg:pr-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
-            <ShieldCheck className="w-4 h-4 text-blue-400" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-500/10 text-brand-400 border border-brand-500/20">
+            <ShieldCheck className="w-4 h-4 text-brand-400" />
             <span>Built for Health-System Finance Teams</span>
           </div>
 
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Days of margin-variance work, <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">done in seconds</span>
+            The power of humankindness, <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-indigo-400">in your numbers</span>
           </h2>
 
           <p className="text-slate-400 text-sm leading-relaxed max-w-xl">
             Replace the month-end spreadsheet grind. Pinpoint where margin is leaking across every service line,
-            forecast volume-to-revenue in real time, and certify board-ready variances your CFO can sign off on — all in one control tower.
+            forecast volume-to-revenue in real time, and certify board-ready variances your CFO can sign off on — so more of every dollar can go back to the communities and care that humankindness is built on.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
             <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-1">
-              <span className="text-xs font-bold text-blue-400 uppercase tracking-widest block">Simulation Sandbox</span>
+              <span className="text-xs font-bold text-brand-400 uppercase tracking-widest block">Simulation Sandbox</span>
               <p className="text-[11px] text-slate-400 leading-normal">
                 Model rate, payer-mix, and volume scenarios across facilities and see the margin impact instantly — no rebuilding spreadsheets for every what-if.
               </p>
@@ -153,7 +148,7 @@ export default function Login({ onLogin }: LoginProps) {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 px-10 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 px-10 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
                     placeholder="name@commonspirit.org"
                   />
                 </div>
@@ -170,7 +165,7 @@ export default function Login({ onLogin }: LoginProps) {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 px-10 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 px-10 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
                     placeholder="Enter security access key"
                   />
                 </div>
@@ -189,7 +184,7 @@ export default function Login({ onLogin }: LoginProps) {
                         onClick={() => handlePersonaSelect(preset)}
                         className={`p-2.5 rounded-xl border text-left transition-all ${
                           isSelected
-                            ? "bg-blue-600/20 border-blue-500 text-blue-300"
+                            ? "bg-brand-600/20 border-brand-500 text-brand-300"
                             : "bg-white/[0.02] border-white/5 text-slate-400 hover:bg-white/[0.04]"
                         }`}
                       >
@@ -212,8 +207,8 @@ export default function Login({ onLogin }: LoginProps) {
                   isSuccess
                     ? "bg-emerald-600 text-white"
                     : isLoading
-                    ? "bg-blue-600/70 text-slate-200 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700 text-white hover:shadow-blue-500/10"
+                    ? "bg-brand-600/70 text-slate-200 cursor-not-allowed"
+                    : "bg-brand-600 hover:bg-brand-700 text-white hover:shadow-brand-500/10"
                 }`}
               >
                 {isSuccess ? (

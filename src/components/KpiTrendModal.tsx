@@ -100,8 +100,8 @@ export default function KpiTrendModal({
           desc: "Total incoming clinical collections from third-party commercial payers and CMS channels.",
           key: "npr",
           unit: "$M",
-          color: "#2563EB",
-          fill: "rgba(37, 99, 235, 0.1)",
+          color: "#982f6a",
+          fill: "rgba(152, 47, 106, 0.1)",
           target: 9.8,
           targetLabel: "Budgeted Target ($9.8M)",
           isCurrency: true
@@ -202,12 +202,12 @@ export default function KpiTrendModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl max-w-3xl w-full overflow-hidden my-8 animate-fade-in">
-        
+      <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-2xl max-w-3xl w-full overflow-hidden my-8 animate-fade-in">
+
         {/* Header Title */}
-        <div className="bg-[#0F172A] text-white px-6 py-4.5 flex items-center justify-between">
+        <div className="bg-ink-900 text-white px-6 py-4.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-slate-800 text-blue-400">
+            <div className="p-2 rounded-xl bg-slate-800 text-brand-400">
               <Activity className="w-5 h-5" />
             </div>
             <div>
@@ -231,11 +231,11 @@ export default function KpiTrendModal({
         <div className="p-6 md:p-8 space-y-6">
           
           {/* Diagnostic overview box */}
-          <div className="bg-slate-50 p-4.5 rounded-2xl border border-slate-100 flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+          <div className="bg-slate-50 dark:bg-ink-900 p-4.5 rounded-2xl border border-slate-100 dark:border-white/10 flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <h4 className="font-bold text-xs text-slate-800 uppercase tracking-wide">Metric Significance</h4>
-              <p className="text-xs text-slate-500 leading-relaxed font-normal">
+              <h4 className="font-bold text-xs text-slate-800 dark:text-slate-100 uppercase tracking-wide">Metric Significance</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
                 {meta.desc} Controlled against active filters, current workspace average reflects standard **{meta.isCurrency ? formatCurrency(avgYtdValue * 1e6) : `${avgYtdValue.toFixed(1)}${meta.unit}`}** across historical YTD months.
               </p>
             </div>
@@ -244,7 +244,7 @@ export default function KpiTrendModal({
           {/* Line Chart */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
-              <span className="text-[10.5px] font-extrabold text-slate-700 uppercase tracking-widest">
+              <span className="text-[10.5px] font-extrabold text-slate-700 dark:text-slate-100 uppercase tracking-widest">
                 MONTHLY TREND ({meta.unit})
               </span>
               <div className="flex gap-4 text-[10px] font-bold">
@@ -267,7 +267,7 @@ export default function KpiTrendModal({
               </div>
             </div>
 
-            <div className="w-full bg-slate-50/50 p-4 rounded-2xl border border-slate-100 h-64">
+            <div className="w-full bg-slate-50/50 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10 h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={chartData}
@@ -301,7 +301,7 @@ export default function KpiTrendModal({
                         const lowRange = data.confidenceRange[0];
                         const highRange = data.confidenceRange[1];
                         return (
-                          <div className="bg-[#0F172A] text-white p-3 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
+                          <div className="bg-ink-900 text-white p-3 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
                             <div className="flex justify-between items-baseline gap-4 border-b border-slate-800 pb-1">
                               <span className="font-bold uppercase text-slate-300">{data.monthLabel} 2026</span>
                               <span className={`px-1 rounded text-[8px] font-bold ${data.isProjected ? "text-indigo-400 bg-indigo-500/10" : "text-emerald-400 bg-emerald-500/10"}`}>
@@ -379,10 +379,10 @@ export default function KpiTrendModal({
         </div>
 
         {/* Footer actions */}
-        <div className="bg-slate-50 border-t border-slate-100 px-6 py-4 flex justify-end">
+        <div className="bg-slate-50 dark:bg-ink-900 border-t border-slate-100 dark:border-white/10 px-6 py-4 flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-slate-200 hover:bg-slate-100 text-slate-700 bg-white rounded-xl text-xs font-bold cursor-pointer transition-all"
+            className="px-4 py-2 border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-ink-800 text-slate-700 dark:text-slate-100 bg-white dark:bg-ink-800 rounded-xl text-xs font-bold cursor-pointer transition-all"
           >
             Close Diagnostics
           </button>

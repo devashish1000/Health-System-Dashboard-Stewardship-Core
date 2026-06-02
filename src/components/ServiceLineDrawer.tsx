@@ -68,11 +68,11 @@ export default function ServiceLineDrawer({
       />
 
       {/* Slide-over panel */}
-      <div className="relative w-screen max-w-lg bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-in-right">
+      <div className="relative w-screen max-w-lg bg-white dark:bg-ink-800 h-full shadow-2xl flex flex-col z-10 animate-slide-in-right">
         {/* Header */}
-        <div className="p-6 bg-[#0F172A] text-white border-b border-slate-800 flex items-center justify-between">
+        <div className="p-6 bg-ink-900 text-white border-b border-slate-800 dark:border-white/10 flex items-center justify-between">
           <div>
-            <span className="text-xs font-semibold tracking-wider text-blue-400 uppercase">
+            <span className="text-xs font-semibold tracking-wider text-brand-400 uppercase">
               Service Line Detail View
             </span>
             <h2 className="text-xl font-semibold mt-0.5">{record.service_line}</h2>
@@ -89,13 +89,13 @@ export default function ServiceLineDrawer({
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Status Indicators */}
-          <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+          <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
             <div>
-              <span className="text-xs text-slate-400 block">Performance Status</span>
+              <span className="text-xs text-slate-400 dark:text-slate-400 block">Performance Status</span>
               <div className="mt-1">{getStatusBadge(record.variance_status)}</div>
             </div>
             <div>
-              <span className="text-xs text-slate-400 block text-right">Budget Variance</span>
+              <span className="text-xs text-slate-400 dark:text-slate-400 block text-right">Budget Variance</span>
               <span className={`text-sm font-semibold block mt-1 text-right ${record.budget_variance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
                 {record.budget_variance >= 0 ? "+" : ""}{(record.budget_variance / 1000).toFixed(0)}K
               </span>
@@ -104,31 +104,31 @@ export default function ServiceLineDrawer({
 
           {/* Core Metrics Grid */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 block">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-3 block">
               Financial Performance Details
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-xs text-slate-400 block">Net Patient Revenue</span>
-                <span className="text-lg font-semibold text-slate-800 mt-1 block">
+              <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
+                <span className="text-xs text-slate-400 dark:text-slate-400 block">Net Patient Revenue</span>
+                <span className="text-lg font-semibold text-slate-800 dark:text-slate-100 mt-1 block">
                   ${(record.net_patient_revenue / 1000000).toFixed(2)}M
                 </span>
               </div>
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-xs text-slate-400 block">Operating Expense</span>
-                <span className="text-lg font-semibold text-slate-800 mt-1 block">
+              <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
+                <span className="text-xs text-slate-400 dark:text-slate-400 block">Operating Expense</span>
+                <span className="text-lg font-semibold text-slate-800 dark:text-slate-100 mt-1 block">
                   ${(record.operating_expense / 1000000).toFixed(2)}M
                 </span>
               </div>
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-xs text-slate-400 block">Operating Margin</span>
+              <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
+                <span className="text-xs text-slate-400 dark:text-slate-400 block">Operating Margin</span>
                 <span className={`text-lg font-semibold mt-1 block ${netMargin >= 5 ? "text-emerald-600" : (netMargin < 0 ? "text-rose-600" : "text-slate-700")}`}>
                   {netMargin.toFixed(2)}%
                 </span>
               </div>
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-xs text-slate-400 block">Patient Volume</span>
-                <span className="text-lg font-semibold text-slate-800 mt-1 block">
+              <div className="p-4 bg-slate-50 dark:bg-ink-900 rounded-2xl border border-slate-100 dark:border-white/10">
+                <span className="text-xs text-slate-400 dark:text-slate-400 block">Patient Volume</span>
+                <span className="text-lg font-semibold text-slate-800 dark:text-slate-100 mt-1 block">
                   {record.patient_volume.toLocaleString()} cases
                 </span>
               </div>
@@ -137,10 +137,10 @@ export default function ServiceLineDrawer({
 
           {/* Under-the-hood cost factors */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 block">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-3 block">
               Operational Cost Drivers
             </h3>
-            <div className="space-y-3 bg-white p-4 rounded-2xl border border-slate-100">
+            <div className="space-y-3 bg-white dark:bg-ink-800 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
               <div className="flex items-center justify-between text-sm py-1">
                 <span className="text-slate-500">Clinical Labor cost</span>
                 <span className="font-semibold text-slate-700">${(record.labor_cost / 1000).toFixed(0)}K</span>
@@ -165,8 +165,8 @@ export default function ServiceLineDrawer({
           </div>
 
           {/* Review workflow and notes */}
-          <div className="border-t border-slate-100 pt-6 space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
+          <div className="border-t border-slate-100 dark:border-white/10 pt-6 space-y-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 block">
               Leadership Stewardship Workflow
             </h3>
             
@@ -175,7 +175,7 @@ export default function ServiceLineDrawer({
                 <label className="text-xs font-medium text-slate-500 block mb-1.5 flex items-center gap-1">
                   <User className="w-3.5 h-3.5" /> Assigned Owner
                 </label>
-                <div className="text-sm font-medium text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100">
+                <div className="text-sm font-medium text-slate-700 dark:text-slate-100 bg-slate-50 dark:bg-ink-900 px-3 py-2 rounded-xl border border-slate-100 dark:border-white/10">
                   {record.owner}
                 </div>
               </div>
@@ -187,7 +187,7 @@ export default function ServiceLineDrawer({
                 <select
                   value={reviewStatus}
                   onChange={(e) => setReviewStatus(e.target.value as any)}
-                  className="w-full text-sm bg-white border border-slate-200 hover:border-slate-300 rounded-xl px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-blue-100 text-slate-700 font-medium transition-all"
+                  className="w-full text-sm bg-white dark:bg-ink-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 rounded-xl px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-brand-100 text-slate-700 dark:text-slate-100 font-medium transition-all"
                 >
                   <option value="New">New</option>
                   <option value="Analyst Review">Analyst Review</option>
@@ -205,7 +205,7 @@ export default function ServiceLineDrawer({
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   rows={4}
-                  className="w-full text-sm bg-white border border-slate-200 rounded-xl p-3 focus:outline-hidden focus:ring-2 focus:ring-blue-100 text-slate-700 font-medium transition-all"
+                  className="w-full text-sm bg-white dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl p-3 focus:outline-hidden focus:ring-2 focus:ring-brand-100 text-slate-700 dark:text-slate-100 font-medium transition-all"
                   placeholder="Summarize underlying reasons for the budget variance and record stewardship recovery actions..."
                 />
               </div>
@@ -214,18 +214,18 @@ export default function ServiceLineDrawer({
         </div>
 
         {/* Footer actions */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center gap-3">
+        <div className="p-4 bg-slate-50 dark:bg-ink-900 border-t border-slate-100 dark:border-white/10 flex items-center gap-3">
           <button
             onClick={() => {
               onTriggerToast(`Document packet prepared for ${record.service_line}. Review pending.`, "info");
             }}
-            className="flex-1 border border-slate-200 hover:bg-slate-100 text-slate-600 px-4 py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition-all"
+            className="flex-1 border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-ink-800 text-slate-600 dark:text-slate-100 px-4 py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition-all"
           >
             <Share2 className="w-4 h-4" /> Share Packet
           </button>
           <button
             onClick={handleSave}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-slate-100"
+            className="flex-1 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
           >
             <Save className="w-4 h-4" /> Save Findings
           </button>
