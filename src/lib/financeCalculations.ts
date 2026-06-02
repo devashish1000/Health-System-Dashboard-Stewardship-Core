@@ -82,8 +82,9 @@ export function calculateKpis(records: FinanceRecord[]): AggregateKpis {
 }
 
 /**
- * Prepares the waterfall visual representation of drivers.
- * Budgeted Margin is assumed around 8.5% for illustrative comparison, building a bridge to actual.
+ * Builds illustrative margin-point waterfall steps (percentage points, not dollars).
+ * Driver values are attributed deterministically from KPIs; supply closes the loop so
+ * budgetMargin + sum(drivers) equals actual operating margin.
  */
 export function calculateWaterfallSteps(kpis: AggregateKpis) {
   // Let's model a deterministic walk from a budgeted margin of 8.5% down to the actual operating margin.
@@ -162,13 +163,19 @@ export function getMonthlyHistory(records: FinanceRecord[]) {
     // Create an target baseline
     const targetMargin = 8.5;
     
+    const laborCostRatio =
+      kpis.netPatientRevenue > 0
+        ? (kpis.laborCost / kpis.netPatientRevenue) * 100
+        : 0;
+
     return {
       name: m,
       actualMargin: monthDocs.length > 0 ? kpis.operatingMargin : 0,
       targetMargin: targetMargin,
       forecastMargin: m === "2026-05" ? kpis.forecastedMargin : kpis.operatingMargin + ((months.indexOf(m) * 17 % 41) / 100 - 0.2), // deterministic offset in ~[-0.2, 0.2]
       volume: kpis.patientVolume,
-      revenue: kpis.netPatientRevenue / 1000000 // In Millions
+      revenue: kpis.netPatientRevenue / 1000000, // In Millions
+      laborCostRatio: parseFloat(laborCostRatio.toFixed(2))
     };
   });
 }
