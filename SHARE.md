@@ -18,15 +18,16 @@
 
 | Audience | What to emphasize |
 |----------|-------------------|
+| **CommonSpirit Finance (Houston / supply chain)** | Sr Financial Analyst login → filter **Houston Market** / Baylor St. Luke's → supply variance → sign-off |
 | **Regional CFO / finance leaders** | Problem → dashboard variance → one service line → forecast → sign-off |
 | **Hiring / portfolio reviewers** | Story + your build choices + **Responsible AI & Dev** (guardrails + profile) |
 | **Technical reviewers** | ⌘K command palette, formatters, rolling ledger, optional live Gemini Copilot |
 
 ---
 
-## 3-minute click path (CFO-focused)
+## 3-minute click path (Finance / supply chain — interview handoff)
 
-1. **Login** — Choose **Regional CFO** (Sarah Jenkins) or Analyst; enter the tower.
+1. **Login** — Default **Sr Financial Analyst (Devashish Neupane)** — or switch to **Market Finance** for sign-off demo.
 2. **Skip tour** if prompted (or run it once offline).
 3. **Executive Tower (Overview)** — 30-second problem, illustrative ROI, “how it fits your org.”
 4. **Financial Dashboard** — KPIs, filters, labor ratio chart, margin trend.

@@ -3,55 +3,22 @@ import { Lock, Mail, ArrowRight, ShieldCheck, RefreshCcw, Check, Sparkles } from
 import { UserPersona } from "../types";
 import BrandLogo from "../components/BrandLogo";
 import { SparkMark, BrandSweep } from "../components/BrandMotif";
+import { PERSONA_PRESETS as DEMO_PERSONAS } from "../config/demoOrg";
 
 interface LoginProps {
   onLogin: (persona: UserPersona) => void;
 }
 
 export default function Login({ onLogin }: LoginProps) {
-  const [email, setEmail] = useState("strategic.analyst@commonspirit.org");
+  const [email, setEmail] = useState("devashish.neupane@commonspirit.org");
   const [password, setPassword] = useState("••••••••");
   const [selectedPersona, setSelectedPersona] = useState<UserPersona>("analyst");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Auto-completion presets for sandbox personas
-  const PERSONA_PRESETS: { persona: UserPersona; name: string; email: string; role: string; desc: string; emoji: string }[] = [
-    {
-      persona: "analyst",
-      name: "Devashish Neupane",
-      email: "strategic.analyst@commonspirit.org",
-      role: "Strategic Analyst",
-      desc: "Full baseline data access and control tower insights",
-      emoji: "👔"
-    },
-    {
-      persona: "cfo",
-      name: "Sarah Jenkins",
-      email: "sarah.jenkins@commonspirit.org",
-      role: "Regional CFO",
-      desc: "CFO sign-off capabilities and cycle close tools",
-      emoji: "💼"
-    },
-    {
-      persona: "director",
-      name: "Dr. Aris Vance",
-      email: "clinical.director@commonspirit.org",
-      role: "Clinical Director",
-      desc: "Service line audits and clinic operations control",
-      emoji: "⚕️"
-    },
-    {
-      persona: "auditor",
-      name: "Marcus Brody",
-      email: "marcus.brody@commonspirit.org",
-      role: "Compliance Auditor",
-      desc: "Pixel auditor checklists and regulatory review",
-      emoji: "🔍"
-    }
-  ];
+  const PERSONA_PRESETS = DEMO_PERSONAS;
 
-  const handlePersonaSelect = (preset: typeof PERSONA_PRESETS[0]) => {
+  const handlePersonaSelect = (preset: (typeof PERSONA_PRESETS)[0]) => {
     setSelectedPersona(preset.persona);
     setEmail(preset.email);
     setPassword("password123");
@@ -103,8 +70,9 @@ export default function Login({ onLogin }: LoginProps) {
           </h2>
 
           <p className="text-ink-700/80 text-sm md:text-base leading-relaxed max-w-xl">
-            Replace the month-end spreadsheet grind. Pinpoint where margin is leaking across every service line,
-            forecast volume-to-revenue in real time, and certify board-ready variances your CFO can sign off on — so more of every dollar goes back to the communities and care that humankindness is built on.
+            Built for CommonSpirit Finance — anchored on Baylor St. Luke&apos;s and the Houston market, with
+            system-wide markets for comparison. Improve supply chain expense predictability, budget variance
+            reporting, and initiative insights for market finance leaders.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">

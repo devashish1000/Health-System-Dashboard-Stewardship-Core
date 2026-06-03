@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { UserPersona } from "../types";
 import type { ReportingContext } from "../lib/reportingPeriod";
+import { getPersonaPreset } from "../config/demoOrg";
 
 export interface AppTopBarProps {
   userPersona: UserPersona;
@@ -27,37 +28,13 @@ export interface AppTopBarProps {
 }
 
 function getPersonaProfile(persona: UserPersona) {
-  switch (persona) {
-    case "cfo":
-      return {
-        name: "Sarah Jenkins",
-        title: "Regional CFO",
-        initials: "SJ",
-        grad: "from-emerald-600 to-teal-500",
-      };
-    case "director":
-      return {
-        name: "Dr. Aris Vance",
-        title: "Clinical Director",
-        initials: "AV",
-        grad: "from-brand-400 to-brand-600",
-      };
-    case "auditor":
-      return {
-        name: "Marcus Brody",
-        title: "Compliance Auditor",
-        initials: "MB",
-        grad: "from-teal-600 to-cyan-500",
-      };
-    case "analyst":
-    default:
-      return {
-        name: "Devashish Neupane",
-        title: "Senior Strategic Analyst",
-        initials: "DN",
-        grad: "from-brand-600 to-brand-800",
-      };
-  }
+  const preset = getPersonaPreset(persona);
+  return {
+    name: preset.name,
+    title: preset.role,
+    initials: preset.initials,
+    grad: preset.grad,
+  };
 }
 
 export default function AppTopBar({

@@ -8,6 +8,7 @@ import { formatCount, formatPercent } from "../lib/formatters";
 import { useReportingPeriod } from "../lib/useReportingPeriod";
 import { stewardshipModelCode } from "../lib/stewardshipConfig";
 import { signoffPeriodTag } from "../lib/periodStorage";
+import { getPersonaPreset } from "../config/demoOrg";
 
 interface FinalizeReviewModalProps {
   isOpen: boolean;
@@ -33,8 +34,8 @@ export default function FinalizeReviewModal({
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
   // Form Fields
-  const [name, setName] = useState(userPersona === "cfo" ? "Sarah Jenkins" : "Devashish Neupane");
-  const [title, setTitle] = useState(userPersona === "cfo" ? "Regional CFO" : "Senior Strategic Analyst");
+  const [name, setName] = useState(() => getPersonaPreset(userPersona).name);
+  const [title, setTitle] = useState(() => getPersonaPreset(userPersona).role);
   const [comments, setComments] = useState("");
   const [certified1, setCertified1] = useState(false);
   const [certified2, setCertified2] = useState(false);
@@ -222,9 +223,9 @@ export default function FinalizeReviewModal({
                 <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl text-amber-800 flex gap-3 text-xs leading-relaxed">
                   <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div className="space-y-1">
-                    <span className="font-bold text-amber-900 block">Strategic Analyst Persona Warning</span>
+                    <span className="font-bold text-amber-900 block">Finance Analyst Persona Warning</span>
                     <p className="text-[11px] text-amber-800">
-                      You are logged in as **Strategic Analyst (Devashish Neupane)**. Hospital directive dictates that only the Regional CFO has authority to submit final closed cycle certifications. Switching your workspace persona to Regional CFO is recommended to carry out standard closing signatures.
+                      You are logged in as **Sr Financial Analyst (Devashish Neupane)**. Market policy requires **Director, Market Finance** authority to submit final closed-cycle certifications. Switch your workspace persona to Market Finance to complete standard closing signatures.
                     </p>
                   </div>
                 </div>
@@ -312,7 +313,7 @@ export default function FinalizeReviewModal({
                   <label className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wide">Type full name to create seal</label>
                   <input
                     type="text"
-                    placeholder="e.g. Sarah Jenkins"
+                    placeholder="e.g. Elena Marsh"
                     className="w-full px-3 py-2 border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl text-xs font-semibold focus:outline-brand-500"
                     value={signatureText}
                     onChange={(e) => setSignatureText(e.target.value)}

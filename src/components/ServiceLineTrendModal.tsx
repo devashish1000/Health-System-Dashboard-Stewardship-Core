@@ -140,7 +140,7 @@ export default function ServiceLineTrendModal({
   };
 
   const theme = getServiceColorTheme();
-  const currentLead = records.find(r => r.service_line === serviceLine)?.owner || "Strategic Analyst";
+  const currentLead = records.find(r => r.service_line === serviceLine)?.owner || "Carmen Alvarez";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs overflow-y-auto">

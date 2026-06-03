@@ -206,7 +206,7 @@ export function getServiceLineAggregates(records: FinanceRecord[]) {
       ? "Favorable" 
       : (kpis.operatingMargin >= 2.0 ? "Watchlist" : "Unfavorable");
       
-    const owner = lineRecords[0]?.owner || "Sarah Jenkins";
+    const owner = lineRecords[0]?.owner || "Carmen Alvarez";
     const reviewStatus = lineRecords[0]?.review_status || "New";
 
     return {

@@ -16,7 +16,7 @@ Our health system operating margin is currently **7.4%**, representing a **-1.1 
 
 #### Critical Diagnostics:
 1. **Contract/Registry Nurses**: Increased emergency volume required premium clinical labor overrides ($11.2M actual, +2.4 pts vs budget).
-2. **Cardiology Claim Denials**: 6.2% denial rate at St. Joseph Medical Center, locking up critical reimbursement.
+2. **Cardiology Claim Denials**: Elevated denial rate at Baylor St. Luke's Medical Center, locking up critical reimbursement.
 3. **Government Payer Shift**: Procedural volume migrated minor percentages toward Medicaid.`,
 
     "what drove unfavorable budget variance?": `### Budget Variance Driver Breakdown
@@ -24,22 +24,22 @@ Our health system operating margin is currently **7.4%**, representing a **-1.1 
 System-wide performance highlights a net unfavorable budget variance of **-$1.8M** for **${close}** (${r.fiscalYearLabel} ${r.periodLabel}).
 
 #### Principal Drivers:
-* **Agency Registry Premium** (-$1.2M): Driven by critical staffing shortages in Mountain and Midwest emergency lines.
-* **Surgical supplies vendor adjustments** (-$450K): Higher prosthetic materials and custom implants pricing.
+* **Supply chain / implant spend** (-$1.2M): Surgical supplies and pharmacy distribution over budget in Houston Market.
+* **Surgical supplies vendor adjustments** (-$450K): Higher prosthetic materials and custom implants pricing at Baylor St. Luke's.
 * **Outpatient imaging overperformance** (+$280K favorable offset): Diagnostics offset some of the labor cost impact.`,
 
     "which service line needs attention?": `### Priority Service Lines Watchlist
 
 The financial metrics highlight **Cardiology** and **Emergency Departments** as key areas requiring stewardship for **${r.closeMonthShort}** close.
 
-* **Cardiology (St. Joseph)**: Has -$800,000 budget variance, with an elevated commercial denial rate of **6.2%** leading to AR delayed collections of **61 days**.
-* **Emergency Divisions**: Running sub-zero margins (-10.0% CHI Immanuel) due to continuous premium nursing requirements to address high patient boarding.`,
+* **Cardiology (Baylor St. Luke's)**: Watchlist budget variance with elevated commercial denials and extended AR days in Houston Market.
+* **Surgical Supplies / Pharmacy**: Supply chain finance priority for **${close}** — GPO initiative tracking and expense predictability reviews.`,
 
     "how much of the variance is labor-driven?": `### Labor Variance Contribution Analysis
 
 Approximately **66% of major unfavorable variance** in **${close}** relates to clinical scheduling labor pressure:
 
-* **Overtime Overage**: At **14.2%** in St. Joseph Cardiology and **12.1%** in CHI Immanuel Emergency (safety threshold is ≤ 5%).
+* **Overtime Overage**: Elevated in Houston Market cardiology and emergency lines (safety threshold is ≤ 5%).
 * **Contract Premiums**: High-cost traveling registry contracts averaging $220/hour.
 * **Correction Strategy**: Regional float pool realignment and nurse retention scheduling standard work.`,
 
@@ -62,13 +62,13 @@ Our operating margin of **7.4%** demonstrates financial stability but falls shor
 * **Labor ratio**: Operating at 42.6% (+2.4 pts elevated variance).
 
 ## Recommended Stewardship Actions
-1. **Payer authorization review**: Launch clinical taskforce with St. Joseph Cardiology to combat prior authorization bottlenecks.
+1. **Supply chain standard work**: Partner with Supply Chain Operations on implant and pharmacy distribution benchmarks for Houston Market.
 2. **Registry reduction program**: Displace contract nurse registry shifts with unified flexible system float staff.
 3. **Implant procurement standard work**: Partner with surgical leadership to limit implants supplier varieties.`,
 
     "which facility has the highest expense pressure?": `### Expense Outliers Report (${close})
 
-**St. Joseph Medical Center** shows the largest ongoing expense variance.
+**Baylor St. Luke's Medical Center** shows the largest ongoing supply-chain-linked expense variance in Houston Market.
 
 * **Total Overages**: $15.5M total operational expense.
 * **Underlying Factor**: Cardiology overtime registered at **14.2%** alongside a **6.2%** commercial denial index, pushing reimbursement timing to **61 days**.

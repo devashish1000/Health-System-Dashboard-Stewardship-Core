@@ -75,6 +75,24 @@ const SERVICE_META: Record<string, ServiceCardDetail> = {
     icon: ListPlus,
     driver: "Denial clearinghouse technical upgrades delayed cash reconciliation. Active appeals ongoing.",
     volumeChangePct: 0.0
+  },
+  "Surgical Supplies": {
+    name: "Surgical Supplies",
+    icon: Hammer,
+    driver: "Implant and OR supply spend tracking against GPO benchmarks; variance review with Supply Chain Finance.",
+    volumeChangePct: +6.2
+  },
+  "Pharmacy Distribution": {
+    name: "Pharmacy Distribution",
+    icon: ShieldCheck,
+    driver: "340B and formulary mix shifts affecting expense predictability; budget reforecast in progress.",
+    volumeChangePct: +4.1
+  },
+  "Medical Devices": {
+    name: "Medical Devices",
+    icon: Activity,
+    driver: "Capital device utilization and maintenance contracts reviewed for Houston market standardization.",
+    volumeChangePct: +2.8
   }
 };
 

@@ -24,10 +24,10 @@ const ALL_CORE = [
 ];
 
 const ALL_PERSONAS = [
-  { title: "Shift Role: Senior Strategic Analyst", value: "analyst" },
-  { title: "Shift Role: Regional CFO", value: "cfo" },
-  { title: "Shift Role: Clinical Director", value: "director" },
-  { title: "Shift Role: Compliance Auditor", value: "auditor" },
+  { title: "Shift Role: Sr Financial Analyst", value: "analyst" },
+  { title: "Shift Role: Market Finance Director", value: "cfo" },
+  { title: "Shift Role: Supply Chain Operations", value: "director" },
+  { title: "Shift Role: Finance Compliance", value: "auditor" },
 ];
 
 const ALL_SERVICE_LINES = [
@@ -389,6 +389,7 @@ async function main() {
   console.log(
     JSON.stringify(
       {
+        baseUrl: BASE,
         passed: passed.length,
         failed: failed.length,
         total: results.length,

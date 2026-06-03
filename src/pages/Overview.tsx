@@ -35,7 +35,9 @@ export default function Overview({
   );
 
   // Dynamic Validation checks matched to genuine record instances
-  const cardiologyRef = records.find(r => r.service_line === "Cardiology" && r.facility === "St. Joseph Medical Center");
+  const cardiologyRef = records.find(
+    (r) => r.service_line === "Cardiology" && r.facility === "Baylor St. Luke's Medical Center"
+  );
   const isCardiologyAnnotated = !!(cardiologyRef?.variance_note?.trim());
 
   // Task checks
@@ -84,7 +86,7 @@ export default function Overview({
       label: "Digitally sign and seal finalized cycle ledger certificate",
       desc: task4 
         ? "Complete — cryptographically verified ledger block registered!" 
-        : `Pending — requires CFO profile sign-off to close ${reporting.fiscalYearLabel} ${reporting.periodLabel}.`,
+        : `Pending — requires Market Finance sign-off to close ${reporting.fiscalYearLabel} ${reporting.periodLabel}.`,
       link: "serviceLines" as ProjectPage, // links to header trigger or reviews page
       toggleable: false,
       lockRequired: true
@@ -212,13 +214,13 @@ export default function Overview({
               title: "Plugs into",
               icon: Database,
               accent: "bg-brand-50 text-brand-600",
-              items: ["Epic / EHR", "GL / ERP (Oracle, Workday)", "Payroll (Kronos)", "Payer claims (835 / EDI)"],
+              items: ["Epic / Cerner", "Strata / GL (Workday)", "Supply chain data feeds", "Payer claims (835 / EDI)"],
             },
             {
               title: "Used by",
               icon: Users,
               accent: "bg-teal-50 text-teal-600",
-              items: ["Regional CFO", "Service-line directors", "Revenue-cycle leads", "Compliance"],
+              items: ["Market finance leaders", "Supply chain finance analysts", "Service-line directors", "Finance compliance"],
             },
             {
               title: "Replaces",

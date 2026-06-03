@@ -1,6 +1,166 @@
 // Auto-derived combo templates for synthetic ledger generation
 export const LEDGER_COMBO_TEMPLATES = [
   {
+    "facility": "Baylor St. Luke's Medical Center",
+    "region": "Houston Market",
+    "service_line": "Surgical Supplies",
+    "net_patient_revenue": 14200000,
+    "operating_expense": 13100000,
+    "labor_cost": 2100000,
+    "supply_cost": 8200000,
+    "operating_margin": 7.75,
+    "budget_variance": -420000,
+    "patient_volume": 1680,
+    "payer_mix_index": 1.72,
+    "denial_rate": 2.4,
+    "reimbursement_delay_days": 44,
+    "overtime_utilization": 4.2,
+    "forecasted_margin": 8.1,
+    "variance_status": "Watchlist",
+    "payer_type": "Commercial",
+    "owner": "Devashish Neupane"
+  },
+  {
+    "facility": "Baylor St. Luke's Medical Center",
+    "region": "Houston Market",
+    "service_line": "Pharmacy Distribution",
+    "net_patient_revenue": 9800000,
+    "operating_expense": 9400000,
+    "labor_cost": 1850000,
+    "supply_cost": 6100000,
+    "operating_margin": 4.08,
+    "budget_variance": -310000,
+    "patient_volume": 0,
+    "payer_mix_index": 1.35,
+    "denial_rate": 1.1,
+    "reimbursement_delay_days": 39,
+    "overtime_utilization": 3.8,
+    "forecasted_margin": 4.5,
+    "variance_status": "Watchlist",
+    "payer_type": "Commercial",
+    "owner": "Devashish Neupane"
+  },
+  {
+    "facility": "Baylor St. Luke's Medical Center",
+    "region": "Houston Market",
+    "service_line": "Cardiology",
+    "net_patient_revenue": 22400000,
+    "operating_expense": 20800000,
+    "labor_cost": 7200000,
+    "supply_cost": 9800000,
+    "operating_margin": 7.14,
+    "budget_variance": -680000,
+    "patient_volume": 3120,
+    "payer_mix_index": 1.88,
+    "denial_rate": 3.8,
+    "reimbursement_delay_days": 47,
+    "overtime_utilization": 6.1,
+    "forecasted_margin": 7.6,
+    "variance_status": "Watchlist",
+    "payer_type": "Commercial",
+    "owner": "Carmen Alvarez"
+  },
+  {
+    "facility": "Baylor St. Luke's Medical Center",
+    "region": "Houston Market",
+    "service_line": "Imaging",
+    "net_patient_revenue": 11800000,
+    "operating_expense": 10200000,
+    "labor_cost": 3200000,
+    "supply_cost": 4100000,
+    "operating_margin": 13.56,
+    "budget_variance": 520000,
+    "patient_volume": 5400,
+    "payer_mix_index": 1.65,
+    "denial_rate": 1.6,
+    "reimbursement_delay_days": 36,
+    "overtime_utilization": 2.9,
+    "forecasted_margin": 13.9,
+    "variance_status": "Favorable",
+    "payer_type": "Commercial",
+    "owner": "Carmen Alvarez"
+  },
+  {
+    "facility": "Baylor St. Luke's Medical Center",
+    "region": "Houston Market",
+    "service_line": "Orthopedics",
+    "net_patient_revenue": 18600000,
+    "operating_expense": 17100000,
+    "labor_cost": 5400000,
+    "supply_cost": 7900000,
+    "operating_margin": 8.06,
+    "budget_variance": -240000,
+    "patient_volume": 2280,
+    "payer_mix_index": 1.92,
+    "denial_rate": 2.2,
+    "reimbursement_delay_days": 41,
+    "overtime_utilization": 3.5,
+    "forecasted_margin": 8.4,
+    "variance_status": "Watchlist",
+    "payer_type": "Commercial",
+    "owner": "Robert Kane"
+  },
+  {
+    "facility": "St. Luke's Hospital — The Woodlands",
+    "region": "Houston Market",
+    "service_line": "Emergency",
+    "net_patient_revenue": 8400000,
+    "operating_expense": 9100000,
+    "labor_cost": 4800000,
+    "supply_cost": 2100000,
+    "operating_margin": -8.33,
+    "budget_variance": -520000,
+    "patient_volume": 4200,
+    "payer_mix_index": 1.12,
+    "denial_rate": 4.6,
+    "reimbursement_delay_days": 51,
+    "overtime_utilization": 9.8,
+    "forecasted_margin": -6.5,
+    "variance_status": "Unfavorable",
+    "payer_type": "Medicaid",
+    "owner": "Carmen Alvarez"
+  },
+  {
+    "facility": "St. Luke's Lakeside Hospital",
+    "region": "Houston Market",
+    "service_line": "Primary Care",
+    "net_patient_revenue": 5200000,
+    "operating_expense": 4900000,
+    "labor_cost": 2900000,
+    "supply_cost": 680000,
+    "operating_margin": 5.77,
+    "budget_variance": 80000,
+    "patient_volume": 6100,
+    "payer_mix_index": 1.38,
+    "denial_rate": 2.8,
+    "reimbursement_delay_days": 40,
+    "overtime_utilization": 4.1,
+    "forecasted_margin": 6,
+    "variance_status": "Favorable",
+    "payer_type": "Medicare",
+    "owner": "Devashish Neupane"
+  },
+  {
+    "facility": "St. Luke's Hospital — Sugar Land",
+    "region": "Houston Market",
+    "service_line": "Medical Devices",
+    "net_patient_revenue": 7600000,
+    "operating_expense": 7100000,
+    "labor_cost": 1400000,
+    "supply_cost": 4800000,
+    "operating_margin": 6.58,
+    "budget_variance": -190000,
+    "patient_volume": 980,
+    "payer_mix_index": 1.55,
+    "denial_rate": 2,
+    "reimbursement_delay_days": 42,
+    "overtime_utilization": 3.2,
+    "forecasted_margin": 7,
+    "variance_status": "Watchlist",
+    "payer_type": "Commercial",
+    "owner": "Robert Kane"
+  },
+  {
     "facility": "CHI Immanuel",
     "region": "Midwest Region",
     "service_line": "Neurology",
@@ -18,7 +178,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 6.2,
     "variance_status": "Watchlist",
     "payer_type": "Medicare",
-    "owner": "Sarah Jenkins"
+    "owner": "Elena Marsh"
   },
   {
     "facility": "CHI Immanuel",
@@ -38,7 +198,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 9.6,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "Sarah Jenkins"
+    "owner": "Elena Marsh"
   },
   {
     "facility": "CHI Immanuel",
@@ -58,7 +218,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -8.5,
     "variance_status": "Unfavorable",
     "payer_type": "Medicaid",
-    "owner": "Sarah Jenkins"
+    "owner": "Elena Marsh"
   },
   {
     "facility": "CHI Health Lakeside",
@@ -78,7 +238,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 12.2,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "Michael Chang"
+    "owner": "James Porter"
   },
   {
     "facility": "CHI Health Lakeside",
@@ -98,7 +258,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 2.5,
     "variance_status": "Watchlist",
     "payer_type": "Medicare",
-    "owner": "Michael Chang"
+    "owner": "James Porter"
   },
   {
     "facility": "CHI Health Mercy Council Bluffs",
@@ -118,7 +278,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -5,
     "variance_status": "Unfavorable",
     "payer_type": "Medicare",
-    "owner": "Michael Chang"
+    "owner": "James Porter"
   },
   {
     "facility": "CHI Health Mercy Council Bluffs",
@@ -138,7 +298,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 15,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "Michael Chang"
+    "owner": "James Porter"
   },
   {
     "facility": "Mercy Lakewood",
@@ -158,7 +318,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 4.8,
     "variance_status": "Watchlist",
     "payer_type": "Medicare",
-    "owner": "Amanda Ross"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "Mercy Lakewood",
@@ -178,7 +338,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 10.5,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "Amanda Ross"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "Mercy Lakewood",
@@ -198,7 +358,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -15,
     "variance_status": "Unfavorable",
     "payer_type": "Other",
-    "owner": "Amanda Ross"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "St. Joseph Medical Center",
@@ -218,7 +378,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 7.5,
     "variance_status": "Favorable",
     "payer_type": "Medicare",
-    "owner": "Amanda Ross"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "St. Joseph Medical Center",
@@ -238,7 +398,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -4,
     "variance_status": "Unfavorable",
     "payer_type": "Medicare",
-    "owner": "Amanda Ross"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "Mercy General",
@@ -258,7 +418,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 11.8,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "Elena Rostova"
+    "owner": "Sofia Delgado"
   },
   {
     "facility": "Mercy General",
@@ -278,7 +438,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -4.2,
     "variance_status": "Unfavorable",
     "payer_type": "Medicaid",
-    "owner": "Elena Rostova"
+    "owner": "Sofia Delgado"
   },
   {
     "facility": "St. Anthony North",
@@ -298,7 +458,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 7.2,
     "variance_status": "Watchlist",
     "payer_type": "Medicare",
-    "owner": "David Miller"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "St. Anthony North",
@@ -318,7 +478,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 7.4,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "David Miller"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "Mercy Gilbert",
@@ -338,7 +498,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 6,
     "variance_status": "Watchlist",
     "payer_type": "Medicare",
-    "owner": "David Miller"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "Mercy Gilbert",
@@ -358,7 +518,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -16,
     "variance_status": "Unfavorable",
     "payer_type": "Medicaid",
-    "owner": "David Miller"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "Mercy General",
@@ -378,7 +538,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 6.2,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "Elena Rostova"
+    "owner": "Sofia Delgado"
   },
   {
     "facility": "Mercy Gilbert",
@@ -398,7 +558,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 13.8,
     "variance_status": "Favorable",
     "payer_type": "Commercial",
-    "owner": "David Miller"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "CHI Immanuel",
@@ -418,7 +578,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -5,
     "variance_status": "Watchlist",
     "payer_type": "Medicaid",
-    "owner": "Sarah Jenkins"
+    "owner": "Elena Marsh"
   },
   {
     "facility": "St. Anthony North",
@@ -438,7 +598,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 10,
     "variance_status": "Favorable",
     "payer_type": "Medicare",
-    "owner": "David Miller"
+    "owner": "Noah Whitaker"
   },
   {
     "facility": "CHI Health Mercy Council Bluffs",
@@ -458,7 +618,7 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": -12,
     "variance_status": "Unfavorable",
     "payer_type": "Medicaid",
-    "owner": "Michael Chang"
+    "owner": "James Porter"
   },
   {
     "facility": "Mercy Lakewood",
@@ -478,6 +638,6 @@ export const LEDGER_COMBO_TEMPLATES = [
     "forecasted_margin": 3,
     "variance_status": "Watchlist",
     "payer_type": "Medicare",
-    "owner": "Amanda Ross"
+    "owner": "Noah Whitaker"
   }
 ] as const;

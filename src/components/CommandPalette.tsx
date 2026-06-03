@@ -172,7 +172,7 @@ export default function CommandPalette({
       {
         id: "role-analyst",
         category: "Strategic Role Mode",
-        title: "Shift Role: Senior Strategic Analyst",
+        title: "Shift Role: Sr Financial Analyst",
         description: "Toggle operational analyst credentials for checklist and comments",
         icon: User,
         action: () => { onChangePersona("analyst"); onClose(); }
@@ -180,15 +180,15 @@ export default function CommandPalette({
       {
         id: "role-cfo",
         category: "Strategic Role Mode",
-        title: "Shift Role: Regional CFO",
-        description: "Enable executive authority status to perform board-level sign-offs",
+        title: "Shift Role: Market Finance Director",
+        description: "Enable market finance authority for closed-cycle certification sign-offs",
         icon: User,
         action: () => { onChangePersona("cfo"); onClose(); }
       },
       {
         id: "role-director",
         category: "Strategic Role Mode",
-        title: "Shift Role: Clinical Director",
+        title: "Shift Role: Supply Chain Operations",
         description: "Adopt clinician perspectives for nursing rosters and registries",
         icon: User,
         action: () => { onChangePersona("director"); onClose(); }
@@ -196,7 +196,7 @@ export default function CommandPalette({
       {
         id: "role-auditor",
         category: "Strategic Role Mode",
-        title: "Shift Role: Compliance Auditor",
+        title: "Shift Role: Finance Compliance",
         description: "Initiate compliance-level validation overlay parameters",
         icon: User,
         action: () => { onChangePersona("auditor"); onClose(); }

@@ -14,7 +14,7 @@ export default function ResponsibleAI() {
     email: "devashish1000@gmail.com",
     linkedin: "linkedin.com/in/devashish-neupane",
     summary:
-      "Devashish Neupane is an analytics and business intelligence professional with experience across LinkedIn and Southwest Airlines, specializing in forecasting, KPI reporting, financial/business performance analytics, executive dashboards, operational optimization, and AI-assisted workflow design. This prototype demonstrates how those capabilities can translate into healthcare financial analysis, budget variance reporting, service-line performance management, forecasting, and mission-driven financial stewardship.",
+      "Devashish Neupane is an analytics and business intelligence professional with experience across LinkedIn and Southwest Airlines, specializing in forecasting, KPI reporting, financial/business performance analytics, executive dashboards, operational optimization, and AI-assisted workflow design. This prototype is framed for CommonSpirit Finance — Baylor St. Luke's / Houston market supply chain finance (Sr Financial Analyst scope): expense predictability, budget variance, initiative reporting for market finance leaders, with system-wide markets for comparison. All ledger data remains synthetic.",
     skills: [
       "SQL", "Python", "Tableau", "Alteryx", "Forecasting", "KPI Reporting", 
       "Dashboard Design", "Financial Analytics", "Operational Analytics", 

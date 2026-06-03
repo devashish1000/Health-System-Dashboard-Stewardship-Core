@@ -14,7 +14,7 @@ Our collective health system operating margin is currently at **7.4%**, which re
 
 #### Breakdown of Underlying Factors:
 1. **Clinical Staffing Costs & Premium Labor Allocation**: Standard nurse vacancies in neurology and emergency service lines have necessitated high-cost registry (contract) clinicians and nurse hiring premiums ($11.2M total labor cost; 42.6% labor ratio, +2.4 pts vs budget).
-2. **Denial Activity Growth**: Commercial denials at *St. Joseph Medical Center* have spiked to **6.2%**, locking up approximately $1.1M in diagnostic and cardiology reimbursement delay.
+2. **Denial Activity Growth**: Commercial denials at *Baylor St. Luke's Medical Center* have spiked to **6.2%**, locking up approximately $1.1M in diagnostic and cardiology reimbursement delay.
 3. **Payer Mix Shifts**: A slight migration of elective orthopedics and imaging procedures from commercial payers to Medicare or charity care/Medicaid in our Midwest facilities.
 
 #### Recommended Financial Stewardship Action:
@@ -37,7 +37,7 @@ These pressures were partially offset by a favorable high-margin diagnostics vol
 
 The **Cardiology** and **Emergency Department (ED)** service lines require immediate, focused attention.
 
-#### 1. Cardiology (St. Joseph Medical Center)
+#### 1. Cardiology (Baylor St. Luke's Medical Center)
 * **Status**: Highly Unfavorable Budget Variance (-$800,000)
 * **Concern**: Extreme prior authorization delays with commercial payers and Medicare Part C, registering a denial rate of **6.2%**. This has inflated reimbursement delays to **61 days**. 
 * **Focus**: Director-level variance review of cardiology medical billing reconciliation.
@@ -52,7 +52,7 @@ The **Cardiology** and **Emergency Department (ED)** service lines require immed
 Approximately **66% of the current month's unfavorable budget variance** is directly attributable to clinical labor cost pressures.
 
 #### Labor KPI Core Indicators:
-* **Overtime Utilization**: Registering at **14.2%** average within St. Joseph Cardiology and **12.1%** in CHI Immanuel Emergency (healthy standard threshold is ≤ 5%).
+* **Overtime Utilization**: Elevated in Houston Market cardiology and emergency lines (healthy standard threshold is ≤ 5%).
 * **Registry (Contract) Premium**: Average registry rate of $220/hour compared to standard full-time employee rate equivalent of $85/hour.
 * **Stewardship Target**: Implementing internal shift-incentive packages to decrease contract registry nursing by **4.5 FTEs** over the upcoming 60-day window.`,
 
@@ -78,12 +78,12 @@ As a mission-driven health system, our financial stewardship directly supports o
 
 ## Corrective Review Actions
 1. **Active Registry Contract Reduction**: Transition 6 temporary registry contracts to internal flexible travel contracts within Midwest and Southwest departments.
-2. **Prior-Authorization Standard Work**: Deploy specialist coders to cardiology pre-service audits to target St. Joseph's 6.2% denial outliers.
+2. **Supply Chain Initiative Review**: Re-baseline GPO savings targets with Supply Chain Operations for Houston Market implant and pharmacy spend.
 3. **Vendor implant renegotiation**: Leverage multi-facility buying power to standardize orthopedic suppliers.`,
 
   "which facility has the highest expense pressure?": `### Facility Expense Pressure Audit
 
-**St. Joseph Medical Center** exhibits the highest systemic operating expense pressure due to specialized service complexity.
+**Baylor St. Luke's Medical Center** exhibits the highest systemic operating expense pressure due to specialized service complexity.
 
 #### Core Financial Breakdown:
 * **Total Operating Expenses**: $15.5M (Cardiology & Neurology combined)
@@ -91,7 +91,7 @@ As a mission-driven health system, our financial stewardship directly supports o
 * **Denials Spike**: 6.2% billing rejection rate, causing an average payment delay of **61 days**.
 
 #### Collaborative Action Plan:
-Coordinate with St. Joseph's regional hospital director to deploy standard scheduling templates and audit medical supplies procurement vendor contracts.`
+Coordinate with Baylor St. Luke's supply chain and clinical leaders to audit medical supplies procurement and pharmacy distribution contracts.`
 };
 
 async function startServer() {
@@ -129,7 +129,7 @@ async function startServer() {
         console.log("Gemini API key is not set. Falling back to local deterministic responses.");
         return res.json({
           text: matchedResponse || (
-            `### AI Stewardship Insights (Deterministic Mock Mode)\n\nThank you for asking about: **"${prompt}"**.\n\nOur healthcare finance SaaS control tower identifies that **labor staffing overtime utilization** and **imaging/cardiology diagnostics denials** represent the core budget drivers for the Midwest and Mountain regions. Adjusting our clinical float pool and optimizing pre-service prior authorization is recommended to restore our target **8.5%** margin.`
+            `### AI Stewardship Insights (Deterministic Mock Mode)\n\nThank you for asking about: **"${prompt}"**.\n\nOur healthcare finance SaaS control tower identifies that **labor staffing overtime utilization** and **imaging/cardiology diagnostics denials** represent the core budget drivers for the Houston Market and system comparison regions. Adjusting our clinical float pool and optimizing pre-service prior authorization is recommended to restore our target **8.5%** margin.`
           ),
           isMock: true,
           notice: "Deterministic support mode. Human oversight is mandatory."

@@ -256,7 +256,7 @@ export default function App() {
 
   const handleFinalizeReviewClick = () => {
     if (userPersona === "analyst") {
-      triggerToast("Access Denied: Senior CFO credentials are required to execute board-level cycle closing.", "warning");
+      triggerToast("Access Denied: Market Finance credentials are required to execute board-level cycle closing.", "warning");
       return;
     }
     setIsFinalizeModalOpen(true);
@@ -287,7 +287,18 @@ export default function App() {
           onLogin={(persona) => {
             setUserPersona(persona);
             setIsLoggedIn(true);
-            triggerToast(`Access Authorized. Welcome back, ${persona === "analyst" ? "Senior Strategic Analyst" : persona === "cfo" ? "Regional CFO" : persona === "director" ? "Clinical Director" : "Compliance Auditor"}!`, "success");
+            triggerToast(
+              `Access Authorized. Welcome back, ${
+                persona === "analyst"
+                  ? "Sr Financial Analyst — Supply Chain Finance"
+                  : persona === "cfo"
+                    ? "Director, Market Finance"
+                    : persona === "director"
+                      ? "Director, Supply Chain Operations"
+                      : "Finance Compliance Analyst"
+              }!`,
+              "success"
+            );
           }}
         />
       </div>
@@ -368,10 +379,10 @@ export default function App() {
                   }}
                   className="w-full bg-ink-800/70 border border-ink-800 text-slate-200 text-xs py-1.5 px-2.5 rounded-lg focus:outline-hidden font-semibold cursor-pointer select-none accent-slate-800"
                 >
-                  <option value="analyst">👔 Strategic Analyst</option>
-                  <option value="cfo">💼 Regional CFO</option>
-                  <option value="director">⚕️ Clinical Director</option>
-                  <option value="auditor">🔍 Compliance Auditor</option>
+                  <option value="analyst">📊 Sr Financial Analyst</option>
+                  <option value="cfo">💼 Market Finance</option>
+                  <option value="director">📦 Supply Chain Ops</option>
+                  <option value="auditor">🔍 Finance Compliance</option>
                 </select>
               </div>
             </div>

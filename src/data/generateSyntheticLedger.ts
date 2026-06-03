@@ -1,4 +1,5 @@
 import type { FinanceRecord } from "../types/financeRecord";
+import { REGION_LEDGER_SCALE } from "../config/demoOrg";
 import { LEDGER_COMBO_TEMPLATES } from "./ledgerComboTemplates";
 import {
   monthsThroughClose,
@@ -21,8 +22,13 @@ const VARIANCE_NOTES: Record<FinanceRecord["variance_status"], string[]> = {
     "Premium registry nursing required for {period} volume surge.",
     "Commercial denial rate elevated; prior-auth taskforce engaged for {period}.",
     "Expense overrun vs budget during {period}; director review in progress.",
+    "Supply chain initiative over budget — GPO contract re-baseline requested for {period}.",
   ],
 };
+
+function ledgerScaleForRegion(region: string): number {
+  return REGION_LEDGER_SCALE[region] ?? 2.4;
+}
 
 function hashComboMonth(facility: string, serviceLine: string, month: string): number {
   let h = 0;
@@ -73,12 +79,13 @@ export function buildSyntheticLedger(asOf: Date = new Date()): FinanceRecord[] {
     const isClose = month === closeMonth;
     LEDGER_COMBO_TEMPLATES.forEach((tpl, tplIndex) => {
       const seed = hashComboMonth(tpl.facility, tpl.service_line, month) + tplIndex;
-      const npr = Math.round(driftValue(tpl.net_patient_revenue, monthIndex, seed, 0.025));
-      const opex = Math.round(driftValue(tpl.operating_expense, monthIndex, seed + 1, 0.028));
-      const labor = Math.round(driftValue(tpl.labor_cost, monthIndex, seed + 2, 0.03));
-      const supply = Math.round(driftValue(tpl.supply_cost, monthIndex, seed + 3, 0.02));
+      const scale = ledgerScaleForRegion(tpl.region);
+      const npr = Math.round(driftValue(tpl.net_patient_revenue * scale, monthIndex, seed, 0.025));
+      const opex = Math.round(driftValue(tpl.operating_expense * scale, monthIndex, seed + 1, 0.028));
+      const labor = Math.round(driftValue(tpl.labor_cost * scale, monthIndex, seed + 2, 0.03));
+      const supply = Math.round(driftValue(tpl.supply_cost * scale, monthIndex, seed + 3, 0.02));
       const margin = npr > 0 ? parseFloat((((npr - opex) / npr) * 100).toFixed(2)) : tpl.operating_margin;
-      const variance = Math.round(driftValue(tpl.budget_variance, monthIndex, seed + 4, 0.15));
+      const variance = Math.round(driftValue(tpl.budget_variance * scale, monthIndex, seed + 4, 0.15));
       const volume = Math.round(driftValue(tpl.patient_volume, monthIndex, seed + 5, 0.04));
       const denial = parseFloat(
         Math.max(1.2, driftValue(tpl.denial_rate, monthIndex, seed + 6, 0.08)).toFixed(1)
