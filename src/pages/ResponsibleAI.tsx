@@ -13,11 +13,15 @@ export default function ResponsibleAI() {
     tagline: "Healthcare finance · Sr Financial Analyst work sample",
     email: "devashish1000@gmail.com",
     linkedin: "linkedin.com/in/devashish-neupane",
+    location: "Houston, TX",
+    certificationBadge: "Certified Sr Financial Analyst / BI Analyst",
     roleSummary:
       "Healthcare finance work sample for the Sr Financial Analyst role (Req 2026-469831): multi-market stewardship dashboard with expense predictability, budget variance, initiative ROI reporting for market finance leaders, and Houston / Baylor St. Luke's as a flagship example market. Forecasting, KPI reporting, executive dashboards, and AI-assisted workflow design support month-end close storytelling. CommonSpirit-inspired labels only — synthetic ledger, not affiliated with or endorsed by CommonSpirit Health.",
     priorExperience: [
-      "Southwest Airlines — analytics, forecasting, and operational performance reporting",
-      "LinkedIn — business intelligence, KPI reporting, and executive dashboard design",
+      "Southwest Airlines — built forecasting and operational performance reporting for finance and ops leaders; partnered on budget variance, cost-driver analysis, and executive dashboards (SQL, Python, Tableau) that shortened monthly close readouts and clarified route-level profitability tradeoffs.",
+      "LinkedIn — owned enterprise BI and KPI reporting for product and GTM stakeholders; designed self-serve executive dashboards and metric definitions that improved forecast accuracy narratives, cross-functional alignment, and leadership visibility into revenue and engagement drivers.",
+      "Healthcare finance prototype (this work sample) — authored a multi-market control tower with close-month synthetic ledger, Excel data dictionary, variance drill-downs, and AI-assisted briefing flows mapped to Sr Financial Analyst posting duties for Houston market finance.",
+      "Quantitative finance & analytics foundation — advanced training in financial modeling, SQL/Python analytics, and stakeholder-ready reporting; consistently translates messy operational data into audit-friendly variance stories for directors and market CFO partners.",
     ],
     skills: [
       "SQL", "Python", "Tableau", "Alteryx", "Forecasting", "KPI Reporting", 
@@ -122,14 +126,14 @@ export default function ResponsibleAI() {
           <div className="absolute bottom-0 left-0 w-36 h-36 bg-brand-500/10 rounded-full blur-3xl" />
 
           <div className="relative z-10 space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6">
-              <div className="space-y-1">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-start gap-4 border-b border-slate-800 pb-6">
+              <div className="space-y-1 min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <h4 className="text-2xl font-extrabold tracking-tight font-sans text-white">
                     {profile.name}
                   </h4>
-                  <span className="inline-flex items-center gap-1 text-[10px] bg-sky-500/20 text-sky-200 border border-sky-400/20 px-2 py-0.5 rounded-full font-bold">
-                    <UserCheck className="w-3 h-3" /> Certified BI Analyst
+                  <span className="inline-flex items-center gap-1 text-[10px] bg-sky-500/20 text-sky-200 border border-sky-400/20 px-2 py-0.5 rounded-full font-bold whitespace-nowrap">
+                    <UserCheck className="w-3 h-3 shrink-0" /> {profile.certificationBadge}
                   </span>
                 </div>
                 <p className="text-xs font-semibold tracking-wide text-sky-200">
@@ -138,7 +142,7 @@ export default function ResponsibleAI() {
               </div>
 
               {/* Direct Portfolio Contacts */}
-              <div className="flex flex-wrap gap-3 text-xs text-slate-300">
+              <div className="flex flex-wrap gap-3 text-xs text-slate-300 shrink-0 sm:max-w-[min(100%,28rem)]">
                 <a
                   href={`mailto:${profile.email}`}
                   className="flex items-center gap-1 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl border border-white/5 transition-all"
@@ -146,7 +150,7 @@ export default function ResponsibleAI() {
                   <Mail className="w-3.5 h-3.5" /> {profile.email}
                 </a>
                 <span className="flex items-center gap-1 bg-white/5 px-3 py-1.5 rounded-xl border border-white/5 text-slate-300">
-                  <MapPin className="w-3.5 h-3.5 text-sky-300 animate-pulse" /> San Francisco Bay Area
+                  <MapPin className="w-3.5 h-3.5 text-sky-300" /> {profile.location}
                 </span>
               </div>
             </div>
@@ -162,9 +166,11 @@ export default function ResponsibleAI() {
             {/* Prior experience */}
             <div className="space-y-2">
               <span className="text-[10px] text-sky-300 uppercase font-bold tracking-widest block">Prior experience</span>
-              <ul className="text-xs text-slate-300 leading-relaxed font-medium space-y-1.5 list-disc list-inside">
+              <ul className="text-xs text-slate-300 leading-relaxed font-medium space-y-2.5 list-disc pl-5 max-w-none">
                 {profile.priorExperience.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item} className="pr-0 sm:pr-4">
+                    {item}
+                  </li>
                 ))}
               </ul>
             </div>
