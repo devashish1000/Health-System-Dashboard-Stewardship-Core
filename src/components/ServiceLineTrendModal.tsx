@@ -3,9 +3,16 @@ import {
   X, TrendingUp, Sparkles, Target, Coins, Activity, CheckCircle2, AlertCircle, Eye, HelpCircle, ArrowUpRight
 } from "lucide-react";
 import { 
-  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Legend
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine
 } from "recharts";
 import { FinanceRecord } from "../types";
+import {
+  formatPercent,
+  formatAxisMillions,
+  formatAxisPercent,
+  formatCount,
+} from "../lib/formatters";
+import { chartTheme } from "../lib/chartTheme";
 
 interface ServiceLineTrendModalProps {
   isOpen: boolean;
@@ -110,7 +117,7 @@ export default function ServiceLineTrendModal({
       case "Cardiology":
         return { stroke: "#E11D48", fill: "rgba(225, 29, 72, 0.15)", bg: "text-rose-600 bg-rose-50 border-rose-100" };
       case "Neurology":
-        return { stroke: "#982f6a", fill: "rgba(152, 47, 106, 0.15)", bg: "text-brand-600 bg-brand-50 border-brand-100" };
+        return { stroke: chartTheme.actual, fill: "rgba(152, 47, 106, 0.15)", bg: "text-brand-600 bg-brand-50 border-brand-100" };
       case "Orthopedics":
         return { stroke: "#0D9488", fill: "rgba(13, 148, 136, 0.15)", bg: "text-teal-600 bg-teal-50 border-teal-100" };
       case "Emergency":
@@ -118,7 +125,7 @@ export default function ServiceLineTrendModal({
       case "Primary Care":
         return { stroke: "#0284C7", fill: "rgba(2, 132, 199, 0.15)", bg: "text-sky-600 bg-sky-50 border-sky-100" };
       default:
-        return { stroke: "#982f6a", fill: "rgba(152, 47, 106, 0.15)", bg: "text-brand-600 bg-brand-50 border-brand-100" };
+        return { stroke: chartTheme.actual, fill: "rgba(152, 47, 106, 0.15)", bg: "text-brand-600 bg-brand-50 border-brand-100" };
     }
   };
 
@@ -161,8 +168,8 @@ export default function ServiceLineTrendModal({
             <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">Average YTD Margin</span>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className={`text-xl font-mono font-extrabold ${avgActualMargin >= 8.5 ? "text-emerald-600" : (avgActualMargin < 1.0 ? "text-rose-600" : "text-slate-800")}`}>
-                  {avgActualMargin.toFixed(2)}%
+                <span className={`text-xl font-mono tabular-nums font-extrabold ${avgActualMargin >= 8.5 ? "text-emerald-600" : (avgActualMargin < 1.0 ? "text-rose-600" : "text-slate-800")}`}>
+                  {formatPercent(avgActualMargin, { decimals: 2 })}
                 </span>
                 <span className="text-[9px] text-slate-400 font-semibold font-mono">baseline</span>
               </div>
@@ -171,8 +178,8 @@ export default function ServiceLineTrendModal({
             <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">YTD Collected Revenue</span>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-xl font-mono font-extrabold text-slate-800 dark:text-slate-100">
-                  ${totalYtdRevenue.toFixed(1)}M
+                <span className="text-xl font-mono tabular-nums font-extrabold text-slate-800 dark:text-slate-100">
+                  {formatAxisMillions(parseFloat(totalYtdRevenue.toFixed(1)))}
                 </span>
                 <span className="text-[9px] text-slate-400 font-semibold uppercase">usd</span>
               </div>
@@ -181,8 +188,8 @@ export default function ServiceLineTrendModal({
             <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">Accumulated Volume</span>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-xl font-mono font-extrabold text-slate-800 dark:text-slate-100">
-                  {totalYtdVolume.toLocaleString()}
+                <span className="text-xl font-mono tabular-nums font-extrabold text-slate-800 dark:text-slate-100">
+                  {formatCount(totalYtdVolume)}
                 </span>
                 <span className="text-[9px] text-slate-400 font-semibold uppercase">cases</span>
               </div>
@@ -191,8 +198,8 @@ export default function ServiceLineTrendModal({
             <div className="bg-slate-50/70 dark:bg-ink-900 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 block uppercase tracking-wider">Average Claim Denials</span>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className={`text-xl font-mono font-extrabold ${avgActualDenials > 3.0 ? "text-amber-600" : "text-emerald-600"}`}>
-                  {avgActualDenials.toFixed(1)}%
+                <span className={`text-xl font-mono tabular-nums font-extrabold ${avgActualDenials > 3.0 ? "text-amber-600" : "text-emerald-600"}`}>
+                  {formatPercent(avgActualDenials, { decimals: 1 })}
                 </span>
                 <span className="text-[9px] text-slate-400 font-semibold uppercase">rate</span>
               </div>
@@ -213,7 +220,7 @@ export default function ServiceLineTrendModal({
                   Historical YTD
                 </span>
                 <span className="flex items-center gap-1.5 text-slate-500">
-                  <span className="w-2.5 h-2.5 rounded-xs border border-dashed" style={{ borderColor: theme.stroke, backgroundColor: theme.fill }} />
+                  <span className="w-2.5 h-2.5 rounded-xs border border-dashed" style={{ borderColor: chartTheme.forecast, backgroundColor: chartTheme.forecast, opacity: 0.35 }} />
                   Model Projected
                 </span>
                 <span className="flex items-center gap-1.5 text-slate-500">
@@ -247,42 +254,42 @@ export default function ServiceLineTrendModal({
                     tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
                     axisLine={{ stroke: '#cbd5e1', strokeWidth: 1 }}
                     tickLine={false}
-                    tickFormatter={(tick) => `${tick}%`}
+                    tickFormatter={(tick) => formatAxisPercent(tick)}
                   />
-                  <Tooltip 
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        const data = payload[0].payload;
-                        return (
-                          <div className="bg-ink-900 text-white p-3.5 rounded-xl border border-slate-800 text-[11px] shadow-lg font-sans space-y-1">
-                            <div className="flex justify-between items-baseline gap-4 border-b border-slate-800 pb-1.5">
-                              <span className="font-bold uppercase text-slate-300">{data.monthLabel} 2026</span>
-                              <span className={`px-1.5 py-0.5 rounded text-[8px] font-extrabold border ${data.isProjected ? "bg-brand-500/15 border-brand-400 text-brand-300" : "bg-emerald-500/15 border-emerald-400 text-emerald-300"}`}>
-                                {data.isProjected ? "PROJECTION" : "HISTORICAL"}
-                              </span>
-                            </div>
-                            <div className="space-y-0.5 pt-1">
-                              <div className="flex justify-between">
-                                <span className="text-slate-400 font-medium">Operating Margin:</span>
-                                <span className="font-bold text-white font-mono">{data.margin}%</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-400 font-medium">Net Revenue:</span>
-                                <span className="font-bold text-white font-mono">${data.revenue}M</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-400 font-medium">Patient Cases:</span>
-                                <span className="font-semibold text-slate-200 font-mono">{data.volume}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-slate-400 font-medium">Claims Denials:</span>
-                                <span className="font-semibold text-amber-300 font-mono">{data.denials}%</span>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                      return null;
+                  <Tooltip
+                    content={({ active, payload, label }) => {
+                      if (!active || !payload?.length) return null;
+                      const data = payload[0].payload as (typeof monthlyData)[number];
+                      const displayLabel =
+                        label != null ? `${String(label)} 2026` : `${data.monthLabel} 2026`;
+                      const rows: { name: string; value: string; color?: string }[] = [
+                        { name: "Operating Margin", value: formatPercent(data.margin, { decimals: 2 }), color: theme.stroke },
+                        { name: "Net Revenue", value: formatAxisMillions(data.revenue), color: chartTheme.neutral },
+                        { name: "Patient Cases", value: formatCount(data.volume), color: chartTheme.neutral },
+                        { name: "Claims Denials", value: formatPercent(data.denials, { decimals: 1 }), color: chartTheme.negative },
+                      ];
+                      return (
+                        <div
+                          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs shadow-md dark:border-slate-600 dark:bg-slate-800"
+                          role="tooltip"
+                        >
+                          <p className="mb-1 font-medium text-slate-700 dark:text-slate-200">{displayLabel}</p>
+                          <ul className="space-y-0.5">
+                            {rows.map((row, i) => (
+                              <li key={i} className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                                <span
+                                  className="inline-block h-2 w-2 shrink-0 rounded-full"
+                                  style={{ backgroundColor: row.color }}
+                                />
+                                <span className="text-slate-500 dark:text-slate-400">{row.name}:</span>
+                                <span className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
+                                  {row.value}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
                     }}
                   />
                   <ReferenceLine 
@@ -294,16 +301,18 @@ export default function ServiceLineTrendModal({
                   />
                   <Area 
                     type="monotone" 
-                    dataKey="margin" 
+                    dataKey="margin"
+                    name="Operating Margin"
                     stroke={theme.stroke} 
                     strokeWidth={2}
                     fillOpacity={1} 
                     fill="url(#trendGradient)" 
                     dot={(props: any) => {
                       const { cx, cy, payload } = props;
+                      const dotStroke = payload.isProjected ? chartTheme.forecast : theme.stroke;
                       if (payload.isProjected) {
                         return (
-                          <circle cx={cx} cy={cy} r={3} fill="#FFFFFF" stroke={theme.stroke} strokeWidth={1} strokeDasharray="2 2" key={payload.month} />
+                          <circle cx={cx} cy={cy} r={3} fill="#FFFFFF" stroke={dotStroke} strokeWidth={1} strokeDasharray="2 2" key={payload.month} />
                         );
                       }
                       return (

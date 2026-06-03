@@ -4,7 +4,8 @@ import {
   Sparkles, Bot, User, CheckCircle, Share2, Clipboard, Printer
 } from "lucide-react";
 import { askGeminiFinance, CopilotResponse } from "../lib/ai";
-import { formatCurrency } from "../lib/utils";
+import { SYNTHETIC_RECORDS } from "../data/syntheticFinanceData";
+import { formatCount, formatCurrency, formatPercent } from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
 
 interface Message {
@@ -23,7 +24,19 @@ const QUESTION_CHIPS = [
   "Which facility has the highest expense pressure?"
 ];
 
+const LEDGER_MONTH = "2026-05";
+
 export default function Copilot() {
+  const ledgerSnapshot = React.useMemo(() => {
+    const records = SYNTHETIC_RECORDS.filter((r) => r.month === LEDGER_MONTH);
+    if (records.length === 0) {
+      return { recordCount: 0, totalNpr: 0, avgMargin: 0 };
+    }
+    const totalNpr = records.reduce((sum, r) => sum + r.net_patient_revenue, 0);
+    const avgMargin = records.reduce((sum, r) => sum + r.operating_margin, 0) / records.length;
+    return { recordCount: records.length, totalNpr, avgMargin };
+  }, []);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -335,6 +348,10 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
             </h4>
             <p className="text-[10px] text-slate-400 leading-tight">
               Select one of the topics below. Clicking a query chip immediately grounds the co-pilot in our synthetic ledger.
+            </p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono tabular-nums leading-tight">
+              May 2026 baseline: {formatPercent(ledgerSnapshot.avgMargin, { decimals: 1 })} avg margin ·{" "}
+              {formatCurrency(ledgerSnapshot.totalNpr)} NPR · {formatCount(ledgerSnapshot.recordCount)} records
             </p>
             <div className="flex flex-col gap-2 pt-1">
               {QUESTION_CHIPS.map((chip) => (

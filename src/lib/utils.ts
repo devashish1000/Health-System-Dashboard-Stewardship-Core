@@ -23,22 +23,13 @@ export function cn(...inputs: (string | undefined | null | boolean | Record<stri
   return classes.join(" ");
 }
 
-/**
- * Formats currency safely
- */
-export function formatCurrency(value: number): string {
-  if (value >= 1e6) {
-    return `$${(value / 1e6).toFixed(1)}M`;
-  }
-  if (value >= 1e3) {
-    return `$${(value / 1e3).toFixed(0)}K`;
-  }
-  return `$${value.toLocaleString()}`;
-}
-
-/**
- * Formats percentages safely
- */
-export function formatPercent(value: number): string {
-  return `${value > 0 ? "+" : ""}${value}%`;
-}
+/** @deprecated Import from ./formatters — re-exported for backward compatibility */
+export {
+  formatCurrency,
+  formatPercent,
+  formatVarianceCurrency,
+  formatPoints,
+  formatAxisMillions,
+  formatAxisPercent,
+  formatCount,
+} from "./formatters";

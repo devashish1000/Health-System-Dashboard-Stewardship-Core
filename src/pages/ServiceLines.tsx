@@ -5,7 +5,11 @@ import {
 } from "lucide-react";
 import { FinanceRecord } from "../data/syntheticFinanceData";
 import { getServiceLineAggregates } from "../lib/financeCalculations";
-import { formatCurrency } from "../lib/utils";
+import {
+  formatCurrency,
+  formatPercent,
+  formatVarianceCurrency,
+} from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
 
 interface ServiceLinesProps {
@@ -173,7 +177,7 @@ export default function ServiceLines({
         title="Why this page matters"
         what="Per-department margin, variance, and reviewer notes in one view."
         value="Spot watchlist service lines before they erode the margin."
-        stat={{ label: "Illustrative denial flag", value: "~$1.8M" }}
+        stat={{ label: "Illustrative denial flag", value: `~${formatCurrency(1_800_000)}` }}
         icon={ShieldCheck}
       />
 
@@ -225,26 +229,26 @@ export default function ServiceLines({
               <div className="grid grid-cols-2 gap-y-3 gap-x-2 py-4">
                 <div>
                   <span className="text-[10px] text-slate-400 block">Net Revenue</span>
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block mt-0.5">
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block mt-0.5 font-mono tabular-nums">
                     {formatCurrency(agg.netRevenue)}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 block">Operating Margin</span>
-                  <span className={`text-sm font-bold block mt-0.5 ${agg.operatingMargin >= 8 ? "text-emerald-600" : (agg.operatingMargin < 1 ? "text-rose-600" : "text-slate-700")}`}>
-                    {agg.operatingMargin.toFixed(1)}%
+                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${agg.operatingMargin >= 8 ? "text-emerald-600" : (agg.operatingMargin < 1 ? "text-rose-600" : "text-slate-700")}`}>
+                    {formatPercent(agg.operatingMargin)}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 block">Budget Variance</span>
-                  <span className={`text-sm font-bold block mt-0.5 ${agg.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
-                    {agg.budgetVariance >= 0 ? "+" : ""}{(agg.budgetVariance / 1000).toFixed(0)}K
+                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${agg.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                    {formatVarianceCurrency(agg.budgetVariance)}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 block">Volume Variation</span>
-                  <span className={`text-sm font-bold block mt-0.5 ${meta.volumeChangePct >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
-                    {meta.volumeChangePct >= 0 ? "+" : ""}{meta.volumeChangePct}% vs target
+                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${meta.volumeChangePct >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                    {formatPercent(meta.volumeChangePct, { signed: true })} vs target
                   </span>
                 </div>
               </div>

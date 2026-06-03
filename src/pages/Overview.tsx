@@ -7,6 +7,16 @@ import {
 } from "lucide-react";
 import { ProjectPage, FinanceRecord } from "../types";
 import { BrandSweep, SparkMark } from "../components/BrandMotif";
+import {
+  formatCurrency,
+  formatPercent,
+  formatCount,
+} from "../lib/formatters";
+
+const TARGET_MARGIN = 8.5;
+const TOTAL_REVENUE = 48_700_000;
+const ILLUSTRATIVE_DENIAL_LEAKAGE = 1_800_000;
+const ILLUSTRATIVE_AGENCY_OVERSPEND = 1_200_000;
 
 interface OverviewProps {
   onNavigate: (page: ProjectPage) => void;
@@ -107,15 +117,15 @@ export default function Overview({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-700/60">
             <div>
               <span className="text-xs text-slate-300 block">Operating Target</span>
-              <span className="text-xl font-bold font-mono mt-0.5 block">8.5% Margin</span>
+              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatPercent(TARGET_MARGIN)} Margin</span>
             </div>
             <div>
               <span className="text-xs text-slate-300 block">Total Revenue Managed</span>
-              <span className="text-xl font-bold font-mono mt-0.5 block">$48.7M</span>
+              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatCurrency(TOTAL_REVENUE)}</span>
             </div>
             <div>
               <span className="text-xs text-slate-300 block">Clinics Audited</span>
-              <span className="text-xl font-bold font-mono mt-0.5 block">37 Records</span>
+              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatCount(records.length)} Records</span>
             </div>
             <div>
               <span className="text-xs text-slate-300 block">Mission Focus</span>
@@ -148,10 +158,10 @@ export default function Overview({
           variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
         >
           {[
-            { label: "Month-end variance review", value: "~5 days → <1 day", icon: Clock, accent: "brand" },
-            { label: "Denial leakage surfaced", value: "~$1.8M / cycle", icon: TrendingUp, accent: "teal" },
-            { label: "Premium agency-labor overspend flagged", value: "~$1.2M", icon: BarChart3, accent: "amber" },
-            { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "brand" },
+            { label: "Month-end variance review", value: "~5 days → <1 day", icon: Clock, accent: "brand", numeric: false },
+            { label: "Denial leakage surfaced", value: `~${formatCurrency(ILLUSTRATIVE_DENIAL_LEAKAGE)} / cycle`, icon: TrendingUp, accent: "teal", numeric: true },
+            { label: "Premium agency-labor overspend flagged", value: `~${formatCurrency(ILLUSTRATIVE_AGENCY_OVERSPEND)}`, icon: BarChart3, accent: "amber", numeric: true },
+            { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "brand", numeric: false },
           ].map((stat) => {
             const accentMap: Record<string, string> = {
               brand: "bg-brand-50 text-brand-600",
@@ -177,7 +187,7 @@ export default function Overview({
                   </span>
                 </div>
                 <div className="space-y-0.5">
-                  <span className="block text-lg font-extrabold text-slate-800 dark:text-slate-100 font-mono">{stat.value}</span>
+                  <span className={`block text-lg font-extrabold text-slate-800 dark:text-slate-100 ${stat.numeric ? "font-mono tabular-nums" : ""}`}>{stat.value}</span>
                   <span className="block text-xs text-slate-500 dark:text-slate-400 leading-snug">{stat.label}</span>
                 </div>
               </motion.div>
@@ -272,7 +282,7 @@ export default function Overview({
           <div className="space-y-3">
             <div className="flex justify-between items-baseline text-xs font-bold text-slate-700 dark:text-slate-100">
               <span>Period Closed Progress</span>
-              <span className="font-mono text-brand-600 font-extrabold text-sm">{completionPercent}%</span>
+              <span className="font-mono tabular-nums text-brand-600 font-extrabold text-sm">{formatPercent(completionPercent, { decimals: 0 })}</span>
             </div>
             {/* Visual Bar */}
             <div className="w-full bg-slate-200 dark:bg-white/10 h-2.5 rounded-full overflow-hidden">
@@ -283,7 +293,7 @@ export default function Overview({
             </div>
             <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
               <Sparkles className="w-3.5 h-3.5 text-brand-500 shrink-0" />
-              <span>{completedCount} of 4 regulatory actions signed.</span>
+              <span>{formatCount(completedCount)} of {formatCount(4)} regulatory actions signed.</span>
             </div>
           </div>
         </div>
