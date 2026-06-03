@@ -33,15 +33,17 @@ export default function ExportDataModal({
         totalNpr: 0,
         totalExpense: 0,
         avgMargin: 0,
+        totalSupply: 0,
         netVariance: 0,
       };
     }
     const totalNpr = filteredRecords.reduce((sum, r) => sum + r.net_patient_revenue, 0);
     const totalExpense = filteredRecords.reduce((sum, r) => sum + r.operating_expense, 0);
+    const totalSupply = filteredRecords.reduce((sum, r) => sum + r.supply_cost, 0);
     const avgMargin =
       filteredRecords.reduce((sum, r) => sum + r.operating_margin, 0) / filteredRecords.length;
     const netVariance = filteredRecords.reduce((sum, r) => sum + r.budget_variance, 0);
-    return { totalNpr, totalExpense, avgMargin, netVariance };
+    return { totalNpr, totalExpense, totalSupply, avgMargin, netVariance };
   }, [filteredRecords]);
 
   if (!isOpen) return null;
@@ -84,11 +86,15 @@ export default function ExportDataModal({
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `CommonSpirit_Finance_Stewardship_${new Date().toISOString().split("T")[0]}.csv`;
+      const periodTag = `${reporting.fiscalYearLabel}_${reporting.periodLabel}`.replace(/\s+/g, "");
+      link.download = `CommonSpirit_Finance_${periodTag}_${reporting.closeMonth}.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      onTriggerToast("Filtered dataset exported to CSV successfully.", "success");
+      onTriggerToast(
+        `Exported ${filteredRecords.length} rows (${reporting.closeMonthLabel}) to CSV.`,
+        "success"
+      );
     } catch (err: any) {
       console.error("CSV Export failure:", err);
       onTriggerToast("Failed to generate CSV export file.", "warning");
@@ -131,7 +137,7 @@ export default function ExportDataModal({
           <div className="flex items-center gap-2">
             <FileSpreadsheet className="w-5 h-5 text-brand-400" />
             <h3 className="font-bold text-sm uppercase tracking-wider text-slate-100">
-              Operations Export Suite
+              Finance Export Suite
             </h3>
           </div>
           <button
@@ -146,7 +152,8 @@ export default function ExportDataModal({
         <div className="p-6 space-y-6">
           <div className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed space-y-1.5">
             <p>
-              Under **CommonSpirit Health** financial stewardship protocols, custom data exports must be recorded and matched against compliance oversight metrics.
+              CommonSpirit Finance export formats for synthetic stewardship demos. Files reflect your
+              current dashboard filters and close-month period — not production system data.
             </p>
             <p className="text-[10px] text-slate-400 dark:text-slate-400">
               Export scope: **{formatCount(filteredRecords.length)}** filtered rows · ledger close **{reporting.closeMonthLabel}** ({reporting.fiscalYearLabel} {reporting.periodLabel}).
@@ -161,6 +168,12 @@ export default function ExportDataModal({
               </span>
             </div>
             <div>
+              <span className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold block">Supply chain cost</span>
+              <span className="text-sm font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100">
+                {formatCurrency(exportSummary.totalSupply)}
+              </span>
+            </div>
+            <div>
               <span className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold block">Operating expense</span>
               <span className="text-sm font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100">
                 {formatCurrency(exportSummary.totalExpense)}
@@ -172,7 +185,7 @@ export default function ExportDataModal({
                 {formatPercent(exportSummary.avgMargin, { decimals: 1 })}
               </span>
             </div>
-            <div>
+            <div className="col-span-2">
               <span className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold block">Net budget variance</span>
               <span className="text-sm font-bold font-mono tabular-nums text-slate-800 dark:text-slate-100">
                 {formatVarianceCurrency(exportSummary.netVariance)}
@@ -190,9 +203,9 @@ export default function ExportDataModal({
                 <FileSpreadsheet className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Export Active Dataset (CSV)</span>
+                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Export filtered ledger (CSV)</span>
                 <span className="block text-[10px] text-slate-400 dark:text-slate-400 leading-snug">
-                  Downloads a comma-separated audit table of all current filtered records, including Net Patient Revenues, Expenses, and custom variance annotations.
+                  Close-month rows with NPR, labor, supply chain cost, margin, variance notes, and finance owner — ready for Strata-style review in Excel or Google Sheets.
                 </span>
               </div>
             </button>

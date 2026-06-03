@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   TrendingUp, TrendingDown, Landmark, ShieldAlert, BadgeInfo, Eye, HelpCircle,
@@ -47,6 +47,9 @@ interface DashboardProps {
   onChangeFilters: (filters: ControlTowerFilters) => void;
   onSelectRow: (record: FinanceRecord) => void;
   onResetFilters: () => void;
+  /** Open 12-month trend modal when set from ⌘K drill commands */
+  drillServiceLineRequest?: string | null;
+  onDrillServiceLineConsumed?: () => void;
 }
 
 export default function Dashboard({
@@ -54,7 +57,9 @@ export default function Dashboard({
   filters,
   onChangeFilters,
   onSelectRow,
-  onResetFilters
+  onResetFilters,
+  drillServiceLineRequest,
+  onDrillServiceLineConsumed,
 }: DashboardProps) {
   const kpiCardVariants = {
     hidden: { opacity: 0, y: 12 },
@@ -64,6 +69,14 @@ export default function Dashboard({
   const [activeExplainKey, setActiveExplainKey] = useState<string | null>(null);
   const [selectedTrendServiceLine, setSelectedTrendServiceLine] = useState<string | null>(null);
   const [selectedKpiTrend, setSelectedKpiTrend] = useState<"npr" | "opex" | "margin" | "variance" | "labor" | "forecast" | null>(null);
+
+  useEffect(() => {
+    if (drillServiceLineRequest) {
+      setSelectedTrendServiceLine(drillServiceLineRequest);
+      onDrillServiceLineConsumed?.();
+    }
+  }, [drillServiceLineRequest, onDrillServiceLineConsumed]);
+
   const { theme } = useTheme();
   const chartPalette = resolveChartPalette(theme === "dark");
   const reporting = useReportingPeriod(records);

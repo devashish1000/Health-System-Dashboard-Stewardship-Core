@@ -14,6 +14,8 @@ import { getReportingContext } from "./lib/reportingPeriod";
 import { useReportingPeriod } from "./lib/useReportingPeriod";
 import { checklistStorageKey } from "./lib/periodStorage";
 import { controlTowerVersion } from "./lib/stewardshipConfig";
+import { getPersonaPreset } from "./config/demoOrg";
+import { pickDrillRecord } from "./lib/serviceLineDrill";
 
 // Modular Pages
 import Login from "./pages/Login";
@@ -58,6 +60,7 @@ export default function App() {
 
   // Navigation Routing State
   const [currentPage, setCurrentPage] = useState<ProjectPage>("overview");
+  const [drillServiceLine, setDrillServiceLine] = useState<string | null>(null);
   
   // Local Database State with LocalStorage Synchronization
   const [records, setRecords] = useState<FinanceRecord[]>(() => {
@@ -228,9 +231,14 @@ export default function App() {
     );
   };
 
+  const handlePersonaChange = (persona: UserPersona) => {
+    setUserPersona(persona);
+    triggerToast(`Workspace role: ${getPersonaPreset(persona).role}`, "info");
+  };
+
   const handleResetFilters = () => {
     setFilters(INITIAL_FILTERS);
-    triggerToast("All financial dashboard filters cleared successfully.", "info");
+    triggerToast("Dashboard filters cleared — showing full close-month ledger.", "info");
   };
 
   const handleRestoreSystemDefaults = () => {
@@ -240,7 +248,7 @@ export default function App() {
     localStorage.removeItem("commonspirit_checklist_completed");
     localStorage.removeItem("commonspirit_filters");
     setRecords(SYNTHETIC_RECORDS);
-    setUserPersona("analyst");
+    handlePersonaChange("analyst");
     setFilters(INITIAL_FILTERS);
     setSignoffs([]);
     const reportingReset = getReportingContext(SYNTHETIC_RECORDS);
@@ -288,15 +296,7 @@ export default function App() {
             setUserPersona(persona);
             setIsLoggedIn(true);
             triggerToast(
-              `Access Authorized. Welcome back, ${
-                persona === "analyst"
-                  ? "Sr Financial Analyst — Supply Chain Finance"
-                  : persona === "cfo"
-                    ? "Director, Market Finance"
-                    : persona === "director"
-                      ? "Director, Supply Chain Operations"
-                      : "Finance Compliance Analyst"
-              }!`,
+              `Access authorized. Welcome back, ${getPersonaPreset(persona).role}.`,
               "success"
             );
           }}
@@ -374,8 +374,7 @@ export default function App() {
                   value={userPersona}
                   onChange={(e) => {
                     const nextVal = e.target.value as any;
-                    setUserPersona(nextVal);
-                    triggerToast(`Workspace role shifted to: ${nextVal.toUpperCase()}`, "info");
+                    handlePersonaChange(nextVal);
                   }}
                   className="w-full bg-ink-800/70 border border-ink-800 text-slate-200 text-xs py-1.5 px-2.5 rounded-lg focus:outline-hidden font-semibold cursor-pointer select-none accent-slate-800"
                 >
@@ -458,6 +457,8 @@ export default function App() {
                 onChangeFilters={setFilters}
                 onSelectRow={setSelectedRecord}
                 onResetFilters={handleResetFilters}
+                drillServiceLineRequest={drillServiceLine}
+                onDrillServiceLineConsumed={() => setDrillServiceLine(null)}
               />
             )}
             {currentPage === "serviceLines" && (
@@ -523,14 +524,23 @@ export default function App() {
         currentPage={currentPage}
         onNavigate={setCurrentPage}
         userPersona={userPersona}
-        onChangePersona={setUserPersona}
+        onChangePersona={handlePersonaChange}
         onTriggerExport={() => setIsExportModalOpen(true)}
         onTriggerSignoff={handleFinalizeReviewClick}
         onClearFilters={handleResetFilters}
         onRestoreSandbox={handleRestoreSystemDefaults}
         onSelectRecord={(service) => {
-          const match = records.find(r => r.service_line === service);
-          if (match) setSelectedRecord(match);
+          setCurrentPage("dashboard");
+          setDrillServiceLine(service);
+          const match = pickDrillRecord(records, service);
+          if (match) {
+            triggerToast(
+              `12-month trend: ${service} (${match.facility}, ${match.region})`,
+              "info"
+            );
+          } else {
+            triggerToast(`12-month trend: ${service}`, "info");
+          }
         }}
         records={records}
         onTriggerToast={triggerToast}

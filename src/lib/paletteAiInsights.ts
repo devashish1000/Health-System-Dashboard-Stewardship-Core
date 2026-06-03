@@ -26,6 +26,14 @@ export function buildPaletteAiAnswer(query: string, records: FinanceRecord[]): s
   const marginGap = STEWARDSHIP_TARGET_MARGIN - kpis.operatingMargin;
   const cardiologyDenial = avgDenialByServiceLine(scoped, "Cardiology") ?? kpis.denialRate;
 
+  if (q.includes("surgical") || q.includes("supply") || q.includes("supplies")) {
+    const supplyRows = scoped.filter((r) =>
+      ["Surgical Supplies", "Pharmacy Distribution", "Medical Devices"].includes(r.service_line)
+    );
+    const supplySpend = supplyRows.reduce((s, r) => s + r.supply_cost, 0);
+    return `For ${period} (${fyP}), supply chain spend in the close-month ledger totals ${formatCurrency(supplySpend)} across surgical, pharmacy, and device lines. Houston Market rows drive most of the variance — compare GPO benchmarks in Service Lines Review and export filtered data from the Finance Export Suite (⌘K → Export).`;
+  }
+
   if (q.includes("opex") || q.includes("expense") || q.includes("spending")) {
     return `For ${period} (${fyP}), close-month operating expense is ${formatCurrency(kpis.operatingExpense)} against NPR of ${formatCurrency(kpis.netPatientRevenue)}. Labor totals ${formatCurrency(kpis.laborCost)}; supplies ${formatCurrency(kpis.supplyCost)}. Highest-pressure lines are typically Cardiology registry labor and Orthopedics implant supply — open Service Lines Review to annotate drivers.`;
   }

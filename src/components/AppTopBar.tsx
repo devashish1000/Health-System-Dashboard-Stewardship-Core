@@ -31,7 +31,8 @@ function getPersonaProfile(persona: UserPersona) {
   const preset = getPersonaPreset(persona);
   return {
     name: preset.name,
-    title: preset.role,
+    title: preset.headerTitle,
+    fullTitle: preset.role,
     initials: preset.initials,
     grad: preset.grad,
   };
@@ -226,18 +227,24 @@ export default function AppTopBar({
             )}
           </div>
 
-          <div className="flex items-center gap-2 pl-1 sm:pl-2 border-l border-slate-200 dark:border-white/10">
-            <div className="hidden xl:block text-right min-w-0">
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-100 block leading-tight truncate max-w-[140px]">
+          <div className="flex items-center gap-2 pl-1 sm:pl-2 border-l border-slate-200 dark:border-white/10 min-w-0">
+            <div className="hidden lg:block text-right min-w-0 max-w-[11rem] xl:max-w-[13rem]">
+              <span
+                className="text-xs font-bold text-slate-800 dark:text-slate-100 block leading-tight truncate"
+                title={profile.name}
+              >
                 {profile.name}
               </span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 block leading-none font-medium truncate max-w-[140px]">
+              <span
+                className="text-[10px] text-slate-500 dark:text-slate-400 block leading-snug font-medium line-clamp-2"
+                title={profile.fullTitle}
+              >
                 {profile.title}
               </span>
             </div>
             <div
               className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full shrink-0 bg-gradient-to-tr ${profile.grad} border border-slate-100 dark:border-white/10 flex items-center justify-center text-white font-extrabold text-xs shadow-sm`}
-              title={`${profile.name} · ${profile.title}`}
+              title={`${profile.name} · ${profile.fullTitle}`}
             >
               {profile.initials}
             </div>

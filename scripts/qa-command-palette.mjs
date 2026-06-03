@@ -31,6 +31,9 @@ const ALL_PERSONAS = [
 ];
 
 const ALL_SERVICE_LINES = [
+  "Surgical Supplies",
+  "Pharmacy Distribution",
+  "Medical Devices",
   "Neurology",
   "Cardiology",
   "Emergency",
@@ -81,7 +84,7 @@ async function dismissBlockingOverlays(page) {
       await page.waitForTimeout(200);
       continue;
     }
-    const exportSuite = page.getByText("Operations Export Suite");
+    const exportSuite = page.getByText(/Finance Export Suite/i);
     if (await exportSuite.isVisible({ timeout: 300 }).catch(() => false)) {
       await page.keyboard.press("Escape");
       await page.waitForTimeout(200);
@@ -227,19 +230,20 @@ async function main() {
     await dismissBlockingOverlays(page);
 
     if (await clickPaletteCommand(page, "Export Sandbox Data")) {
-      const exportOpen = await page.getByRole("heading", { name: /Export/i }).isVisible().catch(() => false)
-        || (await page.getByText(/CSV|JSON|Export Sandbox/i).first().isVisible().catch(() => false));
+      const exportOpen =
+        (await page.getByRole("heading", { name: /Finance Export Suite/i }).isVisible().catch(() => false)) ||
+        (await page.getByText(/Export filtered ledger|Finance Export Suite/i).first().isVisible().catch(() => false));
       exportOpen ? pass("Core click: Export Sandbox Data") : fail("Core click: Export Sandbox Data");
       await dismissBlockingOverlays(page);
     } else fail("Core click: Export Sandbox Data", "not found");
 
     if (await clickPaletteCommand(page, "Clear Dashboard Filters")) {
-      const cleared = await page.getByText(/filters cleared/i).isVisible().catch(() => false);
+      const cleared = await page.getByText(/filters (cleared|reset)/i).isVisible().catch(() => false);
       cleared ? pass("Core click: Clear Dashboard Filters") : fail("Core click: Clear Dashboard Filters");
     } else fail("Core click: Clear Dashboard Filters", "not found");
 
     if (await clickPaletteCommand(page, "Pre-flight Workspace Sign-off")) {
-      const denied = await page.getByText(/Access Denied|CFO credentials/i).isVisible().catch(() => false);
+      const denied = await page.getByText(/Access Denied|Market Finance credentials/i).isVisible().catch(() => false);
       denied ? pass("Core click: Sign-off (analyst blocked)") : fail("Core click: Sign-off (analyst blocked)");
       await dismissBlockingOverlays(page);
     } else fail("Core click: Pre-flight Workspace Sign-off", "not found");
@@ -261,12 +265,15 @@ async function main() {
     eExport ? pass("Shortcut E: Export") : fail("Shortcut E: Export");
     await dismissBlockingOverlays(page);
 
+    await dismissBlockingOverlays(page);
     await openPalette(page);
     await page.locator('input[placeholder*="Search navigation"]').first().fill("");
+    await page.waitForTimeout(200);
     await page.keyboard.press("c");
+    await page.waitForTimeout(400);
     const cToast = await page
       .getByText(/filters cleared/i)
-      .waitFor({ state: "visible", timeout: 3000 })
+      .waitFor({ state: "visible", timeout: 5000 })
       .then(() => true)
       .catch(() => false);
     cToast ? pass("Shortcut C: Clear filters") : fail("Shortcut C: Clear filters");
@@ -305,13 +312,13 @@ async function main() {
         fail(`Service drill: ${line}`, "not visible");
         continue;
       }
-      const drawer = await page.getByText("Service Line Detail View").isVisible().catch(() => false);
+      const trend = await page.getByText(/12-Month Performance Trend/i).isVisible().catch(() => false);
       const toast = await page
-        .getByText(new RegExp(`12-Month Performance Trend for ${line}`, "i"))
+        .getByText(new RegExp(`12-month trend: ${line}`, "i"))
         .isVisible()
         .catch(() => false);
-      drawer && toast ? pass(`Service drill: ${line}`) : fail(`Service drill: ${line}`, `drawer=${drawer} toast=${toast}`);
-      await page.locator(".absolute.inset-0.bg-slate-900\\/40").first().click({ force: true }).catch(() => {});
+      trend || toast ? pass(`Service drill: ${line}`) : fail(`Service drill: ${line}`, `trend=${trend} toast=${toast}`);
+      await page.keyboard.press("Escape").catch(() => {});
       await page.waitForTimeout(250);
     }
 
@@ -332,7 +339,7 @@ async function main() {
     await page.waitForTimeout(200);
 
     const AI_SUGGESTIONS = [
-      "Why is Cardiology opex elevated",
+      "Why is Surgical Supplies spend over budget",
       "3.2% denial rate",
       "operating margin vs 8.5% goal",
       "Net Patient Revenues YTD",

@@ -21,7 +21,10 @@ export interface PersonaPreset {
   persona: UserPersona;
   name: string;
   email: string;
+  /** Full title for modals and login cards */
   role: string;
+  /** Compact label for top bar (avoids truncation) */
+  headerTitle: string;
   desc: string;
   emoji: string;
   initials: string;
@@ -34,6 +37,7 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
     name: "Devashish Neupane",
     email: "devashish.neupane@commonspirit.org",
     role: "Sr Financial Analyst — Supply Chain Finance",
+    headerTitle: "Sr Financial Analyst",
     desc: "Supply chain budgets, variance reporting, and initiative ROI for Houston market leaders",
     emoji: "📊",
     initials: "DN",
@@ -44,6 +48,7 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
     name: "Elena Marsh",
     email: "elena.marsh@commonspirit.org",
     role: "Director, Market Finance",
+    headerTitle: "Market Finance",
     desc: "Market P&L oversight, cycle close sign-off, and board-ready stewardship briefs",
     emoji: "💼",
     initials: "EM",
@@ -54,6 +59,7 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
     name: "Robert Kane",
     email: "robert.kane@commonspirit.org",
     role: "Director, Supply Chain Operations",
+    headerTitle: "Supply Chain Ops",
     desc: "GPO initiatives, implant utilization, and expense predictability with Finance partners",
     emoji: "📦",
     initials: "RK",
@@ -64,6 +70,7 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
     name: "Priya Nair",
     email: "priya.nair@commonspirit.org",
     role: "Finance Compliance Analyst",
+    headerTitle: "Finance Compliance",
     desc: "Internal controls, allocation audits, and regulatory readiness for Finance reporting",
     emoji: "🔍",
     initials: "PN",

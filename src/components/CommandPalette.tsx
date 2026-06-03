@@ -9,6 +9,15 @@ import {
 } from "lucide-react";
 import { ProjectPage, UserPersona, FinanceRecord } from "../types";
 import { buildPaletteAiAnswer } from "../lib/paletteAiInsights";
+import { HOUSTON_MARKET } from "../config/demoOrg";
+import { SERVICE_LINE_DRILL_COPY } from "../lib/serviceLineDrill";
+
+const PALETTE_CATEGORY_ORDER = [
+  "Core Actions",
+  "Navigation",
+  "Strategic Role Mode",
+  "Service Lines Insights",
+] as const;
 
 interface CommandItem {
   id: string;
@@ -136,7 +145,7 @@ export default function CommandPalette({
         id: "action-export",
         category: "Core Actions",
         title: "Export Sandbox Data",
-        description: "Generate compliant CSV/JSON audit trails of active filters",
+        description: "Open Finance Export Suite — CSV dataset, sign-off JSON, or print briefing for filtered rows",
         icon: Download,
         action: () => { onTriggerExport(); onClose(); },
         shortcut: "E"
@@ -145,7 +154,7 @@ export default function CommandPalette({
         id: "action-signoff",
         category: "Core Actions",
         title: "Pre-flight Workspace Sign-off",
-        description: "Digitally certify and close active performance review cohort",
+        description: "Market Finance cycle-close certification for the active reporting period",
         icon: Shield,
         action: () => { onTriggerSignoff(); onClose(); },
         shortcut: "S"
@@ -154,7 +163,7 @@ export default function CommandPalette({
         id: "action-clear",
         category: "Core Actions",
         title: "Clear Dashboard Filters",
-        description: "Reset facilities, region and other filtering constraints instantly",
+        description: "Reset facility, region, service line, and owner filters to full close-month ledger",
         icon: Trash2,
         action: () => { onClearFilters(); onClose(); },
         shortcut: "C"
@@ -163,7 +172,7 @@ export default function CommandPalette({
         id: "action-reset",
         category: "Core Actions",
         title: "Restore System Defaults",
-        description: "Purge local storage state and re-initialize official baseline database",
+        description: "Reset sandbox storage, personas, sign-offs, and synthetic baseline ledger",
         icon: RotateCcw,
         action: () => { onRestoreSandbox(); onClose(); }
       },
@@ -173,7 +182,7 @@ export default function CommandPalette({
         id: "role-analyst",
         category: "Strategic Role Mode",
         title: "Shift Role: Sr Financial Analyst",
-        description: "Toggle operational analyst credentials for checklist and comments",
+        description: "Supply chain finance analyst — budgets, variance packs, and initiative reporting",
         icon: User,
         action: () => { onChangePersona("analyst"); onClose(); }
       },
@@ -189,7 +198,7 @@ export default function CommandPalette({
         id: "role-director",
         category: "Strategic Role Mode",
         title: "Shift Role: Supply Chain Operations",
-        description: "Adopt clinician perspectives for nursing rosters and registries",
+        description: "Supply chain operations partner — GPO, implants, and pharmacy distribution context",
         icon: User,
         action: () => { onChangePersona("director"); onClose(); }
       },
@@ -197,26 +206,31 @@ export default function CommandPalette({
         id: "role-auditor",
         category: "Strategic Role Mode",
         title: "Shift Role: Finance Compliance",
-        description: "Initiate compliance-level validation overlay parameters",
+        description: "Finance compliance — allocation audits and control testing for exported reports",
         icon: User,
         action: () => { onChangePersona("auditor"); onClose(); }
       }
     ];
 
-    // Unique Service line insights
-    const uniqueServices = Array.from(new Set(records.map(r => r.service_line)));
-    uniqueServices.forEach(s => {
+    const uniqueServices = Array.from(new Set(records.map((r) => r.service_line))).sort((a, b) => {
+      const aHouston = records.some((r) => r.service_line === a && r.region === HOUSTON_MARKET);
+      const bHouston = records.some((r) => r.service_line === b && r.region === HOUSTON_MARKET);
+      if (aHouston !== bHouston) return aHouston ? -1 : 1;
+      return a.localeCompare(b);
+    });
+    uniqueServices.forEach((s) => {
       arr.push({
         id: `service-${s.toLowerCase().replace(/ /g, "-")}`,
         category: "Service Lines Insights",
         title: `Drill Trend: ${s}`,
-        description: `Trigger 12-month Operating Margin trends & regional performance metrics for ${s}`,
+        description:
+          SERVICE_LINE_DRILL_COPY[s] ??
+          `12-month operating margin and NPR trend for ${s} across all markets`,
         icon: Activity,
         action: () => {
           onSelectRecord(s);
-          onTriggerToast(`Displaying 12-Month Performance Trend for ${s}.`, "info");
           onClose();
-        }
+        },
       });
     });
 
@@ -316,11 +330,13 @@ export default function CommandPalette({
   // Group commands by category
   const groupedCommands = useMemo(() => {
     const map: Record<string, CommandItem[]> = {};
-    filteredCommands.forEach(c => {
+    filteredCommands.forEach((c) => {
       if (!map[c.category]) map[c.category] = [];
       map[c.category].push(c);
     });
-    return map;
+    return PALETTE_CATEGORY_ORDER.flatMap((category) =>
+      map[category] ? [[category, map[category]] as const] : []
+    );
   }, [filteredCommands]);
 
   if (!isOpen) return null;
@@ -385,8 +401,8 @@ export default function CommandPalette({
             filteredCommands.length > 0 ? (
               // Command list representation
               <div className="space-y-4 py-2">
-                {Object.entries(groupedCommands).map(([category, items]) => {
-                  const typedItems = items as CommandItem[];
+                {groupedCommands.map(([category, items]) => {
+                  const typedItems = items;
                   return (
                     <div key={category} className="space-y-1">
                       <div className="px-3 py-1 text-[9px] font-bold text-slate-500 uppercase tracking-widest font-mono">
@@ -417,7 +433,7 @@ export default function CommandPalette({
                                 <span className={`text-[12px] font-bold block ${isSelected ? "text-white" : "text-slate-200"}`}>
                                   {item.title}
                                 </span>
-                                <span className="text-[10px] text-slate-400 block mt-0.5 line-clamp-1 font-normal">
+                                <span className="text-[10px] text-slate-400 block mt-0.5 line-clamp-2 font-normal leading-snug">
                                   {item.description}
                                 </span>
                               </div>
@@ -455,15 +471,15 @@ export default function CommandPalette({
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-mono">Suggested AI Investigations</span>
-                    <p className="text-[11px] text-slate-400">Select a micro-run operational question for automated clinical answers:</p>
+                    <p className="text-[11px] text-slate-400">Quick supply chain and margin questions grounded in close-month synthetic data:</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <button
                       type="button"
-                      onClick={() => handleSuggestionClick("Why is Cardiology opex elevated?")}
+                      onClick={() => handleSuggestionClick("Why is Surgical Supplies spend over budget?")}
                       className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
-                      "Why is Cardiology opex elevated?"
+                      "Why is Surgical Supplies spend over budget?"
                     </button>
                     <button
                       type="button"
