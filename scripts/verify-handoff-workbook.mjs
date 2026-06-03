@@ -62,8 +62,8 @@ if (names.join("|") !== EXPECTED_SHEETS.join("|")) {
 }
 
 const close = XLSX.utils.sheet_to_json(wb.Sheets["Close_Month_Ledger"]);
-if (close.length < 20) {
-  fail(`Close_Month_Ledger has only ${close.length} rows`);
+if (close.length < 60) {
+  fail(`Close_Month_Ledger has only ${close.length} rows (target 64)`);
 } else {
   pass(`Close_Month_Ledger ${close.length} rows`);
 }

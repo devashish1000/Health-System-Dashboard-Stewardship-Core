@@ -38,7 +38,7 @@ export default function KpiTrendModal({
 
   if (!isOpen) return null;
 
-  const months = reporting.chartYearMonths;
+  const months = reporting.trendChartMonths;
   const actualMonthCount = reporting.countActualMonthsThroughClose(records);
 
   // Map 12 months to actuals and projections

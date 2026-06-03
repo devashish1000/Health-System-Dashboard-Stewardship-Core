@@ -186,15 +186,7 @@ export function getMonthlyHistory(records: FinanceRecord[]) {
  * Returns service line aggregations.
  */
 export function getServiceLineAggregates(records: FinanceRecord[]) {
-  const lines = [
-    "Neurology",
-    "Cardiology",
-    "Orthopedics",
-    "Emergency",
-    "Primary Care",
-    "Imaging",
-    "Revenue Cycle"
-  ];
+  const lines = [...new Set(records.map((r) => r.service_line))].sort();
 
   return lines.map(line => {
     const lineRecords = records.filter(r => r.service_line === line);

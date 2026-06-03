@@ -38,7 +38,7 @@ export default function ServiceLineTrendModal({
 
   if (!isOpen) return null;
 
-  const months = reporting.chartYearMonths;
+  const months = reporting.trendChartMonths;
   const projectionSteps = [
     { marginOffset: 0.15, volumeOffset: 40 },
     { marginOffset: 0.35, volumeOffset: 90 },

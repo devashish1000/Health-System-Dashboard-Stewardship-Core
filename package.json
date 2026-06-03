@@ -10,7 +10,8 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "handoff:excel": "tsx scripts/generate-handoff-workbook.ts",
-    "handoff:verify": "node scripts/verify-handoff-workbook.mjs"
+    "handoff:verify": "node scripts/verify-handoff-workbook.mjs",
+    "ledger:expand-64": "tsx scripts/expand-ledger-templates-to-64.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

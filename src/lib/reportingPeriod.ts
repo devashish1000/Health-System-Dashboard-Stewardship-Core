@@ -8,7 +8,9 @@ import {
   quarterLabelForCloseMonth,
   forwardQuarterLabel,
   resolveCloseMonth as resolveCalendarCloseMonth,
+  trendChartMonths as buildTrendChartMonths,
 } from "./fiscalCalendar";
+import { DEMO_AS_OF } from "../config/demoOrg";
 
 /** Calendar-year fiscal model: P01 = January … P12 = December */
 const FISCAL_YEAR_START_MONTH = 1;
@@ -28,6 +30,8 @@ export interface ReportingContext {
   asOfDisplay: string;
   generatedAtDisplay: string;
   chartYearMonths: string[];
+  /** KPI / service-line trend modals — actuals + in-flight month(s), not full-year projection. */
+  trendChartMonths: string[];
   actualMonthsThroughClose: string[];
   workspaceTooltip: string;
   workspaceChipShort: string;
@@ -72,7 +76,7 @@ export { formatYearMonth, parseYearMonth, monthsThroughClose } from "./fiscalCal
 
 export function getReportingContext(
   records: FinanceRecord[],
-  asOf: Date = new Date()
+  asOf: Date = DEMO_AS_OF
 ): ReportingContext {
   const available = uniqueRecordMonths(records);
   const closeMonth = resolveCloseMonth(available, asOf);
@@ -92,6 +96,7 @@ export function getReportingContext(
   const closeMonthLabel = `${closeMonthShort} ${closeYear}`;
 
   const chartYearMonths = calendarYearMonths(closeYear);
+  const trendChartMonths = buildTrendChartMonths(closeMonth, asOf);
   const actualMonthsThroughClose = monthsThroughClose(closeMonth);
 
   const workspaceTooltip = `CommonSpirit Baseline synthetic ledger · ${fiscalYearLabel} ${periodLongLabel} month-end review`;
@@ -121,13 +126,15 @@ export function getReportingContext(
     asOfDisplay: formatDisplayDate(asOf),
     generatedAtDisplay: formatDisplayDate(asOf),
     chartYearMonths,
+    trendChartMonths,
     actualMonthsThroughClose,
     workspaceTooltip,
     workspaceChipShort,
     projectionStreamLabel,
     currentQuarterLabel: quarterLabelForCloseMonth(closeMonth),
     forwardQuarterLabel: forwardQuarterLabel(closeMonth),
-    isProjectionMonth: (m) => m > closeMonth,
+    isProjectionMonth: (m) =>
+      trendChartMonths.includes(m) && m > closeMonth,
     isActualMonth: (m) => m <= closeMonth,
     monthLabel,
     monthLabelWithYear,

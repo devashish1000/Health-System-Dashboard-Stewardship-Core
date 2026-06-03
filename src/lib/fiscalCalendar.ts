@@ -46,3 +46,26 @@ export function forwardQuarterLabel(closeMonth: string): string {
   const q = quarterForMonth(parseYearMonth(closeMonth).month);
   return q >= 4 ? "Q1" : `Q${q + 1}`;
 }
+
+/** Calendar month of asOf (YYYY-MM). */
+export function asOfYearMonth(asOf: Date): string {
+  return formatYearMonth(asOf.getFullYear(), asOf.getMonth() + 1);
+}
+
+/**
+ * Trend charts: YTD actuals through close, plus in-flight months after close up to asOf
+ * (e.g. close May + asOf June 2 → Jan–Jun with Jun preliminary only — no Jul–Nov).
+ */
+export function trendChartMonths(closeMonth: string, asOf: Date = new Date()): string[] {
+  const months = monthsThroughClose(closeMonth);
+  const asOfYm = asOfYearMonth(asOf);
+  const { year: closeYear, month: closeNum } = parseYearMonth(closeMonth);
+  const { year: asOfYear, month: asOfNum } = parseYearMonth(asOfYm);
+
+  if (asOfYear !== closeYear || asOfYm <= closeMonth) return months;
+
+  for (let m = closeNum + 1; m <= asOfNum; m++) {
+    months.push(formatYearMonth(closeYear, m));
+  }
+  return months;
+}

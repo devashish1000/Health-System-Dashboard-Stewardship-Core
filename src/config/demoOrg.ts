@@ -1,5 +1,18 @@
 import type { UserPersona } from "../types";
 
+/**
+ * Demo "today" — pins close month, ledger range, and UI as-of labels.
+ * June 2, 2026 → close May 2026 (FY26 P05); ledger Jan–May actuals.
+ */
+export const DEMO_AS_OF = new Date(2026, 5, 2); // 2026-06-02 local
+
+/**
+ * Synthetic ledger sizing (close-month rows = templates; total ≈ templates × months).
+ * Below ~40 close-month rows, facility filters and service-line drills look like n=1–2 samples.
+ */
+export const LEDGER_TARGET_CLOSE_MONTH_ROWS = 64;
+export const LEDGER_TARGET_MONTHS_YTD = 5;
+
 /** Houston-primary, multi-market demo org (synthetic — not operational data). */
 export const DEMO_DISCLAIMER =
   "Concept prototype · not affiliated with or endorsed by CommonSpirit Health · synthetic ledger · no PHI";

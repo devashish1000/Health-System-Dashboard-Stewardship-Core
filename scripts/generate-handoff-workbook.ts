@@ -24,6 +24,7 @@ import {
   controlTowerVersion,
 } from "../src/lib/stewardshipConfig.ts";
 import { DATA_HANDOFF_WORKBOOK_FILENAME } from "../src/constants/dataHandoff.ts";
+import { DEMO_AS_OF } from "../src/config/demoOrg.ts";
 
 const BRAND_DARK = "FF1E293B";
 const BRAND_HEADER = "FF0F766E";
@@ -210,7 +211,7 @@ function buildHowToReadSheet(wb: ExcelJS.Workbook) {
 }
 
 async function main() {
-  const asOf = new Date("2026-06-15");
+  const asOf = DEMO_AS_OF;
   const records = buildSyntheticLedger(asOf);
   const reporting = getReportingContext(records);
   const closeRecords = records.filter((r) => r.month === reporting.closeMonth);

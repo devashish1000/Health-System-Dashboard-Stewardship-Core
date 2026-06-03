@@ -29,4 +29,6 @@ npm run handoff:verify  # structural checks
 
 Uses **exceljs** for executive formatting (frozen headers, currency/percent formats, tab colors). Data is built from the same TypeScript generators as the running app.
 
+**Scale (Option C):** 64 facility×service-line templates × 5 YTD months ≈ **320 ledger rows**; close month **64 rows**.
+
 **In-app:** Finance Export Suite → **Data handoff workbook (Excel)**; Executive Tower hero links to the same file.
