@@ -268,7 +268,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 dark:text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-ink-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans">
       
       {/* Toast Overlay Component */}
       <Toast toasts={toasts} onRemove={handleRemoveToast} />
@@ -412,13 +412,13 @@ export default function App() {
               <div className="hidden lg:flex items-center gap-3 ml-6 border-l border-slate-200 pl-6">
                 <button
                   onClick={() => setIsExportModalOpen(true)}
-                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl cursor-pointer transition-colors shadow-3xs"
+                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 dark:hover:bg-ink-700 text-slate-700 dark:text-slate-200 rounded-xl cursor-pointer transition-colors shadow-3xs"
                 >
                   Export Data
                 </button>
                 <button
                   onClick={() => setIsTourOpen(true)}
-                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl cursor-pointer transition-colors shadow-3xs flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 dark:hover:bg-ink-700 text-slate-700 dark:text-slate-200 rounded-xl cursor-pointer transition-colors shadow-3xs flex items-center gap-1.5"
                 >
                   <HelpCircle className="w-3.5 h-3.5 text-slate-500" />
                   Take Tour
@@ -518,7 +518,7 @@ export default function App() {
           </header>
 
           {/* Interactive content based on state pages */}
-          <main className="flex-grow p-6">
+          <main className="flex-grow p-6 text-slate-900 dark:text-slate-100">
             {currentPage === "overview" && (
               <Overview 
                 onNavigate={setCurrentPage} 

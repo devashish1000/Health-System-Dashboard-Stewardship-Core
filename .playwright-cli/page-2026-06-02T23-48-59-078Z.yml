@@ -1,0 +1,322 @@
+- generic [ref=e3]:
+  - generic [ref=e96]:
+    - generic [ref=e97]:
+      - img [ref=e98]
+      - paragraph [ref=e101]: Access Authorized. Welcome back, Senior Strategic Analyst!
+    - button [ref=e102]:
+      - img [ref=e103]
+  - generic:
+    - img
+    - generic: Synthetic demo data — not real PHI
+  - generic [ref=e106]:
+    - complementary [ref=e107]:
+      - generic [ref=e109]:
+        - img [ref=e110]
+        - img "CommonSpirit" [ref=e117]
+      - navigation [ref=e118]:
+        - generic [ref=e119]: Mission Control
+        - button "Executive Tower" [ref=e120]:
+          - img [ref=e121]
+          - text: Executive Tower
+        - button "Financial Dashboard" [ref=e124]:
+          - img [ref=e125]
+          - text: Financial Dashboard
+        - button "Service Lines Review" [ref=e130]:
+          - img [ref=e131]
+          - text: Service Lines Review
+        - button "Forecast & Walk" [ref=e135]:
+          - img [ref=e136]
+          - text: Forecast & Walk
+        - button "AI Finance Copilot" [ref=e138]:
+          - img [ref=e139]
+          - text: AI Finance Copilot
+        - button "Scenario Simulator" [ref=e142]:
+          - img [ref=e143]
+          - text: Scenario Simulator
+        - button "Responsible AI & Dev" [ref=e144]:
+          - img [ref=e145]
+          - text: Responsible AI & Dev
+        - button "Pixel Auditor QA" [ref=e148]:
+          - img [ref=e149]
+          - text: Pixel Auditor QA
+      - generic [ref=e152]:
+        - generic [ref=e153]:
+          - generic [ref=e154]: Workspace Role
+          - combobox [ref=e156] [cursor=pointer]:
+            - option "👔 Strategic Analyst" [selected]
+            - option "💼 Regional CFO"
+            - option "⚕️ Clinical Director"
+            - option "🔍 Compliance Auditor"
+        - generic [ref=e159]:
+          - generic [ref=e160]: System Connected
+          - generic [ref=e161]: Mock API active fallback
+        - button "Restore System Defaults" [ref=e162] [cursor=pointer]
+        - button "Lock / Sign Out Session" [ref=e163] [cursor=pointer]:
+          - img [ref=e164]
+          - generic [ref=e167]: Lock / Sign Out Session
+        - generic [ref=e168]:
+          - text: The power of humankindness, in your numbers
+          - text: Healthcare Finance Control Tower • v1.0.0
+    - generic [ref=e169]:
+      - banner [ref=e170]:
+        - generic [ref=e171]:
+          - generic [ref=e172]:
+            - generic [ref=e173]: "System Workspace:"
+            - generic [ref=e174]: CommonSpirit Baseline
+            - generic [ref=e175]: FY26 P05 REVIEW
+          - generic [ref=e176]:
+            - button "Export Data" [ref=e177] [cursor=pointer]
+            - button "Take Tour" [ref=e178] [cursor=pointer]:
+              - img [ref=e179]
+              - text: Take Tour
+            - button "Toggle color theme" [ref=e182] [cursor=pointer]:
+              - img [ref=e183]
+            - button "Pre-flight Signoff" [ref=e185] [cursor=pointer]:
+              - img [ref=e186]
+              - text: Pre-flight Signoff
+        - generic [ref=e189]:
+          - button "Search systems... ⌘K" [ref=e190] [cursor=pointer]:
+            - img [ref=e191]
+            - generic [ref=e194]: Search systems...
+            - generic [ref=e195]: ⌘K
+          - generic [ref=e196]:
+            - img [ref=e197]
+            - generic [ref=e200]: 2026-06-02 23:48:58 UTC
+          - generic [ref=e201]:
+            - generic [ref=e202]:
+              - generic [ref=e203]: Devashish Neupane
+              - generic [ref=e204]: Senior Strategic Analyst
+            - generic [ref=e205]: DN
+      - main [ref=e206]:
+        - generic [ref=e207]:
+          - generic [ref=e208]:
+            - img
+            - generic [ref=e211]:
+              - generic [ref=e212]:
+                - img [ref=e213]
+                - text: Executive Intelligence Control Panel
+              - heading "Healthcare Financial Performance Control Tower" [level=1] [ref=e219]:
+                - text: Healthcare Financial Performance
+                - text: Control Tower
+              - paragraph [ref=e220]: AI-assisted financial control tower mapped to CommonSpirit Health stewardship baselines. Review service-line variance, run sandbox simulations, query AI intelligence, and certify fiscal periods securely.
+              - generic [ref=e221]:
+                - generic [ref=e222]:
+                  - generic [ref=e223]: Operating Target
+                  - generic [ref=e224]: 8.5% Margin
+                - generic [ref=e225]:
+                  - generic [ref=e226]: Total Revenue Managed
+                  - generic [ref=e227]: $48.7M
+                - generic [ref=e228]:
+                  - generic [ref=e229]: Clinics Audited
+                  - generic [ref=e230]: 37 Records
+                - generic [ref=e231]:
+                  - generic [ref=e232]: Mission Focus
+                  - generic [ref=e233]: Stewardship
+          - generic [ref=e234]:
+            - img [ref=e236]
+            - generic [ref=e238]:
+              - text: The Problem We Solve
+              - paragraph [ref=e239]: Finance teams spend days each month reconciling margin variance across facilities in spreadsheets. This control tower surfaces it — and the drivers behind it — in seconds.
+          - generic [ref=e240]:
+            - generic [ref=e241]:
+              - generic [ref=e242]:
+                - generic [ref=e243]:
+                  - img [ref=e245]
+                  - generic [ref=e248]: Illustrative
+                - generic [ref=e249]:
+                  - generic [ref=e250]: ~5 days → <1 day
+                  - generic [ref=e251]: Month-end variance review
+              - generic [ref=e252]:
+                - generic [ref=e253]:
+                  - img [ref=e255]
+                  - generic [ref=e258]: Illustrative
+                - generic [ref=e259]:
+                  - generic [ref=e260]: ~$1.8M / cycle
+                  - generic [ref=e261]: Denial leakage surfaced
+              - generic [ref=e262]:
+                - generic [ref=e263]:
+                  - img [ref=e265]
+                  - generic [ref=e267]: Illustrative
+                - generic [ref=e268]:
+                  - generic [ref=e269]: ~$1.2M
+                  - generic [ref=e270]: Premium agency-labor overspend flagged
+              - generic [ref=e271]:
+                - generic [ref=e272]:
+                  - img [ref=e274]
+                  - generic [ref=e277]: Illustrative
+                - generic [ref=e278]:
+                  - generic [ref=e279]: hours → minutes
+                  - generic [ref=e280]: Time-to-board-ready brief
+            - paragraph [ref=e281]: Illustrative figures based on synthetic demo data.
+          - generic [ref=e282]:
+            - heading "How This Works At Your Org" [level=2] [ref=e283]:
+              - img [ref=e284]
+              - text: How This Works At Your Org
+            - generic [ref=e286]:
+              - generic [ref=e287]:
+                - generic [ref=e288]:
+                  - img [ref=e290]
+                  - heading "Plugs into" [level=3] [ref=e294]
+                - list [ref=e295]:
+                  - listitem [ref=e296]:
+                    - img [ref=e297]
+                    - generic [ref=e300]: Epic / EHR
+                  - listitem [ref=e301]:
+                    - img [ref=e302]
+                    - generic [ref=e305]: GL / ERP (Oracle, Workday)
+                  - listitem [ref=e306]:
+                    - img [ref=e307]
+                    - generic [ref=e310]: Payroll (Kronos)
+                  - listitem [ref=e311]:
+                    - img [ref=e312]
+                    - generic [ref=e315]: Payer claims (835 / EDI)
+              - generic [ref=e316]:
+                - generic [ref=e317]:
+                  - img [ref=e319]
+                  - heading "Used by" [level=3] [ref=e324]
+                - list [ref=e325]:
+                  - listitem [ref=e326]:
+                    - img [ref=e327]
+                    - generic [ref=e330]: Regional CFO
+                  - listitem [ref=e331]:
+                    - img [ref=e332]
+                    - generic [ref=e335]: Service-line directors
+                  - listitem [ref=e336]:
+                    - img [ref=e337]
+                    - generic [ref=e340]: Revenue-cycle leads
+                  - listitem [ref=e341]:
+                    - img [ref=e342]
+                    - generic [ref=e345]: Compliance
+              - generic [ref=e346]:
+                - generic [ref=e347]:
+                  - img [ref=e349]
+                  - heading "Replaces" [level=3] [ref=e354]
+                - list [ref=e355]:
+                  - listitem [ref=e356]:
+                    - img [ref=e357]
+                    - generic [ref=e360]: Manual spreadsheet consolidation
+                  - listitem [ref=e361]:
+                    - img [ref=e362]
+                    - generic [ref=e365]: Slow denial & variance chasing
+                  - listitem [ref=e366]:
+                    - img [ref=e367]
+                    - generic [ref=e370]: Static month-end decks
+            - generic [ref=e371]:
+              - img [ref=e372]
+              - paragraph [ref=e375]: Prototype on synthetic data. In production this connects to your EHR, GL, and claims feeds via read-only APIs — no PHI leaves your environment.
+          - generic [ref=e376]:
+            - img [ref=e377]
+            - generic [ref=e379]:
+              - heading "Mission-Driven Positioning Statement" [level=4] [ref=e380]
+              - paragraph [ref=e381]: Unlike commercial market trading platforms or investor dashboards, our Healthcare Financial Control Tower operates under a stewardship construct. Margin target realization is tracked not for corporate profit maximization, but to safeguard clinical services delivery and sustain care availability for all community participants, including underserved populations.
+          - generic [ref=e382]:
+            - generic [ref=e383]:
+              - generic [ref=e384]:
+                - generic [ref=e385]: Compliance Tracking
+                - heading "Stewardship Readiness" [level=3] [ref=e386]
+                - paragraph [ref=e387]: Before submitting monthly results to corporate accounting, complete these core checkpoints.
+              - generic [ref=e388]:
+                - generic [ref=e389]:
+                  - generic [ref=e390]: Period Closed Progress
+                  - generic [ref=e391]: 25%
+                - generic [ref=e394]:
+                  - img [ref=e395]
+                  - generic [ref=e398]: 1 of 4 regulatory actions signed.
+            - generic [ref=e399]:
+              - heading "Required Month-End Diagnostics" [level=4] [ref=e400]
+              - generic [ref=e401]:
+                - generic [ref=e402]:
+                  - generic [ref=e403]:
+                    - button [disabled] [ref=e404] [cursor=pointer]:
+                      - img [ref=e405]
+                    - generic [ref=e408]:
+                      - generic [ref=e409]: Audit Cardiology Prior Authorization outliers
+                      - generic [ref=e410]: Complete — variance notes logged in Service Line reviewer.
+                  - button "Go" [ref=e411] [cursor=pointer]:
+                    - text: Go
+                    - img [ref=e412]
+                - generic [ref=e414]:
+                  - generic [ref=e415]:
+                    - button [ref=e416] [cursor=pointer]:
+                      - img [ref=e417]
+                    - generic [ref=e420]:
+                      - generic [ref=e421]: Run strategic margin sensitivity simulator models
+                      - generic [ref=e422]: Pending — adjust simulation options inside the sandbox console.
+                  - button "Go" [ref=e423] [cursor=pointer]:
+                    - text: Go
+                    - img [ref=e424]
+                - generic [ref=e426]:
+                  - generic [ref=e427]:
+                    - button [ref=e428] [cursor=pointer]:
+                      - img [ref=e429]
+                    - generic [ref=e432]:
+                      - generic [ref=e433]: Query AI Finance Copilot for decision-support insights
+                      - generic [ref=e434]: Pending — ask co-pilot about margin target constraints.
+                  - button "Go" [ref=e435] [cursor=pointer]:
+                    - text: Go
+                    - img [ref=e436]
+                - generic [ref=e438]:
+                  - generic [ref=e439]:
+                    - button [disabled] [ref=e440] [cursor=pointer]:
+                      - img [ref=e441]
+                    - generic [ref=e444]:
+                      - generic [ref=e445]: Digitally sign and seal finalized cycle ledger certificate
+                      - generic [ref=e446]: Pending — requires CFO profile sign-off to close reporting period.
+                  - button "Go" [ref=e447] [cursor=pointer]:
+                    - img [ref=e448]
+                    - text: Go
+                    - img [ref=e451]
+          - generic [ref=e453]:
+            - heading "Prototype Capabilities Overview" [level=2] [ref=e454]:
+              - img [ref=e455]
+              - text: Prototype Capabilities Overview
+            - generic [ref=e457]:
+              - generic [ref=e458]:
+                - img [ref=e460]
+                - heading "1. Budget-to-Actual Visibility" [level=3] [ref=e462]
+                - paragraph [ref=e463]: Provides deep operational granularity across regions and clinics, tracking Net Patient Revenue (NPR), Expense Watchlists, and operating variance ratios without compromising data security.
+              - generic [ref=e464]:
+                - img [ref=e466]
+                - heading "2. Financial Driver Intelligence" [level=3] [ref=e469]
+                - paragraph [ref=e470]: Decomposes cost structures into critical clinical factors like premium nurse registry utilization, medical implants supply chain inflation, and claims insurance denial rates.
+              - generic [ref=e471]:
+                - img [ref=e473]
+                - heading "3. Executive Financial Storytelling" [level=3] [ref=e476]
+                - paragraph [ref=e477]: Leverages large language models (featuring safe server-side proxy integration) to generate leadership-ready briefs that translate raw analytical tables into coherent actions.
+          - generic [ref=e478]:
+            - heading "Select Your Analytical Workspace Entrypoint:" [level=3] [ref=e479]
+            - generic [ref=e480]:
+              - button "View Financial Dashboard Analyze KPIs, charts, and facility record filters" [ref=e481] [cursor=pointer]:
+                - generic [ref=e482]:
+                  - generic [ref=e483]: View Financial Dashboard
+                  - generic [ref=e484]: Analyze KPIs, charts, and facility record filters
+                - img [ref=e486]
+              - button "Open Service-Line View Oversee specific departments and annotate notes" [ref=e488] [cursor=pointer]:
+                - generic [ref=e489]:
+                  - generic [ref=e490]: Open Service-Line View
+                  - generic [ref=e491]: Oversee specific departments and annotate notes
+                - img [ref=e493]
+              - button "Ask Finance Copilot Query financial variables using Gemini AI support" [ref=e496] [cursor=pointer]:
+                - generic [ref=e497]:
+                  - generic [ref=e498]: Ask Finance Copilot
+                  - generic [ref=e499]: Query financial variables using Gemini AI support
+                - img [ref=e501]
+  - generic [ref=e505]:
+    - button "Skip tour" [ref=e506]:
+      - img [ref=e507]
+    - generic [ref=e510]:
+      - img [ref=e512]
+      - generic [ref=e515]:
+        - generic [ref=e516]: Guided Tour
+        - generic [ref=e517]: Step 1 of 8
+    - heading "Executive Tower" [level=2] [ref=e518]
+    - paragraph [ref=e519]: "The 30-second story: the problem, the ROI, and how it fits your org."
+    - generic [ref=e529]:
+      - button "Skip tour" [ref=e530]
+      - generic [ref=e531]:
+        - button "Back" [disabled] [ref=e532]:
+          - img [ref=e533]
+          - text: Back
+        - button "Next" [ref=e535]:
+          - text: Next
+          - img [ref=e536]

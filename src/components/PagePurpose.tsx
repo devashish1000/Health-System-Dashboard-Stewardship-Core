@@ -22,8 +22,8 @@ export default function PagePurpose(props: PagePurposeProps) {
           <div className="text-[10px] font-semibold uppercase tracking-wide text-brand-600">
             {title}
           </div>
-          <div className="text-sm font-bold text-slate-800 dark:text-slate-100">{what}</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400">{value}</div>
+          <div className="text-sm font-bold text-slate-900 dark:text-slate-100">{what}</div>
+          <div className="text-xs text-slate-600 dark:text-slate-400">{value}</div>
         </div>
       </div>
 

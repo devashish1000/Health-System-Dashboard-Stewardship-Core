@@ -308,8 +308,8 @@ export default function Overview({
                 key={task.id}
                 className={`p-3.5 rounded-2xl border flex items-start gap-3.5 justify-between transition-all ${
                   task.checked 
-                    ? "border-emerald-100 bg-emerald-50/10" 
-                    : "border-slate-100 bg-white"
+                    ? "border-emerald-100 dark:border-emerald-800/40 bg-emerald-50/80 dark:bg-emerald-950/30" 
+                    : "border-slate-100 bg-white dark:bg-ink-800/80 dark:border-white/10"
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -327,10 +327,10 @@ export default function Overview({
                     <CheckCircle2 className={`w-4 h-4 ${task.checked ? "fill-emerald-100" : ""}`} />
                   </button>
                   <div className="space-y-0.5">
-                    <span className={`block text-xs font-bold ${task.checked ? "text-slate-700 dark:text-slate-300 line-through decoration-slate-400" : "text-slate-800 dark:text-slate-100"}`}>
+                    <span className={`block text-xs font-bold ${task.checked ? "text-slate-600 dark:text-slate-400 line-through decoration-slate-400" : "text-on-surface"}`}>
                       {task.label}
                     </span>
-                    <span className="block text-[10px] text-slate-400 leading-normal">{task.desc}</span>
+                    <span className="block text-[10px] text-muted-surface leading-normal">{task.desc}</span>
                   </div>
                 </div>
 

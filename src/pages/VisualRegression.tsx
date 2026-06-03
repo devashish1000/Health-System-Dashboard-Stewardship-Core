@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import PagePurpose from "../components/PagePurpose";
+import PageHeader from "../components/PageHeader";
 
 // --- Types & Interfaces ---
 
@@ -217,50 +218,45 @@ export default function VisualRegression() {
   const actualSelectedMargin = parseFloat(selectedEpoch.operatingMargin) - (registryWageOvercharge * 0.005);
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto px-4 py-4 animate-fade-in text-slate-800">
+    <div className="space-y-6 max-w-5xl mx-auto px-4 py-4 animate-fade-in">
       
-      {/* Top Main Heading */}
-      <div className="border-b border-slate-100 dark:border-white/10 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            <Gauge className="w-5 h-5 text-brand-600" />
-            Engineering QA & System Guardrails Suite
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Comprehensive testing sandbox showcasing high-fidelity production auditing, chaos resilience, temporal audits, and WCAG accessibility standards.
-          </p>
-        </div>
+      <PageHeader
+        title="Engineering QA & System Guardrails Suite"
+        subtitle="Comprehensive testing sandbox showcasing high-fidelity production auditing, chaos resilience, temporal audits, and WCAG accessibility standards."
+        icon={Gauge}
+        trailing={
         <div className="flex bg-slate-100/85 dark:bg-ink-800 p-1 rounded-2xl gap-1 border border-slate-200 dark:border-white/10">
           <button 
             type="button"
             onClick={() => setActiveTab("pixel")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "pixel" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "pixel" ? "bg-white dark:bg-ink-700 text-brand-600 dark:text-brand-300 shadow-3xs" : "text-muted-surface hover:text-on-surface"}`}
           >
             Pixel Auditor
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab("chaos")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "chaos" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "chaos" ? "bg-white dark:bg-ink-700 text-brand-600 dark:text-brand-300 shadow-3xs" : "text-muted-surface hover:text-on-surface"}`}
           >
             Chaos Injector
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab("temporal")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "temporal" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "temporal" ? "bg-white dark:bg-ink-700 text-brand-600 dark:text-brand-300 shadow-3xs" : "text-muted-surface hover:text-on-surface"}`}
           >
             Time Travel
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab("a11y")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "a11y" ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-800"}`}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === "a11y" ? "bg-white dark:bg-ink-700 text-brand-600 dark:text-brand-300 shadow-3xs" : "text-muted-surface hover:text-on-surface"}`}
           >
             WCAG A11y
           </button>
         </div>
-      </div>
+        }
+      />
 
       <PagePurpose
         title="Why this page matters"

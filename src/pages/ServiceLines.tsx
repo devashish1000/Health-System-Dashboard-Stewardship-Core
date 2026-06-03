@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Heart, ShieldCheck, Hammer, Activity, PlusCircle, HelpCircle, FileSpreadsheet,
+  Heart, ShieldCheck, Hammer, Activity, PlusCircle, HelpCircle, FileSpreadsheet, Layers,
   AlertOctagon, CheckSquare, ListPlus, Send, Flag, CheckCircle, Award, User, AlertCircle
 } from "lucide-react";
 import { FinanceRecord } from "../data/syntheticFinanceData";
@@ -11,6 +11,7 @@ import {
   formatVarianceCurrency,
 } from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
+import PageHeader from "../components/PageHeader";
 
 interface ServiceLinesProps {
   records: FinanceRecord[];
@@ -139,18 +140,11 @@ export default function ServiceLines({
   return (
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
       
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
-        <div>
-          <h2 className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100">
-            Service Line Performance Hub
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Review departmental margin contributions, patient volume variances, and execute compliance workflows.
-          </p>
-        </div>
-
-        {/* Global Action Tools */}
+      <PageHeader
+        title="Service Line Performance Hub"
+        subtitle="Review departmental margin contributions, patient volume variances, and execute compliance workflows."
+        icon={Layers}
+        trailing={
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleSaveExecutiveSummary}
@@ -171,7 +165,8 @@ export default function ServiceLines({
             Mark Month-End Review Complete
           </button>
         </div>
-      </div>
+        }
+      />
 
       <PagePurpose
         title="Why this page matters"

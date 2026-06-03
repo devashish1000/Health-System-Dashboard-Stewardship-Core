@@ -11,6 +11,7 @@ import { chartTheme, chartMargins } from "../lib/chartTheme";
 import { seriesLabels, illustrativeNote } from "../lib/chartSemantics";
 import ChartTooltip from "../components/charts/ChartTooltip";
 import PagePurpose from "../components/PagePurpose";
+import PageHeader from "../components/PageHeader";
 
 interface ForecastProps {
   records: FinanceRecord[];
@@ -40,19 +41,16 @@ export default function Forecast({ records }: ForecastProps) {
   return (
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
-        <div>
-          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
-            Forecast & Variance Driver Modeling
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Continuous operating margin projection, variance walk, and driver impact attribution modeling.
-          </p>
-        </div>
-        <div className="text-xs font-mono text-slate-400">
-          Last Calibrated: June 2, 2026
-        </div>
-      </div>
+      <PageHeader
+        title="Forecast & Variance Driver Modeling"
+        subtitle="Continuous operating margin projection, variance walk, and driver impact attribution modeling."
+        icon={TrendingUp}
+        trailing={
+          <div className="text-xs font-mono text-muted-surface tabular-nums">
+            Last Calibrated: June 2, 2026
+          </div>
+        }
+      />
 
       <PagePurpose
         title="Why this page matters"
@@ -225,14 +223,14 @@ export default function Forecast({ records }: ForecastProps) {
 
             <div className="space-y-1">
               <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Key Drivers</span>
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <p className="text-xs text-muted-surface leading-relaxed">
                 “Labor cost contributed the largest unfavorable variance, followed by payer mix and reimbursement timing of commercial provider billings.”
               </p>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Recommended Financial Review</span>
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <p className="text-xs text-muted-surface leading-relaxed">
                 “Validate labor variance, review reimbursement timing, compare actual service-line volume against forecast, and assess denial trends.”
               </p>
             </div>

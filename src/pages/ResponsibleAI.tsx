@@ -4,6 +4,7 @@ import {
   Terminal, Award, Star, UserCheck
 } from "lucide-react";
 import PagePurpose from "../components/PagePurpose";
+import PageHeader from "../components/PageHeader";
 
 export default function ResponsibleAI() {
   const profile = {
@@ -23,15 +24,11 @@ export default function ResponsibleAI() {
   return (
     <div className="space-y-8 max-w-5xl mx-auto px-4 py-4 animate-fade-in">
       
-      {/* Page Header */}
-      <div className="border-b border-slate-100 dark:border-white/10 pb-4">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
-          Responsible AI & Ethical Integrity Platform
-        </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          Ethical system guardrails, intended use criteria, and professional portfolio bio.
-        </p>
-      </div>
+      <PageHeader
+        title="Responsible AI & Ethical Integrity Platform"
+        subtitle="Ethical system guardrails, intended use criteria, and professional portfolio bio."
+        icon={ShieldCheck}
+      />
 
       <PagePurpose
         title="Why this page matters"

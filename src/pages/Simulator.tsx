@@ -14,6 +14,7 @@ import {
   formatCount,
 } from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
+import PageHeader from "../components/PageHeader";
 
 interface SimulatorProps {
   records: FinanceRecord[];
@@ -92,24 +93,19 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
   return (
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
       
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
-        <div>
-          <h2 className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100">
-            Strategic Scenario Simulator
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Hypothetical sensitivity analysis modeling. Pivot operations variables dynamically to project operating margin recoverability.
-          </p>
-        </div>
-        
-        <button
-          onClick={handleResetSimulator}
-          className="px-3 py-1.5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 rounded-xl text-slate-600 dark:text-slate-300 hover:text-brand-600 text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
-        >
-          <RefreshCw className="w-3.5 h-3.5" /> Reset Variables
-        </button>
-      </div>
+      <PageHeader
+        title="Strategic Scenario Simulator"
+        subtitle="Hypothetical sensitivity analysis modeling. Pivot operations variables dynamically to project operating margin recoverability."
+        icon={Sliders}
+        trailing={
+          <button
+            onClick={handleResetSimulator}
+            className="px-3 py-1.5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-ink-800 rounded-xl text-slate-700 dark:text-slate-200 hover:text-brand-600 text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
+          >
+            <RefreshCw className="w-3.5 h-3.5" /> Reset Variables
+          </button>
+        }
+      />
 
       <PagePurpose
         title="Why this page matters"

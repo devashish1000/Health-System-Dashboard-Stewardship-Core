@@ -38,12 +38,39 @@ h1, h2, h3, h4, .font-display {
   font-family: var(--font-display);
 }
 
-/* Dark mode: explicit, opt-in via `dark:` utilities on content surfaces
-   (handled per-component) so intentionally-dark shells with light text are
-   never inverted. Here we only set the global page canvas + default text. */
+/* Dark mode: page canvas only — do NOT set global text color (causes light
+   text to inherit onto white cards and unreadable contrast). */
 .dark body {
   background-color: #141416;
-  color: #e8e8eb;
+}
+
+/* Semantic typography — always pair with matching surface (card or page canvas). */
+.text-page-title {
+  color: #0f172a;
+}
+.dark .text-page-title {
+  color: #f1f5f9;
+}
+
+.text-page-subtitle {
+  color: #475569;
+}
+.dark .text-page-subtitle {
+  color: #94a3b8;
+}
+
+.text-on-surface {
+  color: #0f172a;
+}
+.dark .text-on-surface {
+  color: #e2e8f0;
+}
+
+.text-muted-surface {
+  color: #64748b;
+}
+.dark .text-muted-surface {
+  color: #94a3b8;
 }
 
 @keyframes fadeIn {

@@ -1,0 +1,69 @@
+- generic [ref=e4]:
+  - img
+  - banner [ref=e5]:
+    - img "CommonSpirit" [ref=e7]
+    - generic [ref=e9]: Financial Performance Control Tower
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - img [ref=e13]
+        - generic [ref=e19]: Hello humankindness
+      - heading "The power of humankindness, in your numbers." [level=2] [ref=e20]:
+        - text: The power of humankindness,
+        - generic [ref=e21]: in your numbers.
+      - paragraph [ref=e22]: Replace the month-end spreadsheet grind. Pinpoint where margin is leaking across every service line, forecast volume-to-revenue in real time, and certify board-ready variances your CFO can sign off on — so more of every dollar goes back to the communities and care that humankindness is built on.
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - img [ref=e26]
+            - text: Simulation Sandbox
+          - paragraph [ref=e29]: Model rate, payer-mix, and volume scenarios across facilities and see the margin impact instantly — no rebuilding spreadsheets for every what-if.
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - img [ref=e32]
+            - text: Audit-Ready Sign-off
+          - paragraph [ref=e35]: Every number carries a certified, traceable sign-off — so you close cycles faster and walk into board and audit reviews with defensible numbers.
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - heading "Sign in to your workspace" [level=3] [ref=e39]
+        - paragraph [ref=e40]: Choose a role preset or enter credentials to enter the control tower.
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]: Authorized Email
+          - generic [ref=e44]:
+            - img [ref=e46]
+            - textbox "name@commonspirit.org" [ref=e49]: strategic.analyst@commonspirit.org
+        - generic [ref=e50]:
+          - generic [ref=e51]: Security Access PIN
+          - generic [ref=e52]:
+            - img [ref=e54]
+            - textbox "Enter security access key" [ref=e57]: ••••••••
+        - generic [ref=e58]:
+          - generic [ref=e59]: Authorized Role Preset
+          - generic [ref=e60]:
+            - button "👔 Analyst Devashish Neupane" [ref=e61] [cursor=pointer]:
+              - generic [ref=e62]:
+                - generic [ref=e63]: 👔
+                - generic [ref=e64]: Analyst
+              - generic [ref=e65]: Devashish Neupane
+            - button "💼 CFO Sarah Jenkins" [ref=e66] [cursor=pointer]:
+              - generic [ref=e67]:
+                - generic [ref=e68]: 💼
+                - generic [ref=e69]: CFO
+              - generic [ref=e70]: Sarah Jenkins
+            - button "⚕️ Director Dr. Aris Vance" [ref=e71] [cursor=pointer]:
+              - generic [ref=e72]:
+                - generic [ref=e73]: ⚕️
+                - generic [ref=e74]: Director
+              - generic [ref=e75]: Dr. Aris Vance
+            - button "🔍 Auditor Marcus Brody" [ref=e76] [cursor=pointer]:
+              - generic [ref=e77]:
+                - generic [ref=e78]: 🔍
+                - generic [ref=e79]: Auditor
+              - generic [ref=e80]: Marcus Brody
+        - button "Enter Control Tower" [ref=e81] [cursor=pointer]:
+          - generic [ref=e82]: Enter Control Tower
+          - img [ref=e83]
+  - contentinfo [ref=e85]:
+    - paragraph [ref=e86]: © 2026 CommonSpirit Stewardship Governance Committee. All rights reserved.
+    - paragraph [ref=e87]: "Environment status: mock sandbox interface. Synthetic demo data — no PHI."

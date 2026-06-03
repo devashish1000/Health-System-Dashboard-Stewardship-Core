@@ -7,6 +7,7 @@ import { askGeminiFinance, CopilotResponse } from "../lib/ai";
 import { SYNTHETIC_RECORDS } from "../data/syntheticFinanceData";
 import { formatCount, formatCurrency, formatPercent } from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
+import PageHeader from "../components/PageHeader";
 
 interface Message {
   id: string;
@@ -200,25 +201,20 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
   return (
     <div className="space-y-8 max-w-6xl mx-auto px-4 py-4 animate-fade-in">
       
-      {/* Intro Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
-        <div>
-          <h2 className="text-xl font-bold font-sans text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            AI Finance Copilot
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Smart financial assistant leveraging Google Gemini for executive reporting, budget walks, and operational analysis.
-          </p>
-        </div>
-        
-        <button
-          onClick={handleGenerateBrief}
-          disabled={isLoading}
-          className="px-4 py-2 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 disabled:opacity-55 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
-        >
-          <FileText className="w-4 h-4" /> Synthesize Executive Brief
-        </button>
-      </div>
+      <PageHeader
+        title="AI Finance Copilot"
+        subtitle="Smart financial assistant leveraging Google Gemini for executive reporting, budget walks, and operational analysis."
+        icon={Cpu}
+        trailing={
+          <button
+            onClick={handleGenerateBrief}
+            disabled={isLoading}
+            className="px-4 py-2 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 disabled:opacity-55 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500"
+          >
+            <FileText className="w-4 h-4" /> Synthesize Executive Brief
+          </button>
+        }
+      />
 
       <PagePurpose
         title="Why this page matters"
