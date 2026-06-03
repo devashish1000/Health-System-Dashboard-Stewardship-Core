@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   Compass, LayoutDashboard, Layers, BarChart4, Cpu, Sliders, ShieldCheck,
-  Building, UserCheck, Clock, Share2, HelpCircle, ArrowRightLeft, Menu, X, RefreshCcw,
-  Shield, Activity, Lock, Search, Eye, Sun, Moon
+  Building, UserCheck, Share2, ArrowRightLeft, X, RefreshCcw,
+  Shield, Activity, Lock, Eye
 } from "lucide-react";
 import BrandLogo from "./components/BrandLogo";
 import { SparkMark } from "./components/BrandMotif";
@@ -30,6 +30,7 @@ import FinalizeReviewModal from "./components/FinalizeReviewModal";
 import CommandPalette from "./components/CommandPalette";
 import GuidedTour from "./components/GuidedTour";
 import SyntheticDataBadge from "./components/SyntheticDataBadge";
+import AppTopBar, { SidebarWorkspaceContext } from "./components/AppTopBar";
 
 const INITIAL_FILTERS: ControlTowerFilters = {
   facility: "",
@@ -326,6 +327,8 @@ export default function App() {
 
           {/* Sidebar Footer detailing metadata */}
           <div className="p-5 border-t border-ink-800 space-y-3.5">
+            <SidebarWorkspaceContext />
+
             {/* Persona Selection Dropdown */}
             <div className="space-y-1">
               <label className="text-[9px] font-bold tracking-wider text-slate-500 uppercase block">Workspace Role</label>
@@ -386,136 +389,17 @@ export default function App() {
         {/* Outer Content Frame wrapper */}
         <div className="flex-grow md:pl-64 min-w-0 transition-padding">
           
-          {/* Top Warm-White Operational Bar Header */}
-          <header className="sticky top-0 z-30 bg-white dark:bg-ink-900 border-b border-slate-100 dark:border-white/10 flex items-center justify-between px-6 py-4 shadow-3xs">
-            
-            {/* Sidebar toggle buttons */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setIsMobileSidebarOpen(true)}
-                className="p-2 rounded-lg border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-ink-800 md:hidden text-slate-600 dark:text-slate-200 transition-colors cursor-pointer"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
-
-              <div className="hidden sm:flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">System Workspace:</span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-ink-800 text-slate-600 dark:text-slate-200 border border-slate-200 dark:border-white/10 uppercase">
-                  CommonSpirit Baseline
-                </span>
-                <span className="ml-2 px-2 py-0.5 bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-300 rounded text-[10px] font-bold border border-brand-100 dark:border-brand-800/40 uppercase">
-                  FY26 P05 REVIEW
-                </span>
-              </div>
-
-              {/* Dynamic Header Operational Actions Suite */}
-              <div className="hidden lg:flex items-center gap-3 ml-6 border-l border-slate-200 pl-6">
-                <button
-                  onClick={() => setIsExportModalOpen(true)}
-                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 dark:hover:bg-ink-700 text-slate-700 dark:text-slate-200 rounded-xl cursor-pointer transition-colors shadow-3xs"
-                >
-                  Export Data
-                </button>
-                <button
-                  onClick={() => setIsTourOpen(true)}
-                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 dark:hover:bg-ink-700 text-slate-700 dark:text-slate-200 rounded-xl cursor-pointer transition-colors shadow-3xs flex items-center gap-1.5"
-                >
-                  <HelpCircle className="w-3.5 h-3.5 text-slate-500" />
-                  Take Tour
-                </button>
-                <button
-                  onClick={toggleTheme}
-                  aria-label="Toggle color theme"
-                  className="px-3.5 py-1.5 text-xs font-bold border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 hover:bg-slate-50 dark:hover:bg-ink-700 text-slate-700 dark:text-slate-200 rounded-xl cursor-pointer transition-colors shadow-3xs flex items-center gap-1.5"
-                >
-                  {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-                </button>
-                <button
-                  onClick={handleFinalizeReviewClick}
-                  className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl cursor-pointer transition-all shadow-3xs flex items-center gap-1.5 ${
-                    userPersona === "cfo"
-                      ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm shadow-emerald-50"
-                      : "bg-brand-600 text-white hover:bg-brand-700 shadow-sm shadow-brand-50"
-                  }`}
-                >
-                  <Lock className="w-3 h-3" />
-                  {userPersona === "cfo" ? "Finalize Review" : "Pre-flight Signoff"}
-                </button>
-              </div>
-            </div>
-
-            {/* Time monitoring clock and CFO credential labels */}
-            <div className="flex items-center gap-4">
-
-              {/* Discoverable Command Palette Trigger */}
-              <button
-                onClick={() => setIsCommandPaletteOpen(true)}
-                className="hidden md:flex items-center gap-2 px-3 py-1.5 text-xs font-bold text-slate-400 dark:text-slate-400 border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-ink-800 hover:bg-slate-100/70 dark:hover:bg-ink-700 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl cursor-pointer transition-all shadow-3xs outline-hidden"
-                id="cmd-k-trigger"
-              >
-                <Search className="w-3.5 h-3.5 text-slate-400" />
-                <span>Search systems...</span>
-                <span className="text-[9px] bg-slate-200 dark:bg-ink-700 px-1 rounded-md text-slate-500 dark:text-slate-400 font-mono font-bold leading-none py-0.5 border border-slate-300 dark:border-white/10">⌘K</span>
-              </button>
-              
-              {/* UTC clock */}
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-400 font-medium font-mono bg-slate-50 dark:bg-ink-800 border border-slate-100 dark:border-white/10 px-3 py-1 rounded-lg">
-                <Clock className="w-3.5 h-3.5 text-slate-400" />
-                <span>{utcTimeStr || "Loading System Timing..."}</span>
-              </div>
-
-              {/* Dynamic User Profile Bio Block */}
-              {(() => {
-                const getPersonaProfile = () => {
-                  switch (userPersona) {
-                    case "cfo":
-                      return {
-                        name: "Sarah Jenkins",
-                        title: "Regional CFO",
-                        initials: "SJ",
-                        grad: "from-emerald-600 to-teal-500"
-                      };
-                    case "director":
-                      return {
-                        name: "Dr. Aris Vance",
-                        title: "Clinical Director",
-                        initials: "AV",
-                        grad: "from-brand-400 to-brand-600"
-                      };
-                    case "auditor":
-                      return {
-                        name: "Marcus Brody",
-                        title: "Compliance Auditor",
-                        initials: "MB",
-                        grad: "from-teal-600 to-cyan-500"
-                      };
-                    case "analyst":
-                    default:
-                      return {
-                        name: "Devashish Neupane",
-                        title: "Senior Strategic Analyst",
-                        initials: "DN",
-                        grad: "from-brand-600 to-brand-800"
-                      };
-                  }
-                };
-                const profile = getPersonaProfile();
-                return (
-                  <div className="flex items-center gap-2.5 pl-4 border-l border-slate-200 animate-fade-in">
-                    <div className="text-right">
-                      <span className="text-xs font-bold text-slate-800 block leading-tight">{profile.name}</span>
-                      <span className="text-[10px] text-slate-400 block leading-none font-medium">{profile.title}</span>
-                    </div>
-                    <div className={`w-9 h-9 rounded-full shrink-0 bg-gradient-to-tr ${profile.grad} border border-slate-100 flex items-center justify-center text-white font-extrabold text-xs shadow-sm`}>
-                      {profile.initials}
-                    </div>
-                  </div>
-                );
-              })()}
-
-            </div>
-
-          </header>
+          <AppTopBar
+            userPersona={userPersona}
+            utcTimeStr={utcTimeStr}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+            onOpenExport={() => setIsExportModalOpen(true)}
+            onOpenTour={() => setIsTourOpen(true)}
+            onFinalize={handleFinalizeReviewClick}
+            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+            onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+          />
 
           {/* Interactive content based on state pages */}
           <main className="flex-grow p-6 text-slate-900 dark:text-slate-100">

@@ -29,6 +29,12 @@ Dark mode set `color: #e8e8eb` on `body` while many surfaces stayed `bg-white` /
 
 CSS safety net: `.dark .surface-readable` forces readable slate on legacy `text-slate-*` inside chat/cards.
 
+## App top bar (header cleanup)
+
+- `src/components/AppTopBar.tsx` — two-zone layout: workspace chip (lg+) + search + primary signoff + ⋯ menu (export, tour, theme, UTC) + profile.
+- `SidebarWorkspaceContext` — workspace chip in sidebar when header chip is hidden (&lt;lg).
+- Screenshots: `node scripts/capture-header-audit.mjs` → `docs/screenshots/header-audit/`.
+
 ## Manual verify
 
 1. https://hsd-audit.vercel.app — light + dark toggle on Copilot, Forecast, Overview checklist.
