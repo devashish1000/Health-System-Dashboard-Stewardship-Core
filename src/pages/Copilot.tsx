@@ -19,12 +19,12 @@ interface Message {
 }
 
 const QUESTION_CHIPS = [
-  "Why is operating margin below target?",
-  "What drove unfavorable budget variance?",
-  "Which service line needs attention?",
-  "How much of the variance is labor-driven?",
-  "What changed this month?",
-  "Which facility has the highest expense pressure?"
+  "How predictable is supply expense this close month?",
+  "Which supply chain initiatives are underperforming vs plan?",
+  "What drove unfavorable budget variance in the close-month ledger?",
+  "Where is supply spend least predictable by service line?",
+  "How are initiative savings tracking against budget targets?",
+  "Which markets show the largest budget variance vs stewardship goal?"
 ];
 
 export default function Copilot() {
@@ -205,7 +205,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
       
       <PageHeader
         title="AI Finance Copilot"
-        subtitle="Smart financial assistant leveraging Google Gemini for executive reporting, budget walks, and operational analysis."
+        subtitle="Decision support on synthetic close-month ledger — human review required."
         icon={Cpu}
         trailing={
           <button

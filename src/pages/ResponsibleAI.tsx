@@ -10,11 +10,15 @@ import { bodyMuted, captionText, dangerMeta, dangerTitle } from "../lib/typograp
 export default function ResponsibleAI() {
   const profile = {
     name: "Devashish Neupane",
-    tagline: "Analytics, Forecasting, Business Intelligence & AI-Driven Operations",
+    tagline: "Healthcare supply chain finance · Sr Financial Analyst scope",
     email: "devashish1000@gmail.com",
     linkedin: "linkedin.com/in/devashish-neupane",
-    summary:
-      "Devashish Neupane is an analytics and business intelligence professional with experience across LinkedIn and Southwest Airlines, specializing in forecasting, KPI reporting, financial/business performance analytics, executive dashboards, operational optimization, and AI-assisted workflow design. This prototype is framed for CommonSpirit Finance — Baylor St. Luke's / Houston market supply chain finance (Sr Financial Analyst scope): expense predictability, budget variance, initiative reporting for market finance leaders, with system-wide markets for comparison. All ledger data remains synthetic.",
+    roleSummary:
+      "Healthcare supply chain finance work sample for the Sr Financial Analyst role (Req 2026-469831): Houston / Baylor St. Luke's–style market scenario with expense predictability, budget variance, initiative ROI reporting for market finance leaders, and multi-market comparison views. Forecasting, KPI reporting, executive dashboards, and AI-assisted workflow design support month-end stewardship storytelling. CommonSpirit-inspired labels only — synthetic ledger, not affiliated with or endorsed by CommonSpirit Health.",
+    priorExperience: [
+      "Southwest Airlines — analytics, forecasting, and operational performance reporting",
+      "LinkedIn — business intelligence, KPI reporting, and executive dashboard design",
+    ],
     skills: [
       "SQL", "Python", "Tableau", "Alteryx", "Forecasting", "KPI Reporting", 
       "Dashboard Design", "Financial Analytics", "Operational Analytics", 
@@ -24,6 +28,12 @@ export default function ResponsibleAI() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto px-4 py-4 animate-fade-in">
+
+      <div className="rounded-2xl border border-brand-200 dark:border-brand-500/30 bg-brand-50 dark:bg-brand-950/40 px-4 py-3 text-center">
+        <p className="text-xs font-bold text-brand-800 dark:text-brand-200 tracking-wide">
+          Built for recruiter / hiring manager review
+        </p>
+      </div>
       
       <PageHeader
         title="Responsible AI & Ethical Integrity Platform"
@@ -141,12 +151,22 @@ export default function ResponsibleAI() {
               </div>
             </div>
 
-            {/* Profile Summary */}
+            {/* Role-focused summary */}
             <div className="space-y-2">
-              <span className="text-[10px] text-sky-300 uppercase font-bold tracking-widest block">Executive Summary</span>
+              <span className="text-[10px] text-sky-300 uppercase font-bold tracking-widest block">About — Sr Financial Analyst fit</span>
               <p className="text-xs text-slate-200 leading-relaxed font-medium">
-                {profile.summary}
+                {profile.roleSummary}
               </p>
+            </div>
+
+            {/* Prior experience */}
+            <div className="space-y-2">
+              <span className="text-[10px] text-sky-300 uppercase font-bold tracking-widest block">Prior experience</span>
+              <ul className="text-xs text-slate-300 leading-relaxed font-medium space-y-1.5 list-disc list-inside">
+                {profile.priorExperience.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
 
             {/* Skills grid list */}

@@ -50,7 +50,7 @@ export default function Forecast({ records }: ForecastProps) {
 
       <PageHeader
         title="Forecast & Variance Driver Modeling"
-        subtitle="Continuous operating margin projection, variance walk, and driver impact attribution modeling."
+        subtitle="Budget development → forecast → variance report-out"
         icon={TrendingUp}
         trailing={
           <div className="text-xs font-mono text-muted-surface tabular-nums">
@@ -127,10 +127,13 @@ export default function Forecast({ records }: ForecastProps) {
         <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
           <div>
             <h3 className={chartSectionTitleClass()}>
-              Margin Driver Bridge (%)
+              Illustrative margin bridge (%)
             </h3>
             <span className={`text-sm font-semibold block mt-1 tabular-nums ${dataPrimaryClass()}`}>
               Target {formatPercent(STEWARDSHIP_TARGET_MARGIN)} down to Actual {formatPercent(currentKpis.operatingMargin)}
+            </span>
+            <span className={`text-[10px] block mt-1 ${captionClass()}`}>
+              Synthetic walk for analyst storytelling — not board-certified margin certification.
             </span>
           </div>
           <div className="h-64">

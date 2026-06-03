@@ -15,6 +15,20 @@ import { useReportingPeriod } from "./lib/useReportingPeriod";
 import { checklistStorageKey } from "./lib/periodStorage";
 import { controlTowerVersion } from "./lib/stewardshipConfig";
 import { getPersonaPreset } from "./config/demoOrg";
+import {
+  getRecruiterDefaultFilters,
+  RECRUITER_WELCOME_KEY,
+  HOUSTON_ONLY_KEY,
+  TOUR_VARIANT_KEY,
+  JOB_REQ_ID,
+  DEFAULT_REVIEW_REGION,
+} from "./constants/recruiterHandoff";
+import RecruiterWelcomeModal from "./components/RecruiterWelcomeModal";
+
+function isReviewerLink(): boolean {
+  if (typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).get("reviewer") === "1";
+}
 import { pickDrillRecord } from "./lib/serviceLineDrill";
 
 // Modular Pages
@@ -119,7 +133,18 @@ export default function App() {
   const [isFinalizeModalOpen, setIsFinalizeModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isTourOpen, setIsTourOpen] = useState(false);
-  
+  const [showRecruiterWelcome, setShowRecruiterWelcome] = useState(false);
+  const [houstonOnly, setHoustonOnly] = useState(
+    () => localStorage.getItem(HOUSTON_ONLY_KEY) === "true"
+  );
+  const [forceRecruiterTour] = useState(() => {
+    if (isReviewerLink()) {
+      localStorage.setItem(TOUR_VARIANT_KEY, "recruiter");
+      return true;
+    }
+    return false;
+  });
+
   // Global Filters state with LocalStorage Synchronization
   const [filters, setFilters] = useState<ControlTowerFilters>(() => {
     const saved = localStorage.getItem("commonspirit_filters");
@@ -185,12 +210,27 @@ export default function App() {
     localStorage.setItem("commonspirit_is_logged_in", isLoggedIn ? "true" : "false");
   }, [isLoggedIn]);
 
-  // First-run guided tour trigger (only once, when logged in)
+  // First-visit recruiter welcome (before guided tour)
   useEffect(() => {
-    if (isLoggedIn && localStorage.getItem("commonspirit_tour_seen") !== "true") {
-      setIsTourOpen(true);
+    if (isLoggedIn && localStorage.getItem(RECRUITER_WELCOME_KEY) !== "true") {
+      setShowRecruiterWelcome(true);
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    localStorage.setItem(HOUSTON_ONLY_KEY, houstonOnly ? "true" : "false");
+  }, [houstonOnly]);
+
+  // First-run guided tour trigger (only once, when logged in; after welcome dismissed)
+  useEffect(() => {
+    if (
+      isLoggedIn &&
+      !showRecruiterWelcome &&
+      localStorage.getItem("commonspirit_tour_seen") !== "true"
+    ) {
+      setIsTourOpen(true);
+    }
+  }, [isLoggedIn, showRecruiterWelcome]);
 
   useEffect(() => {
     const updateTime = () => {
@@ -213,8 +253,14 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleGlobalKbd);
   }, []);
 
-  // Filter computation
-  const filteredRecords = filterRecords(records, filters);
+  // Filter computation (optional Houston-only scope for recruiter review)
+  const effectiveFilters =
+    houstonOnly && !filters.region
+      ? { ...filters, region: DEFAULT_REVIEW_REGION }
+      : houstonOnly
+        ? { ...filters, region: filters.region || DEFAULT_REVIEW_REGION }
+        : filters;
+  const filteredRecords = filterRecords(records, effectiveFilters);
 
   const triggerToast = (text: string, type: "success" | "info" | "warning" = "success") => {
     const id = `toast-${Date.now()}`;
@@ -241,6 +287,46 @@ export default function App() {
     triggerToast("Dashboard filters cleared — showing full close-month ledger.", "info");
   };
 
+  const handleApplyHoustonFilter = (options?: { serviceLine?: string; navigate?: ProjectPage }) => {
+    const houstonDefaults = getRecruiterDefaultFilters(reporting);
+    setHoustonOnly(true);
+    setFilters((prev) => ({
+      ...prev,
+      ...houstonDefaults,
+      facility: "",
+      serviceLine: options?.serviceLine ?? "",
+      varianceStatus: "",
+      reviewStatus: "",
+      payerType: "",
+      owner: "",
+    }));
+    setCurrentPage(options?.navigate ?? "dashboard");
+    triggerToast(
+      `Reviewer path: ${houstonDefaults.region} · ${houstonDefaults.month} close month.`,
+      "info"
+    );
+  };
+
+  const handleStartReviewerPath = () => {
+    handleApplyHoustonFilter({ serviceLine: "Surgical Supplies", navigate: "dashboard" });
+  };
+
+  const handleDismissRecruiterWelcome = () => {
+    localStorage.setItem(RECRUITER_WELCOME_KEY, "true");
+    setShowRecruiterWelcome(false);
+  };
+
+  const handleLogin = (persona: UserPersona) => {
+    setUserPersona(persona);
+    if (persona === "analyst") {
+      const defaults = getRecruiterDefaultFilters(reporting);
+      setFilters({ ...INITIAL_FILTERS, ...defaults });
+      setHoustonOnly(true);
+    }
+    setIsLoggedIn(true);
+    triggerToast("Work sample loaded — synthetic data only.", "success");
+  };
+
   const handleRestoreSystemDefaults = () => {
     localStorage.removeItem("commonspirit_records");
     localStorage.removeItem("commonspirit_user_persona");
@@ -259,7 +345,7 @@ export default function App() {
       copilot: false,
       signoff: false,
     });
-    triggerToast("Workspace sandbox restored to official CommonSpirit baseline levels.", "info");
+    triggerToast("Demo sandbox reset — synthetic ledger and filters restored to defaults.", "info");
   };
 
   const handleFinalizeReviewClick = () => {
@@ -291,16 +377,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-white text-ink-900 flex flex-col font-sans">
         <Toast toasts={toasts} onRemove={handleRemoveToast} />
-        <Login
-          onLogin={(persona) => {
-            setUserPersona(persona);
-            setIsLoggedIn(true);
-            triggerToast(
-              `Access authorized. Welcome back, ${getPersonaPreset(persona).role}.`,
-              "success"
-            );
-          }}
-        />
+        <Login onLogin={handleLogin} />
       </div>
     );
   }
@@ -313,6 +390,11 @@ export default function App() {
 
       {/* Persistent synthetic demo data pill */}
       <SyntheticDataBadge periodLabel={reporting.workspaceChipShort} />
+
+      <RecruiterWelcomeModal
+        isOpen={showRecruiterWelcome}
+        onClose={handleDismissRecruiterWelcome}
+      />
 
       {/* Main Structural Frame */}
       <div className="flex flex-grow relative">
@@ -384,13 +466,18 @@ export default function App() {
                   <option value="auditor">🔍 Finance Compliance</option>
                 </select>
               </div>
+              {getPersonaPreset(userPersona).demoNote && (
+                <p className="text-[9px] text-amber-200/80 leading-snug">{getPersonaPreset(userPersona).demoNote}</p>
+              )}
             </div>
 
             <div className="flex items-center gap-2.5 bg-ink-800/35 p-2.5 rounded-xl border border-ink-800">
               <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full shrink-0 animate-pulse" />
               <div className="text-[10px] text-slate-300">
-                <span className="font-semibold block text-slate-200">System Connected</span>
-                <span className="font-mono text-slate-400 block mt-0.5">Ledger synced · {reporting.closeMonthLabel}</span>
+                <span className="font-semibold block text-slate-200">Demo workspace</span>
+                <span className="font-mono text-slate-400 block mt-0.5">
+                  Synthetic ledger · {reporting.closeMonthLabel}
+                </span>
               </div>
             </div>
 
@@ -406,7 +493,7 @@ export default function App() {
             <button
               onClick={() => {
                 setIsLoggedIn(false);
-                triggerToast("Secure gateway locked. Re-authorization required.", "info");
+                triggerToast("Work sample session ended. Return to login to continue.", "info");
               }}
               className="w-full py-1 text-[10px] font-bold border border-brand-500/10 hover:border-brand-500/20 text-brand-400 hover:bg-brand-500/5 rounded-lg cursor-pointer transition-colors flex items-center justify-center gap-1"
             >
@@ -415,8 +502,8 @@ export default function App() {
             </button>
 
             <div className="text-[9px] text-slate-400 text-center leading-normal">
-              The power of humankindness, in your numbers <br/>
-              Healthcare Finance Control Tower • {controlTowerVersion()} · {reporting.workspaceChipShort}
+              Applicant work sample · Req {JOB_REQ_ID} <br />
+              Finance Control Tower demo · {controlTowerVersion()} · {reporting.workspaceChipShort}
             </div>
           </div>
 
@@ -430,6 +517,15 @@ export default function App() {
             utcTimeStr={utcTimeStr}
             theme={theme}
             reporting={reporting}
+            houstonOnly={houstonOnly}
+            onToggleHoustonOnly={() => {
+              if (houstonOnly) {
+                setHoustonOnly(false);
+                triggerToast("Showing all markets in filters.", "info");
+              } else {
+                handleApplyHoustonFilter();
+              }
+            }}
             onToggleTheme={toggleTheme}
             onOpenExport={() => setIsExportModalOpen(true)}
             onOpenTour={() => setIsTourOpen(true)}
@@ -448,12 +544,13 @@ export default function App() {
                 onToggleChecklist={(key, val) => {
                   setChecklistCompleted(prev => ({ ...prev, [key]: val }));
                 }}
+                onStartReviewerPath={handleStartReviewerPath}
               />
             )}
             {currentPage === "dashboard" && (
               <Dashboard
                 records={filteredRecords}
-                filters={filters}
+                filters={effectiveFilters}
                 onChangeFilters={setFilters}
                 onSelectRow={setSelectedRecord}
                 onResetFilters={handleResetFilters}
@@ -544,11 +641,13 @@ export default function App() {
         }}
         records={records}
         onTriggerToast={triggerToast}
+        onApplyHoustonFilter={() => handleApplyHoustonFilter()}
       />
 
       {/* First-run / on-demand Guided Tour Overlay */}
       <GuidedTour
         isOpen={isTourOpen}
+        forceRecruiterPath={forceRecruiterTour}
         onClose={() => {
           setIsTourOpen(false);
           localStorage.setItem("commonspirit_tour_seen", "true");

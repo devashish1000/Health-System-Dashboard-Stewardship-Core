@@ -34,6 +34,8 @@ export interface PersonaPreset {
   persona: UserPersona;
   name: string;
   email: string;
+  /** Shown on persona cards when the role is demo-only (not employment) */
+  demoNote?: string;
   /** Full title for modals and login cards */
   role: string;
   /** Compact label for top bar (avoids truncation) */
@@ -48,7 +50,8 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
   {
     persona: "analyst",
     name: "Devashish Neupane",
-    email: "devashish.neupane@commonspirit.org",
+    email: "demo.analyst@worksample.demo",
+    demoNote: "Demo role — not employed at CommonSpirit",
     role: "Sr Financial Analyst — Supply Chain Finance",
     headerTitle: "Sr Financial Analyst",
     desc: "Supply chain budgets, variance reporting, and initiative ROI for Houston market leaders",
@@ -59,7 +62,7 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
   {
     persona: "cfo",
     name: "Elena Marsh",
-    email: "elena.marsh@commonspirit.org",
+    email: "demo.finance@worksample.demo",
     role: "Director, Market Finance",
     headerTitle: "Market Finance",
     desc: "Market P&L oversight, cycle close sign-off, and board-ready stewardship briefs",
@@ -70,7 +73,7 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
   {
     persona: "director",
     name: "Robert Kane",
-    email: "robert.kane@commonspirit.org",
+    email: "demo.supply@worksample.demo",
     role: "Director, Supply Chain Operations",
     headerTitle: "Supply Chain Ops",
     desc: "GPO initiatives, implant utilization, and expense predictability with Finance partners",
@@ -81,7 +84,7 @@ export const PERSONA_PRESETS: PersonaPreset[] = [
   {
     persona: "auditor",
     name: "Priya Nair",
-    email: "priya.nair@commonspirit.org",
+    email: "demo.compliance@worksample.demo",
     role: "Finance Compliance Analyst",
     headerTitle: "Finance Compliance",
     desc: "Internal controls, allocation audits, and regulatory readiness for Finance reporting",

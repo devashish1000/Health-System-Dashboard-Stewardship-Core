@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   TrendingUp, TrendingDown, Landmark, ShieldAlert, BadgeInfo, Eye, HelpCircle,
-  Briefcase, Calendar, MapPin, Building, ToggleLeft, Layers, Wallet, Users, Info, Sparkles, Cpu
+  Briefcase, Calendar, MapPin, Building, ToggleLeft, Layers, Wallet, Users, Info, Sparkles, Cpu, Package
 } from "lucide-react";
 import {
   ResponsiveContainer, BarChart, Bar, LineChart, Line, XAxis, YAxis,
@@ -39,6 +39,7 @@ import KpiTrendModal from "../components/KpiTrendModal";
 import PagePurpose from "../components/PagePurpose";
 import { useReportingPeriod } from "../lib/useReportingPeriod";
 import { buildKpiExplainerData } from "../lib/kpiExplainer";
+import { sortServiceLinesForRecruiter } from "../constants/recruiterHandoff";
 import { STEWARDSHIP_TARGET_MARGIN } from "../lib/stewardshipConfig";
 
 interface DashboardProps {
@@ -112,7 +113,9 @@ export default function Dashboard({
   // Lists for unique filter selections
   const uniqueFacilities = Array.from(new Set(records.map(r => r.facility)));
   const uniqueRegions = Array.from(new Set(records.map(r => r.region)));
-  const uniqueServiceLines = Array.from(new Set(records.map(r => r.service_line)));
+  const uniqueServiceLines = sortServiceLinesForRecruiter(
+    Array.from(new Set(records.map((r) => r.service_line).filter(Boolean)))
+  );
   const uniqueMonths = Array.from(new Set(records.map(r => r.month)));
   const uniqueOwners = Array.from(new Set(records.map(r => r.owner)));
 
@@ -343,6 +346,47 @@ export default function Dashboard({
         <EmptyState onReset={onResetFilters} periodLabel={reporting.closeMonthLabel} />
       ) : (
         <>
+          <div className="rounded-2xl border border-slate-200/80 dark:border-white/10 bg-slate-50/80 dark:bg-ink-900/60 p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <Package className="w-4 h-4 text-brand-600 shrink-0" />
+              <h3 className="text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-200">
+                Supply chain close snapshot
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="bg-white dark:bg-ink-800 rounded-xl px-4 py-3 border border-slate-100 dark:border-white/10">
+                <span className={`text-[10px] uppercase font-bold tracking-wider block ${captionClass()}`}>
+                  Total supply cost
+                </span>
+                <span className={`text-lg font-bold font-mono tabular-nums mt-1 block ${dataPrimaryClass()}`}>
+                  {formatCurrency(currentKpis.supplyCost)}
+                </span>
+              </div>
+              <div className="bg-white dark:bg-ink-800 rounded-xl px-4 py-3 border border-slate-100 dark:border-white/10">
+                <span className={`text-[10px] uppercase font-bold tracking-wider block ${captionClass()}`}>
+                  Net budget variance
+                </span>
+                <span className={`text-lg font-bold font-mono tabular-nums mt-1 block ${varianceClass(currentKpis.budgetVariance)}`}>
+                  {formatVarianceCurrency(currentKpis.budgetVariance)}
+                </span>
+              </div>
+              <div className="bg-white dark:bg-ink-800 rounded-xl px-4 py-3 border border-slate-100 dark:border-white/10">
+                <span className={`text-[10px] uppercase font-bold tracking-wider block ${captionClass()}`}>
+                  Close-month rows
+                </span>
+                <span className={`text-lg font-bold font-mono tabular-nums mt-1 block ${dataPrimaryClass()}`}>
+                  {records.length.toLocaleString()}
+                </span>
+                <span className={`text-[10px] block mt-0.5 ${captionClass()}`}>
+                  Filtered stewardship records · {reporting.closeMonthLabel}
+                </span>
+              </div>
+            </div>
+            <p className={`text-[10px] italic ${captionClass()}`}>
+              Designed to integrate with Strata / Epic / GL — synthetic demo only.
+            </p>
+          </div>
+
           {/* Main KPIs Row */}
           <motion.div
             className="grid grid-cols-2 md:grid-cols-6 gap-4"

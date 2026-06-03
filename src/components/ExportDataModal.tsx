@@ -91,7 +91,7 @@ export default function ExportDataModal({
       const link = document.createElement("a");
       link.href = url;
       const periodTag = `${reporting.fiscalYearLabel}_${reporting.periodLabel}`.replace(/\s+/g, "");
-      link.download = `CommonSpirit_Finance_${periodTag}_${reporting.closeMonth}.csv`;
+      link.download = `CommonSpirit_WorkSample_${periodTag}_${reporting.closeMonth}.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -156,7 +156,7 @@ export default function ExportDataModal({
         <div className="p-6 space-y-6">
           <div className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed space-y-1.5">
             <p>
-              CommonSpirit Finance export formats for synthetic stewardship demos. Files reflect your
+              Work sample export formats for synthetic stewardship demos. Files reflect your
               current dashboard filters and close-month period — not production system data.
             </p>
             <p className="text-[10px] text-slate-400 dark:text-slate-400">
@@ -219,8 +219,11 @@ export default function ExportDataModal({
                   Data handoff workbook (Excel)
                 </span>
                 <span className="block text-[10px] text-slate-500 dark:text-slate-400 leading-snug">
-                  Complete column dictionary, close-month ledger, combo templates, personas, filters,
-                  and KPI formulas. Synthetic demo — not operational CommonSpirit data.
+                  For recruiter review: column dictionary + 64 close-month rows. Combo templates,
+                  personas, filters, and KPI formulas. Synthetic demo — not operational CommonSpirit data.
+                </span>
+                <span className="block text-[10px] text-brand-700/80 dark:text-brand-300/90 leading-snug font-medium">
+                  Opens in Excel / Google Sheets — no install required.
                 </span>
               </div>
             </a>
@@ -251,7 +254,7 @@ export default function ExportDataModal({
               <div className="space-y-1">
                 <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">Export Sign-off Ledger (JSON)</span>
                 <span className="block text-[10px] text-slate-400 dark:text-slate-400 leading-snug">
-                  Provides a cryptographically hash-audited ledger in raw JSON detailing past certified session cycles, timestamped signatories, and comment blocks.
+                  Illustrative JSON export of demo session sign-offs and comments — not a production audit trail.
                 </span>
               </div>
             </button>

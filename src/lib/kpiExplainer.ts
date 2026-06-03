@@ -42,12 +42,12 @@ export function buildKpiExplainerData(
     opex: {
       title: "Operating Expense (OpEx)",
       definition:
-        "Clinical operating spend including nursing, supplies, implants, and regional logistics supporting patient care.",
+        "Clinical operating spend including nursing labor, hospital supply chain spend (med-surg, implants, pharmacy), and GPO-contracted categories supporting patient care.",
       performanceText: `As of ${period}, operating expense totals ${formatCurrency(kpis.operatingExpense)} (${kpis.budgetVariance < 0 ? "unfavorable" : "favorable"} net variance ${formatVarianceCurrency(kpis.budgetVariance)}).`,
       driverText:
         "Registry nursing premiums and implant cost pressure in emergency and cardiology service lines are the primary spend drivers.",
       recommendation:
-        "Enforce standardized supplier pathways and expand regional float-pool coverage to reduce contract labor reliance.",
+        "Enforce GPO tier compliance on high-variance categories and expand regional float-pool coverage to reduce contract labor reliance.",
     },
     margin: {
       title: "Operating Margin Ratio (%)",

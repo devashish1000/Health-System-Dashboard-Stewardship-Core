@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { X, CheckCircle, AlertTriangle, AlertCircle, TrendingUp, Calendar, User, Save, FileText, Share2 } from "lucide-react";
 import { FinanceRecord } from "../data/syntheticFinanceData";
+import { SUPPLY_CHAIN_SERVICE_LINES } from "../constants/recruiterHandoff";
 import { captionText } from "../lib/typography";
 
 interface ServiceLineDrawerProps {
@@ -59,6 +60,9 @@ export default function ServiceLineDrawer({
   };
 
   const netMargin = ((record.net_patient_revenue - record.operating_expense) / record.net_patient_revenue) * 100;
+  const isSupplyChainLine = (SUPPLY_CHAIN_SERVICE_LINES as readonly string[]).includes(
+    record.service_line
+  );
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
@@ -202,6 +206,11 @@ export default function ServiceLineDrawer({
                 <label className={`text-xs font-medium block mb-1.5 flex items-center gap-1 ${captionText}`}>
                   <FileText className="w-3.5 h-3.5" /> Financial Driver Variance Explanations
                 </label>
+                {isSupplyChainLine && (
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug mb-2">
+                    Tie the note to GPO tier compliance, supply initiative targets, and contract renegotiation timing—not isolated unit-cost spikes.
+                  </p>
+                )}
                 <textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}

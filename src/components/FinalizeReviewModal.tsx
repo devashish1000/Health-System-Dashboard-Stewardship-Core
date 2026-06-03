@@ -102,7 +102,7 @@ export default function FinalizeReviewModal({
 
     setGeneratedCert(certificate);
     onAddSignoff(certificate);
-    onTriggerToast("Certified Month-End Sign-off Ledger committed successfully.", "success");
+    onTriggerToast("Illustrative certification recorded — not a real close.", "success");
     setStep(4);
   };
 
@@ -122,7 +122,7 @@ export default function FinalizeReviewModal({
               <h3 className="font-bold text-xs uppercase tracking-widest text-slate-100">
                 Stewardship Ledger Sign-off
               </h3>
-              <p className="text-[10px] text-slate-400">CommonSpirit Regulatory Compliance Framework</p>
+              <p className="text-[10px] text-slate-400">Illustrative certification — not a real close</p>
             </div>
           </div>
           <button
@@ -223,9 +223,9 @@ export default function FinalizeReviewModal({
                 <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl text-amber-800 flex gap-3 text-xs leading-relaxed">
                   <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div className="space-y-1">
-                    <span className="font-bold text-amber-900 block">Finance Analyst Persona Warning</span>
+                    <span className="font-bold text-amber-900 block">Demo applicant persona</span>
                     <p className="text-[11px] text-amber-800">
-                      You are logged in as **Sr Financial Analyst (Devashish Neupane)**. Market policy requires **Director, Market Finance** authority to submit final closed-cycle certifications. Switch your workspace persona to Market Finance to complete standard closing signatures.
+                      You are viewing the Sr Financial Analyst demo persona. Market policy requires Director, Market Finance authority to submit final closed-cycle certifications. Switch workspace persona to Market Finance to walk through director-level sign-off — still illustrative only.
                     </p>
                   </div>
                 </div>
@@ -359,8 +359,8 @@ export default function FinalizeReviewModal({
               </div>
 
               <div className="space-y-1">
-                <h4 className="font-extrabold text-slate-800 dark:text-slate-100 text-md">Cycle Certification Registered</h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400">The month-end performance report has been digitally secured and appended to the ledger.</p>
+                <h4 className="font-extrabold text-slate-800 dark:text-slate-100 text-md">Illustrative certification — not a real close</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Demo sign-off block generated for portfolio review. No operational ledger or month-end close was executed.</p>
               </div>
 
               {/* Certificate Ribbon Card */}

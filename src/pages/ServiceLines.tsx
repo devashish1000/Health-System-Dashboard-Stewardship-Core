@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { FinanceRecord } from "../data/syntheticFinanceData";
 import { getServiceLineAggregates } from "../lib/financeCalculations";
+import { sortServiceLinesForRecruiter } from "../constants/recruiterHandoff";
 import {
   formatCurrency,
   formatPercent,
@@ -101,8 +102,12 @@ export default function ServiceLines({
   onTriggerToast,
   onUpdateRecord
 }: ServiceLinesProps) {
-  // Aggregate service data
-  const aggs = getServiceLineAggregates(records);
+  const aggs = React.useMemo(() => {
+    const raw = getServiceLineAggregates(records);
+    return sortServiceLinesForRecruiter(raw.map((a) => a.serviceLine)).map(
+      (name) => raw.find((a) => a.serviceLine === name)!
+    );
+  }, [records]);
 
   // Workflow actions state to simulate local change tracking
   const [markedReviewed, setMarkedReviewed] = useState<Record<string, boolean>>({});
@@ -200,6 +205,15 @@ export default function ServiceLines({
         stat={{ label: "Illustrative denial flag", value: `~${formatCurrency(1_800_000)}` }}
         icon={ShieldCheck}
       />
+
+      <div className="rounded-2xl border border-brand-200/80 bg-brand-50/60 dark:bg-brand-950/30 dark:border-brand-800/50 px-4 py-3">
+        <p className="text-xs font-semibold text-brand-800 dark:text-brand-200">
+          Sr Financial Analyst focus — supply initiative variance
+        </p>
+        <p className="text-[11px] text-brand-700/90 dark:text-brand-300/90 mt-0.5">
+          Supply chain lines are sorted first for Houston market review; use variance notes to tie spend to GPO and initiative drivers.
+        </p>
+      </div>
 
       {/* 7 Required Service Line Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -5,8 +5,9 @@ import {
 import { 
   Search, Terminal, ArrowRight, Shield, User, Download, RotateCcw, 
   Trash2, Cpu, HelpCircle, Activity, Sparkles, CornerDownLeft, ChevronRight,
-  Compass, LayoutDashboard, Layers, BarChart4, Sliders, ShieldCheck
+  Compass, LayoutDashboard, Layers, BarChart4, Sliders, ShieldCheck, BookOpen, MapPin
 } from "lucide-react";
+import { DATA_HANDOFF_WORKBOOK_PATH } from "../constants/dataHandoff";
 import { ProjectPage, UserPersona, FinanceRecord } from "../types";
 import { buildPaletteAiAnswer } from "../lib/paletteAiInsights";
 import { HOUSTON_MARKET } from "../config/demoOrg";
@@ -43,6 +44,8 @@ interface CommandPaletteProps {
   onSelectRecord: (service: string) => void;
   records: FinanceRecord[];
   onTriggerToast: (text: string, type?: "success" | "info" | "warning") => void;
+  /** Parent should wire dashboard region filter (e.g. Houston Market); omitted = command hidden. */
+  onApplyHoustonFilter?: () => void;
 }
 
 export default function CommandPalette({
@@ -58,7 +61,8 @@ export default function CommandPalette({
   onRestoreSandbox,
   onSelectRecord,
   records,
-  onTriggerToast
+  onTriggerToast,
+  onApplyHoustonFilter,
 }: CommandPaletteProps) {
   const [search, setSearch] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -151,6 +155,33 @@ export default function CommandPalette({
         shortcut: "E"
       },
       {
+        id: "action-excel-workbook",
+        category: "Core Actions",
+        title: "Download Excel data workbook",
+        description: "Open recruiter handoff workbook — column dictionary and 64 close-month ledger rows",
+        icon: BookOpen,
+        action: () => {
+          window.open(DATA_HANDOFF_WORKBOOK_PATH, "_blank", "noopener,noreferrer");
+          onTriggerToast("Opening data handoff workbook in a new tab.", "info");
+          onClose();
+        },
+      },
+      ...(onApplyHoustonFilter
+        ? [
+            {
+              id: "action-houston-filter",
+              category: "Core Actions" as const,
+              title: "Filter Houston Market",
+              description: `Scope dashboard to ${HOUSTON_MARKET} for Sr Financial Analyst review path`,
+              icon: MapPin,
+              action: () => {
+                onApplyHoustonFilter();
+                onClose();
+              },
+            },
+          ]
+        : []),
+      {
         id: "action-signoff",
         category: "Core Actions",
         title: "Pre-flight Workspace Sign-off",
@@ -235,7 +266,7 @@ export default function CommandPalette({
     });
 
     return arr;
-  }, [records, onNavigate, onChangePersona, onTriggerExport, onTriggerSignoff, onClearFilters, onRestoreSandbox, onSelectRecord, onTriggerToast, onClose]);
+  }, [records, onNavigate, onChangePersona, onTriggerExport, onTriggerSignoff, onClearFilters, onRestoreSandbox, onSelectRecord, onTriggerToast, onClose, onApplyHoustonFilter]);
 
   // Filtering based on search query
   const filteredCommands = useMemo(() => {
@@ -483,24 +514,24 @@ export default function CommandPalette({
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleSuggestionClick("What causes the claim denial rate of 3.2%?")}
+                      onClick={() => handleSuggestionClick("How is Pharmacy Distribution tracking vs budget in Houston?")}
                       className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
-                      "How to resolve Cardiology's 3.2% denial rate?"
+                      "How is Pharmacy Distribution tracking vs budget in Houston?"
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleSuggestionClick("What is the current operating margin vs stewardship goal?")}
+                      onClick={() => handleSuggestionClick("What supply chain initiatives explain this month's budget variance?")}
                       className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
-                      "What is operating margin vs 8.5% goal?"
+                      "What supply initiatives explain this month's budget variance?"
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleSuggestionClick("Summarize net patient revenues YTD")}
+                      onClick={() => handleSuggestionClick("Summarize Medical Devices spend for the close month")}
                       className="text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 font-semibold cursor-pointer block hover:bg-slate-800"
                     >
-                      "Summarize Net Patient Revenues YTD"
+                      "Summarize Medical Devices spend for the close month"
                     </button>
                   </div>
                 </div>

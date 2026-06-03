@@ -19,6 +19,8 @@ export interface AppTopBarProps {
   utcTimeStr: string;
   theme: "light" | "dark";
   reporting: ReportingContext;
+  houstonOnly?: boolean;
+  onToggleHoustonOnly?: () => void;
   onToggleTheme: () => void;
   onOpenExport: () => void;
   onOpenTour: () => void;
@@ -33,6 +35,7 @@ function getPersonaProfile(persona: UserPersona) {
     name: preset.name,
     title: preset.headerTitle,
     fullTitle: preset.role,
+    demoNote: preset.demoNote,
     initials: preset.initials,
     grad: preset.grad,
   };
@@ -43,6 +46,8 @@ export default function AppTopBar({
   utcTimeStr,
   theme,
   reporting,
+  houstonOnly = false,
+  onToggleHoustonOnly,
   onToggleTheme,
   onOpenExport,
   onOpenTour,
@@ -104,6 +109,21 @@ export default function AppTopBar({
               Baseline
             </span>
           </span>
+
+          {onToggleHoustonOnly && (
+            <button
+              type="button"
+              onClick={onToggleHoustonOnly}
+              className={`hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-colors cursor-pointer shrink-0 ${
+                houstonOnly
+                  ? "bg-brand-50 dark:bg-brand-900/30 border-brand-300 dark:border-brand-600 text-brand-800 dark:text-brand-200"
+                  : "bg-white dark:bg-ink-800 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-50"
+              }`}
+              title="Scope dashboard to Houston Market for recruiter review"
+            >
+              Houston only
+            </button>
+          )}
         </div>
 
         {/* Right: search, primary CTA, overflow menu, profile */}
@@ -237,9 +257,10 @@ export default function AppTopBar({
               </span>
               <span
                 className="text-[10px] text-slate-500 dark:text-slate-400 block leading-snug font-medium line-clamp-2"
-                title={profile.fullTitle}
+                title={profile.demoNote ? `${profile.fullTitle} · ${profile.demoNote}` : profile.fullTitle}
               >
                 {profile.title}
+                {profile.demoNote ? " · demo" : ""}
               </span>
             </div>
             <div

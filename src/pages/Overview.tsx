@@ -2,8 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { 
   TrendingUp, Cpu, BarChart3, HelpCircle, Activity, Globe, Heart,
-  CheckSquare, Sparkles, CheckCircle2, ChevronRight, Lock,
-  Zap, Clock, ShieldCheck, Database, Users, RefreshCcw
+  Sparkles, CheckCircle2, ChevronRight, Lock,
+  Zap, Clock, ShieldCheck, Database, Users, RefreshCcw,
+  Briefcase, FileSpreadsheet, ArrowRight, Download
 } from "lucide-react";
 import { ProjectPage, FinanceRecord } from "../types";
 import { BrandSweep, SparkMark } from "../components/BrandMotif";
@@ -24,13 +25,15 @@ interface OverviewProps {
   records: FinanceRecord[];
   checklistCompleted: Record<string, boolean>;
   onToggleChecklist: (key: string, val: boolean) => void;
+  onStartReviewerPath?: () => void;
 }
 
 export default function Overview({ 
   onNavigate,
   records,
   checklistCompleted,
-  onToggleChecklist
+  onToggleChecklist,
+  onStartReviewerPath,
 }: OverviewProps) {
   const reporting = useReportingPeriod(records);
   const hero = React.useMemo(
@@ -39,62 +42,83 @@ export default function Overview({
   );
 
   // Dynamic Validation checks matched to genuine record instances
-  const cardiologyRef = records.find(
-    (r) => r.service_line === "Cardiology" && r.facility === "Baylor St. Luke's Medical Center"
+  const surgicalSuppliesRef = records.find(
+    (r) =>
+      r.service_line === "Surgical Supplies" &&
+      r.facility === "Baylor St. Luke's Medical Center"
   );
-  const isCardiologyAnnotated = !!(cardiologyRef?.variance_note?.trim());
+  const isSupplyLineAnnotated = !!(surgicalSuppliesRef?.variance_note?.trim());
 
   // Task checks
-  const task1 = isCardiologyAnnotated || checklistCompleted.denials;
-  const task2 = checklistCompleted.simulator;
-  const task3 = checklistCompleted.copilot;
-  const task4 = checklistCompleted.signoff;
+  const task1 = isSupplyLineAnnotated || checklistCompleted.denials;
+  const task2 = checklistCompleted.copilot;
+  const task3 = checklistCompleted.signoff;
+  const task4 = checklistCompleted.simulator;
 
   const completedCount = (task1 ? 1 : 0) + (task2 ? 1 : 0) + (task3 ? 1 : 0) + (task4 ? 1 : 0);
   const completionPercent = completedCount * 25;
+
+  const jobMapRows: {
+    duty: string;
+    destination: string;
+    page?: ProjectPage;
+    hint?: string;
+  }[] = [
+    { duty: "Variance reports", destination: "Financial Dashboard", page: "dashboard" },
+    { duty: "Budget support", destination: "Forecast & Walk", page: "forecast" },
+    { duty: "Supply chain insight", destination: "Service Lines", page: "serviceLines" },
+    { duty: "Recommendations to market finance", destination: "Finance Copilot", page: "copilot" },
+    {
+      duty: "Cross-functional reporting",
+      destination: "Export Suite",
+      hint: "Use Export in the app header",
+    },
+  ];
 
   const tasksList = [
     {
       id: "denials",
       checked: task1,
-      label: "Audit Cardiology Prior Authorization outliers",
-      desc: isCardiologyAnnotated 
-        ? "Complete — variance notes logged in Service Line reviewer." 
-        : "Pending — review high denials and write explanatory comments.",
+      label: "Review Surgical Supplies supply chain variance at Baylor St. Luke's",
+      desc: isSupplyLineAnnotated
+        ? "Complete — supply chain variance notes logged in Service Line reviewer."
+        : surgicalSuppliesRef
+          ? "Pending — inspect Surgical Supplies budget variance and add explanatory notes."
+          : "Pending — open Service Lines and review supply chain expense drivers.",
       link: "serviceLines" as ProjectPage,
-      toggleable: !isCardiologyAnnotated
-    },
-    {
-      id: "simulator",
-      checked: task2,
-      label: "Run strategic margin sensitivity simulator models",
-      desc: task2 
-        ? "Complete — staff-to-reimbursement slider delta analyzed." 
-        : "Pending — adjust simulation options inside the sandbox console.",
-      link: "simulator" as ProjectPage,
-      toggleable: true
+      toggleable: !isSupplyLineAnnotated
     },
     {
       id: "copilot",
-      checked: task3,
-      label: "Query AI Finance Copilot for decision-support insights",
-      desc: task3 
-        ? "Complete — briefing compiled and structured for team alignment." 
-        : "Pending — ask co-pilot about margin target constraints.",
+      checked: task2,
+      label: "Query AI Finance Copilot for supply chain decision support",
+      desc: task2
+        ? "Complete — briefing compiled for market finance alignment."
+        : "Pending — ask about supply expense predictability or budget variance.",
       link: "copilot" as ProjectPage,
       toggleable: true
     },
     {
       id: "signoff",
-      checked: task4,
-      label: "Digitally sign and seal finalized cycle ledger certificate",
-      desc: task4 
-        ? "Complete — cryptographically verified ledger block registered!" 
-        : `Pending — requires Market Finance sign-off to close ${reporting.fiscalYearLabel} ${reporting.periodLabel}.`,
-      link: "serviceLines" as ProjectPage, // links to header trigger or reviews page
+      checked: task3,
+      label: "Review illustrative close certification (demo only)",
+      desc: task3
+        ? "Complete — illustrative demo sign-off recorded for this checklist item."
+        : `Pending — explore Market Finance pre-flight sign-off flow (${reporting.fiscalYearLabel} ${reporting.periodLabel}).`,
+      link: "serviceLines" as ProjectPage,
       toggleable: false,
-      lockRequired: true
-    }
+      lockRequired: true,
+    },
+    {
+      id: "simulator",
+      checked: task4,
+      label: "Optional: explore scenario sandbox (not required for recruiter review)",
+      desc: task4
+        ? "Complete — sensitivity sandbox explored."
+        : "Skip unless you want extra what-if modeling beyond the core work sample.",
+      link: "simulator" as ProjectPage,
+      toggleable: true,
+    },
   ];
 
   return (
@@ -118,19 +142,29 @@ export default function Overview({
           </h1>
           
           <p className="text-md md:text-lg text-slate-200 font-normal leading-relaxed">
-            AI-assisted financial control tower mapped to CommonSpirit Health stewardship baselines. Review service-line variance, run sandbox simulations, query AI intelligence, and certify fiscal periods securely.
+            CommonSpirit-inspired scenario for Sr Financial Analyst interview sample. Review service-line variance, run sandbox simulations, query AI intelligence, and certify fiscal periods securely.
           </p>
-          <p className="text-sm text-slate-300/90 leading-relaxed">
-            Review the{" "}
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <p className="text-sm text-slate-300/90 leading-relaxed">
+              Review the{" "}
+              <a
+                href={DATA_HANDOFF_WORKBOOK_PATH}
+                download={DATA_HANDOFF_WORKBOOK_FILENAME}
+                className="font-semibold text-brand-200 underline decoration-brand-300/60 underline-offset-2 hover:text-white"
+              >
+                data workbook
+              </a>{" "}
+              to see every field the control tower uses.
+            </p>
             <a
               href={DATA_HANDOFF_WORKBOOK_PATH}
               download={DATA_HANDOFF_WORKBOOK_FILENAME}
-              className="font-semibold text-brand-200 underline decoration-brand-300/60 underline-offset-2 hover:text-white"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-white text-xs font-bold shadow-sm transition-colors"
             >
-              data workbook
-            </a>{" "}
-            to see every field the control tower uses.
-          </p>
+              <Download className="w-3.5 h-3.5" />
+              Download Excel dictionary
+            </a>
+          </div>
           
           {/* Quick Stats Panel inside hero */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-700/60">
@@ -167,8 +201,76 @@ export default function Overview({
         </div>
       </div>
 
+      {/* Maps to this job */}
+      <div className="bg-white dark:bg-ink-800 rounded-3xl border border-slate-100 dark:border-white/10 shadow-sm p-6 md:p-8 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="text-xl font-bold font-display text-slate-800 dark:text-slate-100 flex items-center gap-2">
+              <Briefcase className="w-5 h-5 text-brand-600" /> Maps to this job
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              Sr Financial Analyst posting duties mapped to prototype pages — synthetic Houston supply chain finance sample.
+            </p>
+          </div>
+          {onStartReviewerPath ? (
+            <button
+              type="button"
+              onClick={onStartReviewerPath}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm transition-colors cursor-pointer shrink-0"
+            >
+              Start here for reviewers
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          ) : null}
+        </div>
+
+        <div className="divide-y divide-slate-100 dark:divide-white/10 rounded-2xl border border-slate-100 dark:border-white/10 overflow-hidden">
+          {jobMapRows.map((row) => (
+            <div
+              key={row.duty}
+              className="flex items-center justify-between gap-4 px-4 py-3.5 bg-slate-50/50 dark:bg-ink-900/40 hover:bg-brand-50/40 dark:hover:bg-brand-900/10 transition-colors"
+            >
+              <div className="space-y-0.5 min-w-0">
+                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">{row.duty}</span>
+                {row.hint ? (
+                  <span className="block text-[10px] text-slate-500 dark:text-slate-400">{row.hint}</span>
+                ) : null}
+              </div>
+              {row.page ? (
+                <button
+                  type="button"
+                  onClick={() => onNavigate(row.page!)}
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 hover:border-brand-200 hover:bg-brand-50 text-[10px] font-bold text-slate-600 hover:text-brand-600 transition-all cursor-pointer whitespace-nowrap shrink-0"
+                >
+                  {row.destination}
+                  <ChevronRight className="w-3 h-3" />
+                </button>
+              ) : (
+                <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-ink-800 text-[10px] font-bold text-slate-500 whitespace-nowrap shrink-0">
+                  <FileSpreadsheet className="w-3 h-3" />
+                  {row.destination}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ROI Callouts */}
       <div className="space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+          <div className="space-y-1">
+            <h2 className="text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
+              Illustrative ROI impact
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl">
+              Directional estimates for demo storytelling only — not operational benchmarks or audited savings.
+            </p>
+          </div>
+          <span className="inline-flex w-fit items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide text-amber-700 bg-amber-50 border border-amber-100">
+            Illustrative only
+          </span>
+        </div>
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
           initial="hidden"
@@ -214,7 +316,7 @@ export default function Overview({
           })}
         </motion.div>
         <p className="text-[10px] text-slate-400 text-center">
-          Metrics computed from synthetic close-month data ({hero.fiscalLabel}) · {formatPercent(hero.avgMargin, { decimals: 1 })} avg margin.
+          Illustrative ROI from synthetic close-month data ({hero.fiscalLabel}) · {formatPercent(hero.avgMargin, { decimals: 1 })} avg margin · not audited performance.
         </p>
       </div>
 
