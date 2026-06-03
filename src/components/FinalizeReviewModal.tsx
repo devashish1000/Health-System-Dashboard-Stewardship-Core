@@ -5,6 +5,9 @@ import {
 } from "lucide-react";
 import { FinanceRecord, CertifiedSignoff, UserPersona } from "../types";
 import { formatCount, formatPercent } from "../lib/formatters";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
+import { stewardshipModelCode } from "../lib/stewardshipConfig";
+import { signoffPeriodTag } from "../lib/periodStorage";
 
 interface FinalizeReviewModalProps {
   isOpen: boolean;
@@ -23,6 +26,10 @@ export default function FinalizeReviewModal({
   onAddSignoff,
   onTriggerToast
 }: FinalizeReviewModalProps) {
+  const reporting = useReportingPeriod(records);
+  const closeRecords = records.filter(reporting.filterCloseMonth);
+  const ledgerRecords = closeRecords.length ? closeRecords : records;
+
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
   // Form Fields
@@ -37,17 +44,17 @@ export default function FinalizeReviewModal({
   if (!isOpen) return null;
 
   // Calculators
-  const totalRecords = records.length;
-  const unfavorableRecords = records.filter(r => r.variance_status === "Unfavorable");
-  const watchlistRecords = records.filter(r => r.variance_status === "Watchlist");
+  const totalRecords = ledgerRecords.length;
+  const unfavorableRecords = ledgerRecords.filter(r => r.variance_status === "Unfavorable");
+  const watchlistRecords = ledgerRecords.filter(r => r.variance_status === "Watchlist");
   
   // Count unannotated anomalies
-  const unannotatedAnomaliesCount = records.filter(
+  const unannotatedAnomaliesCount = ledgerRecords.filter(
     r => (r.variance_status === "Unfavorable" || r.variance_status === "Watchlist") && !r.variance_note.trim()
   ).length;
 
-  const averageOperatingMargin = records.length > 0 
-    ? parseFloat((records.reduce((sum, r) => sum + r.operating_margin, 0) / records.length).toFixed(2))
+  const averageOperatingMargin = ledgerRecords.length > 0 
+    ? parseFloat((ledgerRecords.reduce((sum, r) => sum + r.operating_margin, 0) / ledgerRecords.length).toFixed(2))
     : 0;
 
   // Generate mock cryptography certificate
@@ -67,7 +74,7 @@ export default function FinalizeReviewModal({
 
     // MD5 mock hash
     const timestamp = new Date().toISOString();
-    const mockHashInputString = `${name}-${timestamp}-${JSON.stringify(records.length)}`;
+    const mockHashInputString = `${name}-${timestamp}-${signoffPeriodTag(reporting)}-${ledgerRecords.length}`;
     let hash = "";
     for (let i = 0; i < mockHashInputString.length; i++) {
       hash += mockHashInputString.charCodeAt(i).toString(16);
@@ -76,10 +83,11 @@ export default function FinalizeReviewModal({
 
     const certificate: CertifiedSignoff = {
       id: `CS-SL-${Math.floor(1000 + Math.random() * 9000)}`,
+      reportingPeriod: signoffPeriodTag(reporting),
       timestamp: timestamp,
       signatoryName: name,
       signatoryTitle: title,
-      modelCode: "COMMONSPIRIT-STU-V1.0",
+      modelCode: stewardshipModelCode(reporting.fiscalYearLabel),
       hash: finalHash,
       activeMargin: averageOperatingMargin,
       unresolvedCount: unannotatedAnomaliesCount,

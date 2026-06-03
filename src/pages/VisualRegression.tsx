@@ -8,6 +8,8 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
+import { getReportingContext } from "../lib/reportingPeriod";
+import { SYNTHETIC_RECORDS } from "../data/syntheticFinanceData";
 
 // --- Types & Interfaces ---
 
@@ -54,12 +56,15 @@ const UI_STATES: ScreenshotState[] = [
   { id: "cmd-palette", name: "Intel-Palette Overlay Menu", component: "CommandPalette ⌘K Component", expectedFile: "command_palette_popup.png", viewport: "Mobile (375px)", category: "Modals" }
 ];
 
-const TEMPORAL_EPOCS: TemporalAudit[] = [
-  { epoch: "FY24 Historic Actuals", operatingMargin: "6.10%", stewardshipGoal: "8.5%", contractLaborReliance: "14.2% of FTE", denialRate: "3.7%", status: "Deficit" },
-  { epoch: "YTD FY25 Reference Baseline", operatingMargin: "7.15%", stewardshipGoal: "8.5%", contractLaborReliance: "11.1% of FTE", denialRate: "2.4%", status: "Deficit" },
-  { epoch: "FY26 Projected Expansion (Target)", operatingMargin: "8.52%", stewardshipGoal: "8.5%", contractLaborReliance: "7.5% of FTE", denialRate: "1.9%", status: "Balanced" },
-  { epoch: "FY27 Long-Range Strategy", operatingMargin: "9.10%", stewardshipGoal: "8.5%", contractLaborReliance: "5.5% of FTE", denialRate: "1.4%", status: "Optimized" }
-];
+function buildTemporalEpochs(closeYear: number, fiscalYearLabel: string): TemporalAudit[] {
+  const fy = (y: number) => `FY${String(y).slice(-2)}`;
+  return [
+    { epoch: `${fy(closeYear - 2)} Historic Actuals`, operatingMargin: "6.10%", stewardshipGoal: "8.5%", contractLaborReliance: "14.2% of FTE", denialRate: "3.7%", status: "Deficit" },
+    { epoch: `YTD ${fy(closeYear - 1)} Reference Baseline`, operatingMargin: "7.15%", stewardshipGoal: "8.5%", contractLaborReliance: "11.1% of FTE", denialRate: "2.4%", status: "Deficit" },
+    { epoch: `${fiscalYearLabel} Projected Expansion (Target)`, operatingMargin: "8.52%", stewardshipGoal: "8.5%", contractLaborReliance: "7.5% of FTE", denialRate: "1.9%", status: "Balanced" },
+    { epoch: `${fy(closeYear + 1)} Long-Range Strategy`, operatingMargin: "9.10%", stewardshipGoal: "8.5%", contractLaborReliance: "5.5% of FTE", denialRate: "1.4%", status: "Optimized" },
+  ];
+}
 
 const INITIAL_A11Y_RULES: A11yCheckItem[] = [
   { id: "a11y-1", ruleCode: "WCAG 1.4.3", elementName: "Main Sidebar Background Grid", status: "pass", ratioText: "12.8:1", description: "Deep navy background is perfectly offset by white typography nodes, easily exceeding AA specifications." },
@@ -72,6 +77,12 @@ const INITIAL_A11Y_RULES: A11yCheckItem[] = [
 // --- Main QA & Engineering Cockpit Component ---
 
 export default function VisualRegression() {
+  const reporting = React.useMemo(() => getReportingContext(SYNTHETIC_RECORDS), []);
+  const temporalEpochs = React.useMemo(
+    () => buildTemporalEpochs(reporting.closeYear, reporting.fiscalYearLabel),
+    [reporting.closeYear, reporting.fiscalYearLabel]
+  );
+
   const [activeTab, setActiveTab] = useState<"pixel" | "chaos" | "temporal" | "a11y">("pixel");
 
   // --- TAB 1: Pixel-by-Pixel Auditor States ---
@@ -93,7 +104,7 @@ export default function VisualRegression() {
   const logsEndRef = useRef<HTMLDivElement>(null);
 
   // --- TAB 3: Temporal Projections States ---
-  const [selectedEpoch, setSelectedEpoch] = useState<TemporalAudit>(TEMPORAL_EPOCS[1]); // YTD FY25
+  const [selectedEpoch, setSelectedEpoch] = useState<TemporalAudit>(() => temporalEpochs[1]);
   const [isTemporalRunning, setIsTemporalRunning] = useState(false);
   const [temporalProgress, setTemporalProgress] = useState(100);
   const [registryWageOvercharge, setRegistryWageOvercharge] = useState(0); // $k deviation
@@ -795,7 +806,7 @@ export default function VisualRegression() {
                   <div className="space-y-1.5">
                     <label className="text-[10px] uppercase font-bold text-slate-400 block tracking-wide">Target Financial Epoch</label>
                     <div className="space-y-1">
-                      {TEMPORAL_EPOCS.map((ep) => {
+                      {temporalEpochs.map((ep) => {
                         const isActive = selectedEpoch.epoch === ep.epoch;
                         return (
                           <button

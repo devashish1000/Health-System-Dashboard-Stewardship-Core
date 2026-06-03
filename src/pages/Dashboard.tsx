@@ -37,6 +37,9 @@ import EmptyState from "../components/EmptyState";
 import ServiceLineTrendModal from "../components/ServiceLineTrendModal";
 import KpiTrendModal from "../components/KpiTrendModal";
 import PagePurpose from "../components/PagePurpose";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
+import { buildKpiExplainerData } from "../lib/kpiExplainer";
+import { STEWARDSHIP_TARGET_MARGIN } from "../lib/stewardshipConfig";
 
 interface DashboardProps {
   records: FinanceRecord[];
@@ -45,59 +48,6 @@ interface DashboardProps {
   onSelectRow: (record: FinanceRecord) => void;
   onResetFilters: () => void;
 }
-
-interface KPIExplanation {
-  title: string;
-  definition: string;
-  performanceText: string;
-  driverText: string;
-  recommendation: string;
-}
-
-const KPI_EXPLAINER_DATA: Record<string, KPIExplanation> = {
-  npr: {
-    title: "Net Patient Revenue (NPR)",
-    definition: "Total collection revenue generated for clinical services rendered, net of insurance contractual adjustments, charity care, administrative discounts, and structural write-offs.",
-    performanceText: "Current actual is $48.7M, which is +3.2% ($1.5M) favorable against our budget. Outpatient specialties recovered at a higher-than-expected rate.",
-    driverText: "Driven primarily by diagnostic Imaging surges at Lakeside and CHI Immanuel, along with strong elective joint replacements in Orthopedics during the mid-quarter window.",
-    recommendation: "Ensure outpatient billing departments clear the scheduling backlog promptly. Allocate additional diagnostic clinic slots to accommodate commercial insurance referrals."
-  },
-  opex: {
-    title: "Operating Expense (OpEx)",
-    definition: "All expenses incurred in running clinics and clinical departments, including nursing salaries, clinical supply chains, prosthetic material purchases, and regional logistics.",
-    performanceText: "Actual expense is $45.1M, representing an unfavorable variance of +4.8% vs budget. System is placed on tight OpEx watch.",
-    driverText: "Unplanned registry contract nurse utilization to address severe clinical nursing vacancies within emergency services and trauma clinics, combined with unnegotiated supply markup for specialized surgical implants.",
-    recommendation: "Enforce standard surgical supplier pathways to limit high-cost implant procurement. Mobilize the regional clinical float pool to replace temporary nursing contractors."
-  },
-  margin: {
-    title: "Operating Margin Ratio (%)",
-    definition: "A primary metric for nonprofit hospital financial survivability. Calculated as (Net Revenue - Expense) divided by Net Revenue, converted to a percentage.",
-    performanceText: "Operating Margin is 7.4%, which sits below our system target of 8.5% by exactly -1.1 percentage points.",
-    driverText: "Specialized labor inflation is the primary margin depressant. Our labor ratio rose to 42.6% due to premium registry rates, offsetting the favorable net patient revenue growth.",
-    recommendation: "Establish daily nurse staffing management oversight boards. Re-evaluate length-of-stay targets to optimize inpatient bed turnover cycles."
-  },
-  variance: {
-    title: "Budget Variance",
-    definition: "The net dollar difference between budgeted margins and actual operating outcomes. Identifies the magnitude of budget deviation.",
-    performanceText: "Budget Variance is currently -$1.8M (Unfavorable), placing the system under elevated executive scrutiny.",
-    driverText: "Heavy emergency department boarding and high clinical complexity cases that exceeded standard DRG reimbursement baselines.",
-    recommendation: "Deploy senior coders to audit underperforming St. Joseph programs. Target and audit high-priority commercial billing denials immediately."
-  },
-  labor: {
-    title: "Labor Cost Ratio",
-    definition: "The percentage of net patient revenue consumed by clinical salaries, nurse contract registry, benefits, and registry premium costs.",
-    performanceText: "Operating at 42.6%, which is +2.4 percentage points higher than our financial budget baseline of 40.2%.",
-    driverText: "Intense local clinical labor shortages, resulting in emergency room registry premium shifts and significant overtime utilization up to 14.2% in some facilities.",
-    recommendation: "Review regional float schedules. Offer localized nursing shift incentive packages, which present lower long-term liability than traveling registry contracts."
-  },
-  forecast: {
-    title: "Forecasted Month-End Margin",
-    definition: "AI-assisted margin projection for the close of the current fiscal period, utilizing exponential smoothing models grounded in historical collection and denial cycles.",
-    performanceText: "Projected month-end operating margin stands at 6.8%, remaining beneath budget expectations (Watchlist status).",
-    driverText: "Persistent claims denials backlogs and continued high-premium clinical registry contracts in Mountain and Pacific regions.",
-    recommendation: "Accelerate the technical integration of EDI clearance. Deploy audit teams to address commercial payer prior authorization rules."
-  }
-};
 
 export default function Dashboard({
   records,
@@ -116,9 +66,14 @@ export default function Dashboard({
   const [selectedKpiTrend, setSelectedKpiTrend] = useState<"npr" | "opex" | "margin" | "variance" | "labor" | "forecast" | null>(null);
   const { theme } = useTheme();
   const chartPalette = resolveChartPalette(theme === "dark");
+  const reporting = useReportingPeriod(records);
 
   // Compute metrics based on records
   const currentKpis = calculateKpis(records);
+  const kpiExplainerData = React.useMemo(
+    () => buildKpiExplainerData(currentKpis, reporting),
+    [currentKpis, reporting]
+  );
   const monthlyHistory = getMonthlyHistory(records);
   const serviceLineAggs = getServiceLineAggregates(records);
 
@@ -372,7 +327,7 @@ export default function Dashboard({
 
       {/* If records array is empty (due to over-aggressive filtering), render empty state */}
       {records.length === 0 ? (
-        <EmptyState onReset={onResetFilters} />
+        <EmptyState onReset={onResetFilters} periodLabel={reporting.closeMonthLabel} />
       ) : (
         <>
           {/* Main KPIs Row */}
@@ -568,27 +523,31 @@ export default function Dashboard({
           </motion.div>
 
           {/* Interactive KPI Intelligence Drawer (Render in-line when active) */}
-          {activeExplainKey && KPI_EXPLAINER_DATA[activeExplainKey] && (
+          {activeExplainKey && kpiExplainerData[activeExplainKey] && (
             <div className="bg-gradient-to-r from-brand-50 via-brand-50 to-sky-50 rounded-2xl p-5 border border-brand-100 relative shadow-xs animate-fade-in flex flex-col sm:flex-row gap-4 items-start">
               <div className="p-3 bg-white rounded-xl text-sky-600 shrink-0 shadow-xs border border-sky-100">
                 <Cpu className="w-6 h-6 animate-pulse" />
               </div>
               <div className="space-y-2 flex-grow">
                 <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                  <span>AI Driver Explanation: {KPI_EXPLAINER_DATA[activeExplainKey].title}</span>
+                  <span>AI Driver Explanation: {kpiExplainerData[activeExplainKey].title}</span>
                   <span className="text-[10px] bg-sky-200 text-sky-800 px-2 py-0.5 rounded-full font-bold">Interactive Copilot</span>
                 </h4>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-                  <strong>Concept:</strong> {KPI_EXPLAINER_DATA[activeExplainKey].definition}
+                  <strong>Concept:</strong> {kpiExplainerData[activeExplainKey].definition}
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-medium">
+                    Figures reflect filtered portfolio as of {reporting.closeMonthLabel} ({reporting.fiscalYearLabel} {reporting.periodLabel}).
+                  </p>
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div className="text-xs">
                     <span className="font-bold text-slate-700 dark:text-slate-200 block mb-0.5">Primary Deviation Drivers</span>
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{KPI_EXPLAINER_DATA[activeExplainKey].driverText}</p>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{kpiExplainerData[activeExplainKey].performanceText}</p>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{kpiExplainerData[activeExplainKey].driverText}</p>
                   </div>
                   <div className="text-xs">
                     <span className="font-bold text-slate-700 dark:text-slate-200 block mb-0.5">Recommended Stewardship Focus</span>
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{KPI_EXPLAINER_DATA[activeExplainKey].recommendation}</p>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{kpiExplainerData[activeExplainKey].recommendation}</p>
                   </div>
                 </div>
                 <p className="text-[9px] text-slate-400 italic pt-2 border-t border-slate-200/50">
@@ -637,7 +596,7 @@ export default function Dashboard({
                 <h3 className={chartSectionTitleClass()}>
                   Operating Margin Ratio (%) and Forecast
                 </h3>
-                <span className="text-[10px] px-2 py-0.5 font-bold rounded-sm bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-300">8.5% Target Baseline</span>
+                <span className="text-[10px] px-2 py-0.5 font-bold rounded-sm bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-300">{formatPercent(STEWARDSHIP_TARGET_MARGIN)} Target · {reporting.periodLabel}</span>
               </div>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -783,7 +742,7 @@ export default function Dashboard({
                   Filtered portfolio net patient revenue is <strong className="font-mono tabular-nums">{formatCurrency(currentKpis.netPatientRevenue)}</strong> across {records.length} stewardship records. Outpatient collection recovery remains the primary favorable driver in this synthetic demo set.
                 </p>
                 <p>
-                  Operating margin is <strong className="font-mono tabular-nums">{formatPercent(currentKpis.operatingMargin)}</strong> vs the 8.5% target ({formatPoints(currentKpis.operatingMargin - 8.5)}). Labor cost ratio is <strong className="font-mono tabular-nums">{formatPercent(laborCostRatioCurrent)}</strong> with budget variance <strong className="font-mono tabular-nums">{formatVarianceCurrency(currentKpis.budgetVariance)}</strong> and mean denial rate <strong className="font-mono tabular-nums">{formatPercent(currentKpis.denialRate)}</strong>.
+                  Operating margin is <strong className="font-mono tabular-nums">{formatPercent(currentKpis.operatingMargin)}</strong> vs the {formatPercent(STEWARDSHIP_TARGET_MARGIN)} target ({formatPoints(currentKpis.operatingMargin - STEWARDSHIP_TARGET_MARGIN)}) for {reporting.closeMonthLabel}. Labor cost ratio is <strong className="font-mono tabular-nums">{formatPercent(laborCostRatioCurrent)}</strong> with budget variance <strong className="font-mono tabular-nums">{formatVarianceCurrency(currentKpis.budgetVariance)}</strong> and mean denial rate <strong className="font-mono tabular-nums">{formatPercent(currentKpis.denialRate)}</strong>.
                 </p>
                 <p>
                   <strong>Stewardship Key Recommendation:</strong> Prioritize denial workflow reviews where denial rate exceeds target, and shift registry-heavy staffing toward localized incentive schedules to reduce labor ratio pressure.

@@ -29,6 +29,8 @@ export interface ToastMessage {
 
 export interface CertifiedSignoff {
   id: string;
+  /** FY26-P05-2026-05 style period tag */
+  reportingPeriod?: string;
   timestamp: string;
   signatoryName: string;
   signatoryTitle: string;
@@ -40,7 +42,6 @@ export interface CertifiedSignoff {
   approvedScopes: string[];
 }
 
-import { FinanceRecord } from "./data/syntheticFinanceData";
-export type { FinanceRecord };
+export type { FinanceRecord } from "./types/financeRecord";
 
 

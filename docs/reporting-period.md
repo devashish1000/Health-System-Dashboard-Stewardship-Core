@@ -27,6 +27,17 @@ The app derives a single **reporting context** from the current date and the mon
 - Overview stewardship copy
 - Synthetic data badge period label
 
+## Rolling synthetic ledger
+
+- `src/data/generateSyntheticLedger.ts` builds Jan → prior-calendar-month rows from `ledgerComboTemplates.ts`.
+- `SYNTHETIC_RECORDS` is regenerated at module load (`syntheticFinanceData.ts`).
+- Refresh templates after manual combo edits: `npx tsx scripts/refresh-ledger-templates.mjs`.
+
+## Period-scoped workflow storage
+
+- Checklist: `commonspirit_checklist_FY26_P05` (via `checklistStorageKey()`).
+- Sign-offs: certificate includes `reportingPeriod` tag (`FY26-P05-YYYY-MM`).
+
 ## Extending
 
-To roll the synthetic seed forward, add records for the new close month in `syntheticFinanceData.ts` (or generate via script). The UI will pick up the new latest month automatically when the calendar moves past it.
+When the calendar advances, the generator adds months automatically. To change baseline combos, edit templates and re-run the refresh script.

@@ -3,9 +3,10 @@
  */
 
 import { getReportingContext } from "./reportingPeriod";
+import { SYNTHETIC_RECORDS } from "../data/syntheticFinanceData";
 
 function buildSafeClientAnswers(): Record<string, string> {
-  const r = getReportingContext();
+  const r = getReportingContext(SYNTHETIC_RECORDS);
   const close = r.closeMonthLabel;
 
   return {
@@ -115,7 +116,7 @@ export async function askGeminiFinance(prompt: string): Promise<CopilotResponse>
       }
     }
 
-    const r = getReportingContext();
+    const r = getReportingContext(SYNTHETIC_RECORDS);
     if (!answer) {
       answer = `### AI Decision-Support Brief (Client-Side Safe Mode)
 

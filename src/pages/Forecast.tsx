@@ -21,7 +21,7 @@ interface ForecastProps {
   records: FinanceRecord[];
 }
 
-const TARGET_OPERATING_MARGIN = 8.5;
+import { STEWARDSHIP_TARGET_MARGIN } from "../lib/stewardshipConfig";
 
 function symmetricPercentDomain(values: number[]): [number, number] {
   const maxAbs = Math.max(...values.map((v) => Math.abs(v)), 0.5);
@@ -63,7 +63,7 @@ export default function Forecast({ records }: ForecastProps) {
         title="Why this page matters"
         what="Rolling margin projection plus a margin driver bridge."
         value="Shows leadership exactly what moved the number — and why."
-        stat={{ label: "Operating target", value: formatPercent(TARGET_OPERATING_MARGIN) }}
+        stat={{ label: "Operating target", value: formatPercent(STEWARDSHIP_TARGET_MARGIN) }}
         icon={TrendingUp}
       />
 
@@ -75,7 +75,7 @@ export default function Forecast({ records }: ForecastProps) {
               Monthly Margin Shaded Baseline Forecast (%)
             </h3>
             <span className={`text-sm font-semibold block mt-1 tabular-nums ${dataPrimaryClass()}`}>
-              Target Operating Margin Alignment ({formatPercent(TARGET_OPERATING_MARGIN)})
+              Target Operating Margin Alignment ({formatPercent(STEWARDSHIP_TARGET_MARGIN)})
             </span>
           </div>
           <div className="h-64">
@@ -93,7 +93,7 @@ export default function Forecast({ records }: ForecastProps) {
                 <Line
                   type="monotone"
                   dataKey="targetMargin"
-                  name={`Target Floor (${formatPercent(TARGET_OPERATING_MARGIN)})`}
+                  name={`Target Floor (${formatPercent(STEWARDSHIP_TARGET_MARGIN)})`}
                   stroke={chartTheme.negative}
                   strokeWidth={1}
                   strokeDasharray="4 4"
@@ -130,7 +130,7 @@ export default function Forecast({ records }: ForecastProps) {
               Margin Driver Bridge (%)
             </h3>
             <span className={`text-sm font-semibold block mt-1 tabular-nums ${dataPrimaryClass()}`}>
-              Target {formatPercent(TARGET_OPERATING_MARGIN)} down to Actual {formatPercent(currentKpis.operatingMargin)}
+              Target {formatPercent(STEWARDSHIP_TARGET_MARGIN)} down to Actual {formatPercent(currentKpis.operatingMargin)}
             </span>
           </div>
           <div className="h-64">
@@ -213,7 +213,7 @@ export default function Forecast({ records }: ForecastProps) {
           <div className="flex items-center gap-2">
             <Cpu className="w-5 h-5 text-brand-600 animate-pulse" />
             <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-widest flex items-center gap-1.5">
-              <span>What Changed This Month?</span>
+              <span>What Changed in {reporting.closeMonthShort}?</span>
               <span className="text-[10px] bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-bold">AI Narrative</span>
             </h3>
           </div>
@@ -222,7 +222,7 @@ export default function Forecast({ records }: ForecastProps) {
             <div className="space-y-1">
               <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Executive Summary</span>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold">
-                “Operating margin declined primarily due to higher labor cost ratio, unfavorable payer mix, and increased denial activity in two service lines.”
+                {`“For ${reporting.closeMonthLabel}, operating margin is ${formatPercent(currentKpis.operatingMargin, { decimals: 1 })} vs the ${formatPercent(STEWARDSHIP_TARGET_MARGIN)} target, with labor and denials as primary pressure points.”`}
               </p>
             </div>
 
@@ -243,7 +243,7 @@ export default function Forecast({ records }: ForecastProps) {
 
           <div className="pt-4 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between text-[10px] text-slate-400 italic">
             <span>Decision-Support Note: All figures are synthetic and intended to demonstrate financial analytics workflow design.</span>
-            <span>Grounding Scope: Flash System Baseline</span>
+            <span>Grounding: {reporting.fiscalYearLabel} {reporting.periodLabel} · {reporting.closeMonthLabel}</span>
           </div>
         </div>
       </div>

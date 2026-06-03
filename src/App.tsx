@@ -12,6 +12,8 @@ import { ProjectPage, ControlTowerFilters, ToastMessage, UserPersona, CertifiedS
 import { filterRecords } from "./lib/financeCalculations";
 import { getReportingContext } from "./lib/reportingPeriod";
 import { useReportingPeriod } from "./lib/useReportingPeriod";
+import { checklistStorageKey } from "./lib/periodStorage";
+import { controlTowerVersion } from "./lib/stewardshipConfig";
 
 // Modular Pages
 import Login from "./pages/Login";
@@ -91,15 +93,21 @@ export default function App() {
   
   // Compliance Checklist Tracking State
   const [checklistCompleted, setChecklistCompleted] = useState<Record<string, boolean>>(() => {
-    const saved = localStorage.getItem("commonspirit_checklist_completed");
+    const reporting = getReportingContext(SYNTHETIC_RECORDS);
+    const key = checklistStorageKey(reporting);
+    const saved = localStorage.getItem(key);
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        return JSON.parse(saved);
+      } catch {
+        /* fall through */
+      }
     }
     return {
       denials: false,
       simulator: false,
       copilot: false,
-      signoff: false
+      signoff: false,
     };
   });
 
@@ -164,9 +172,11 @@ export default function App() {
     localStorage.setItem("commonspirit_signoffs", JSON.stringify(signoffs));
   }, [signoffs]);
 
+  const reporting = useReportingPeriod(records);
+
   useEffect(() => {
-    localStorage.setItem("commonspirit_checklist_completed", JSON.stringify(checklistCompleted));
-  }, [checklistCompleted]);
+    localStorage.setItem(checklistStorageKey(reporting), JSON.stringify(checklistCompleted));
+  }, [checklistCompleted, reporting]);
 
   useEffect(() => {
     localStorage.setItem("commonspirit_is_logged_in", isLoggedIn ? "true" : "false");
@@ -202,7 +212,6 @@ export default function App() {
 
   // Filter computation
   const filteredRecords = filterRecords(records, filters);
-  const reporting = useReportingPeriod(records);
 
   const triggerToast = (text: string, type: "success" | "info" | "warning" = "success") => {
     const id = `toast-${Date.now()}`;
@@ -234,11 +243,13 @@ export default function App() {
     setUserPersona("analyst");
     setFilters(INITIAL_FILTERS);
     setSignoffs([]);
+    const reportingReset = getReportingContext(SYNTHETIC_RECORDS);
+    localStorage.removeItem(checklistStorageKey(reportingReset));
     setChecklistCompleted({
       denials: false,
       simulator: false,
       copilot: false,
-      signoff: false
+      signoff: false,
     });
     triggerToast("Workspace sandbox restored to official CommonSpirit baseline levels.", "info");
   };
@@ -370,7 +381,7 @@ export default function App() {
               <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full shrink-0 animate-pulse" />
               <div className="text-[10px] text-slate-300">
                 <span className="font-semibold block text-slate-200">System Connected</span>
-                <span className="font-mono text-slate-400 block mt-0.5">Mock API active fallback</span>
+                <span className="font-mono text-slate-400 block mt-0.5">Ledger synced · {reporting.closeMonthLabel}</span>
               </div>
             </div>
 
@@ -396,7 +407,7 @@ export default function App() {
 
             <div className="text-[9px] text-slate-400 text-center leading-normal">
               The power of humankindness, in your numbers <br/>
-              Healthcare Finance Control Tower • v1.0.0
+              Healthcare Finance Control Tower • {controlTowerVersion()} · {reporting.workspaceChipShort}
             </div>
           </div>
 
@@ -481,6 +492,7 @@ export default function App() {
         onClose={() => setIsExportModalOpen(false)}
         filteredRecords={filteredRecords}
         signoffs={signoffs}
+        reporting={reporting}
         onTriggerToast={triggerToast}
       />
 

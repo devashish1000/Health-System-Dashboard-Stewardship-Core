@@ -15,6 +15,8 @@ import {
 } from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
+import { STEWARDSHIP_TARGET_MARGIN } from "../lib/stewardshipConfig";
 
 interface SimulatorProps {
   records: FinanceRecord[];
@@ -22,10 +24,10 @@ interface SimulatorProps {
   onTriggerToast?: (msg: string, type: "success" | "info" | "warning") => void;
 }
 
-const TARGET_MARGIN = 8.5;
-
 export default function Simulator({ records, onChecklistTrigger, onTriggerToast }: SimulatorProps) {
-  const currentKpis = calculateKpis(records);
+  const reporting = useReportingPeriod(records);
+  const closeRecords = records.filter(reporting.filterCloseMonth);
+  const currentKpis = calculateKpis(closeRecords.length ? closeRecords : records);
 
   // Core Slider variables
   const [laborImprovement, setLaborImprovement] = useState(0); // 0 to 10%
@@ -35,9 +37,9 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
   const [reimbursementReduction, setReimbursementReduction] = useState(0); // 0 to 20 days
 
   // Baseline variables from synthetic dataset
-  const baseMargin = 7.4;
-  const baseNpr = 48700000;
-  const baseVariance = -1800000;
+  const baseMargin = currentKpis.operatingMargin;
+  const baseNpr = currentKpis.netPatientRevenue;
+  const baseVariance = currentKpis.budgetVariance;
 
   // Track event changes
   const handleSliderChange = (setter: (val: any) => void, val: any) => {
@@ -275,18 +277,18 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
                 {/* Target Gap 1: CommonSpirit board requirement (8.5%) */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-400 uppercase tracking-wide">CommonSpirit Goal ({formatPercent(TARGET_MARGIN, { decimals: 2 })})</span>
-                    <span className={`font-mono tabular-nums font-bold ${simulatedMargin >= TARGET_MARGIN ? "text-emerald-400" : "text-amber-400"}`}>
-                      {simulatedMargin >= TARGET_MARGIN 
-                        ? `SURPASSED (${formatPoints(simulatedMargin - TARGET_MARGIN, 2)})` 
-                        : `SHORTFALL (${formatPoints(TARGET_MARGIN - simulatedMargin, 2)} gap)`
+                    <span className="text-slate-400 uppercase tracking-wide">CommonSpirit Goal ({formatPercent(STEWARDSHIP_TARGET_MARGIN, { decimals: 2 })})</span>
+                    <span className={`font-mono tabular-nums font-bold ${simulatedMargin >= STEWARDSHIP_TARGET_MARGIN ? "text-emerald-400" : "text-amber-400"}`}>
+                      {simulatedMargin >= STEWARDSHIP_TARGET_MARGIN 
+                        ? `SURPASSED (${formatPoints(simulatedMargin - STEWARDSHIP_TARGET_MARGIN, 2)})` 
+                        : `SHORTFALL (${formatPoints(STEWARDSHIP_TARGET_MARGIN - simulatedMargin, 2)} gap)`
                       }
                     </span>
                   </div>
                   <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= TARGET_MARGIN ? "bg-emerald-400" : "bg-amber-400"}`}
-                      style={{ width: `${Math.min(100, (simulatedMargin / TARGET_MARGIN) * 100)}%` }}
+                      className={`h-full rounded-full transition-all duration-300 ${simulatedMargin >= STEWARDSHIP_TARGET_MARGIN ? "bg-emerald-400" : "bg-amber-400"}`}
+                      style={{ width: `${Math.min(100, (simulatedMargin / STEWARDSHIP_TARGET_MARGIN) * 100)}%` }}
                     />
                   </div>
                 </div>
@@ -313,7 +315,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
               </div>
               <p className="text-[10.5px] text-slate-300 mt-3 flex items-center gap-1 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
                 <AlertCircle className="w-3.5 h-3.5 text-brand-400 shrink-0" />
-                <span>Safe target achieved: {simulatedMargin >= TARGET_MARGIN ? `Yes (${formatPercent(TARGET_MARGIN, { decimals: 1 })} margin cleared)` : "No (requires further optimizations)"}</span>
+                <span>Safe target achieved: {simulatedMargin >= STEWARDSHIP_TARGET_MARGIN ? `Yes (${formatPercent(STEWARDSHIP_TARGET_MARGIN, { decimals: 1 })} margin cleared)` : "No (requires further optimizations)"}</span>
               </p>
             </div>
 
@@ -352,7 +354,7 @@ export default function Simulator({ records, onChecklistTrigger, onTriggerToast 
           {/* Simulated Disclaimer Node Required by user request */}
           <div className="bg-slate-50 dark:bg-ink-900 border border-slate-100 dark:border-white/10 rounded-2xl p-5 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed shadow-3xs">
             <span className="font-bold text-slate-700 dark:text-slate-100 block mb-1">Stewardship Note</span>
-            “Simulation uses synthetic assumptions to demonstrate decision-support logic. Results are directional only and require validation against real finance and operational data.”
+            {`Simulation baseline: ${reporting.closeMonthLabel} (${reporting.fiscalYearLabel} ${reporting.periodLabel}). Results are directional only and require validation against operational data before month-end certification.`}
           </div>
 
         </div>

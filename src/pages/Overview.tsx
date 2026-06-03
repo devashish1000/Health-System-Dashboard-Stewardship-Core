@@ -13,11 +13,7 @@ import {
   formatCount,
 } from "../lib/formatters";
 import { useReportingPeriod } from "../lib/useReportingPeriod";
-
-const TARGET_MARGIN = 8.5;
-const TOTAL_REVENUE = 48_700_000;
-const ILLUSTRATIVE_DENIAL_LEAKAGE = 1_800_000;
-const ILLUSTRATIVE_AGENCY_OVERSPEND = 1_200_000;
+import { computeOverviewHeroMetrics } from "../lib/overviewMetrics";
 
 interface OverviewProps {
   onNavigate: (page: ProjectPage) => void;
@@ -33,6 +29,10 @@ export default function Overview({
   onToggleChecklist
 }: OverviewProps) {
   const reporting = useReportingPeriod(records);
+  const hero = React.useMemo(
+    () => computeOverviewHeroMetrics(records, reporting),
+    [records, reporting]
+  );
 
   // Dynamic Validation checks matched to genuine record instances
   const cardiologyRef = records.find(r => r.service_line === "Cardiology" && r.facility === "St. Joseph Medical Center");
@@ -119,15 +119,15 @@ export default function Overview({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-700/60">
             <div>
               <span className="text-xs text-slate-300 block">Operating Target</span>
-              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatPercent(TARGET_MARGIN)} Margin</span>
+              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatPercent(hero.targetMargin)} Margin</span>
             </div>
             <div>
-              <span className="text-xs text-slate-300 block">Total Revenue Managed</span>
-              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatCurrency(TOTAL_REVENUE)}</span>
+              <span className="text-xs text-slate-300 block">NPR ({hero.periodLabel})</span>
+              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatCurrency(hero.totalRevenue)}</span>
             </div>
             <div>
-              <span className="text-xs text-slate-300 block">Clinics Audited</span>
-              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatCount(records.length)} Records</span>
+              <span className="text-xs text-slate-300 block">Close-month rows</span>
+              <span className="text-xl font-bold font-mono tabular-nums mt-0.5 block">{formatCount(records.filter(reporting.filterCloseMonth).length)} Records</span>
             </div>
             <div>
               <span className="text-xs text-slate-300 block">Mission Focus</span>
@@ -161,8 +161,8 @@ export default function Overview({
         >
           {[
             { label: "Month-end variance review", value: "~5 days → <1 day", icon: Clock, accent: "brand", numeric: false },
-            { label: "Denial leakage surfaced", value: `~${formatCurrency(ILLUSTRATIVE_DENIAL_LEAKAGE)} / cycle`, icon: TrendingUp, accent: "teal", numeric: true },
-            { label: "Premium agency-labor overspend flagged", value: `~${formatCurrency(ILLUSTRATIVE_AGENCY_OVERSPEND)}`, icon: BarChart3, accent: "amber", numeric: true },
+            { label: "Denial leakage surfaced", value: `~${formatCurrency(hero.denialLeakage)} / ${hero.periodLabel}`, icon: TrendingUp, accent: "teal", numeric: true },
+            { label: "Premium agency-labor overspend flagged", value: `~${formatCurrency(hero.agencyOverspend)}`, icon: BarChart3, accent: "amber", numeric: true },
             { label: "Time-to-board-ready brief", value: "hours → minutes", icon: Sparkles, accent: "brand", numeric: false },
           ].map((stat) => {
             const accentMap: Record<string, string> = {
@@ -196,7 +196,9 @@ export default function Overview({
             );
           })}
         </motion.div>
-        <p className="text-[10px] text-slate-400 text-center">Illustrative figures based on synthetic demo data.</p>
+        <p className="text-[10px] text-slate-400 text-center">
+          Metrics computed from synthetic close-month data ({hero.fiscalLabel}) · {formatPercent(hero.avgMargin, { decimals: 1 })} avg margin.
+        </p>
       </div>
 
       {/* How This Works At Your Org */}

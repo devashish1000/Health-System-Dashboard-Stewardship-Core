@@ -8,11 +8,14 @@ import {
   formatVarianceCurrency,
 } from "../lib/formatters";
 
+import type { ReportingContext } from "../lib/reportingPeriod";
+
 interface ExportDataModalProps {
   isOpen: boolean;
   onClose: () => void;
   filteredRecords: FinanceRecord[];
   signoffs: any[];
+  reporting: ReportingContext;
   onTriggerToast: (text: string, type: "success" | "info" | "warning") => void;
 }
 
@@ -21,6 +24,7 @@ export default function ExportDataModal({
   onClose,
   filteredRecords,
   signoffs,
+  reporting,
   onTriggerToast
 }: ExportDataModalProps) {
   const exportSummary = useMemo(() => {
@@ -145,7 +149,7 @@ export default function ExportDataModal({
               Under **CommonSpirit Health** financial stewardship protocols, custom data exports must be recorded and matched against compliance oversight metrics.
             </p>
             <p className="text-[10px] text-slate-400 dark:text-slate-400">
-              Currently compiling statistics for **{formatCount(filteredRecords.length)} filtered facility records** in the workspace sandbox.
+              Export scope: **{formatCount(filteredRecords.length)}** filtered rows · ledger close **{reporting.closeMonthLabel}** ({reporting.fiscalYearLabel} {reporting.periodLabel}).
             </p>
           </div>
 

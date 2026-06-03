@@ -315,7 +315,7 @@ export default function ServiceLines({
             <Award className="w-4 h-4 text-sky-500 animate-pulse" /> Unified Director Audit Program
           </h4>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Ensure you review outlier service line ratios (e.g. Cardiology claim rejections and Emergency premium nursing overages) before certifying the monthly packet.
+            Ensure you review outlier service line ratios (e.g. Cardiology claim rejections and Emergency premium nursing overages) before certifying the month-end packet for the active close period.
           </p>
         </div>
         <button

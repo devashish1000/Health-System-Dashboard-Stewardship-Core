@@ -65,7 +65,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
   }, [messages, isLoading]);
 
   const loadingPhrases = [
-    "Interrogating synthetic ledger...",
+    `Interrogating ${reporting.fiscalYearLabel} ${reporting.periodLabel} synthetic ledger...`,
     "Scanning cardiology prior authorization logs...",
     "Summing clinical registry labor expenses...",
     "Drafting stewardship assessment...",
@@ -371,7 +371,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
               <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" /> Grounding Disclaimer
             </p>
             <p className="text-[11px] leading-relaxed text-amber-800 dark:text-amber-100/90">
-              Our AI Copilot is tuned to enforce healthcare-specific stewardship guidelines. It prioritizes community health maintenance and clinical resource optimization, avoiding any profit-maximization and cost-extraction vocabulary. 
+              Our AI Copilot is tuned to enforce healthcare-specific stewardship guidelines for {reporting.closeMonthLabel} ({reporting.fiscalYearLabel} {reporting.periodLongLabel}). It prioritizes community health maintenance and clinical resource optimization, avoiding profit-maximization vocabulary.
             </p>
           </div>
 

@@ -1,10 +1,19 @@
-import { SYNTHETIC_RECORDS, type FinanceRecord } from "../data/syntheticFinanceData";
+import type { FinanceRecord } from "../types/financeRecord";
+import {
+  calendarYearMonths,
+  formatDisplayDate,
+  formatYearMonth,
+  monthsThroughClose,
+  parseYearMonth,
+  quarterLabelForCloseMonth,
+  forwardQuarterLabel,
+  resolveCloseMonth as resolveCalendarCloseMonth,
+} from "./fiscalCalendar";
 
 /** Calendar-year fiscal model: P01 = January … P12 = December */
 const FISCAL_YEAR_START_MONTH = 1;
 
 export interface ReportingContext {
-  /** Last closed ledger month (YYYY-MM) */
   closeMonth: string;
   closeYear: number;
   closeMonthNum: number;
@@ -18,32 +27,20 @@ export interface ReportingContext {
   asOfDate: Date;
   asOfDisplay: string;
   generatedAtDisplay: string;
-  /** Jan–Dec of the close calendar year (trend modals) */
   chartYearMonths: string[];
-  /** Jan through close month in that year (dashboard history) */
   actualMonthsThroughClose: string[];
   workspaceTooltip: string;
   workspaceChipShort: string;
   projectionStreamLabel: string;
+  currentQuarterLabel: string;
+  forwardQuarterLabel: string;
   isProjectionMonth: (month: string) => boolean;
   isActualMonth: (month: string) => boolean;
   monthLabel: (month: string) => string;
   monthLabelWithYear: (month: string) => string;
   filterYtdThroughClose: (record: FinanceRecord) => boolean;
+  filterCloseMonth: (record: FinanceRecord) => boolean;
   countActualMonthsThroughClose: (records: FinanceRecord[]) => number;
-}
-
-function padMonth(n: number): string {
-  return String(n).padStart(2, "0");
-}
-
-export function formatYearMonth(year: number, month: number): string {
-  return `${year}-${padMonth(month)}`;
-}
-
-export function parseYearMonth(ym: string): { year: number; month: number } {
-  const [y, m] = ym.split("-").map(Number);
-  return { year: y, month: m };
 }
 
 export function uniqueRecordMonths(records: FinanceRecord[]): string[] {
@@ -51,14 +48,13 @@ export function uniqueRecordMonths(records: FinanceRecord[]): string[] {
 }
 
 /**
- * Typical month-end close = prior calendar month, capped to synthetic ledger range.
+ * Close month for UI: prior calendar month, capped to months present in records.
  */
 export function resolveCloseMonth(
   availableMonths?: string[],
   asOf: Date = new Date()
 ): string {
-  const prior = new Date(asOf.getFullYear(), asOf.getMonth() - 1, 1);
-  let candidate = formatYearMonth(prior.getFullYear(), prior.getMonth() + 1);
+  let candidate = resolveCalendarCloseMonth(asOf);
 
   if (!availableMonths?.length) return candidate;
 
@@ -72,25 +68,10 @@ export function resolveCloseMonth(
   return candidate;
 }
 
-function formatDisplayDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-function calendarYearMonths(year: number): string[] {
-  return Array.from({ length: 12 }, (_, i) => formatYearMonth(year, i + 1));
-}
-
-function monthsThroughClose(closeMonth: string): string[] {
-  const { year, month } = parseYearMonth(closeMonth);
-  return Array.from({ length: month }, (_, i) => formatYearMonth(year, i + 1));
-}
+export { formatYearMonth, parseYearMonth, monthsThroughClose } from "./fiscalCalendar";
 
 export function getReportingContext(
-  records: FinanceRecord[] = SYNTHETIC_RECORDS,
+  records: FinanceRecord[],
   asOf: Date = new Date()
 ): ReportingContext {
   const available = uniqueRecordMonths(records);
@@ -102,8 +83,8 @@ export function getReportingContext(
     FISCAL_YEAR_START_MONTH === 1
       ? closeMonthNum
       : ((closeMonthNum - FISCAL_YEAR_START_MONTH + 12) % 12) + 1;
-  const periodLabel = `P${padMonth(periodNumber)}`;
-  const periodLongLabel = `Period ${padMonth(periodNumber)}`;
+  const periodLabel = `P${String(periodNumber).padStart(2, "0")}`;
+  const periodLongLabel = `Period ${String(periodNumber).padStart(2, "0")}`;
 
   const closeMonthShort = new Date(`${closeMonth}-15`).toLocaleString("default", {
     month: "long",
@@ -144,11 +125,14 @@ export function getReportingContext(
     workspaceTooltip,
     workspaceChipShort,
     projectionStreamLabel,
+    currentQuarterLabel: quarterLabelForCloseMonth(closeMonth),
+    forwardQuarterLabel: forwardQuarterLabel(closeMonth),
     isProjectionMonth: (m) => m > closeMonth,
     isActualMonth: (m) => m <= closeMonth,
     monthLabel,
     monthLabelWithYear,
     filterYtdThroughClose: (r) => r.month <= closeMonth,
+    filterCloseMonth: (r) => r.month === closeMonth,
     countActualMonthsThroughClose: (recs) =>
       actualMonthsThroughClose.filter((m) => recs.some((r) => r.month === m)).length ||
       actualMonthsThroughClose.length,

@@ -345,7 +345,7 @@ export default function ServiceLineTrendModal({
               <div className="space-y-1.5">
                 <span className="block text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">AI Strategy Outlook</span>
                 <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
-                  Our projection models indicate **{serviceLine}** margin will appreciate over Q3, driven by volume recovery and standardizing contract nurse registry pathways. Regional oversight targets should prioritize capping commercial claim denial rates below 2.0% to unlock restricted month-end capital.
+                  Our projection models indicate **{serviceLine}** margin will appreciate over {reporting.forwardQuarterLabel}, driven by volume recovery and standardizing contract nurse registry pathways. Regional oversight targets should prioritize capping commercial claim denial rates below 2.0% before {reporting.closeMonthLabel} close capital is released.
                 </p>
                 <div className="pt-2 text-[10px] text-slate-400 font-medium font-mono">
                   Managed by Senior Lead: <span className="text-slate-600 dark:text-slate-300 font-semibold">{currentLead}</span>
