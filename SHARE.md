@@ -50,6 +50,12 @@
 
 ---
 
+## Data workbook (for Finance reviewers)
+
+Share **`docs/data-handoff/CommonSpirit-Control-Tower-Data-Handoff.xlsx`** — column dictionary, close-month ledger, templates, personas, filters, and KPI formulas. Regenerate with `npm run handoff:excel`.
+
+---
+
 ## Before you share (checklist)
 
 - [ ] Production URL loads: [https://hsd-audit.vercel.app](https://hsd-audit.vercel.app)

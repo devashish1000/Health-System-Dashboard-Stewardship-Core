@@ -1,0 +1,28 @@
+# Data handoff workbook
+
+**File:** `CommonSpirit-Control-Tower-Data-Handoff.xlsx`
+
+Excel documentation of every column and table the Vercel control tower uses (`https://hsd-audit.vercel.app`). Share this with Finance reviewers so they can see the synthetic ledger structure without opening the repo.
+
+## Sheets
+
+| Sheet | Contents |
+|-------|----------|
+| **About** | Disclaimer, live URL, close month, how to regenerate |
+| **Data_Dictionary** | Every `finance_ledger_row` column, type, UI usage |
+| **Close_Month_Ledger** | Rows the app uses for current KPIs (default close month) |
+| **Full_Ledger_All_Months** | Complete generated ledger (rolling months) |
+| **Combo_Templates** | Seed rows before scaling/drift (`ledgerComboTemplates.ts`) |
+| **Personas** | Login / workspace roles (synthetic names) |
+| **Dashboard_Filters** | Filter fields and allowed values |
+| **Derived_KPIs** | How Overview/Dashboard totals are calculated |
+| **Signoff_Schema** | Pre-flight certification fields (localStorage) |
+| **UI_Page_Sources** | Which pages read which tables |
+
+## Regenerate
+
+```bash
+npm run handoff:excel
+```
+
+Requires `xlsx` (dev dependency). Data is built from the same TypeScript generators as the running app.
