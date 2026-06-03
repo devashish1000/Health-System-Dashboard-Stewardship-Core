@@ -1,5 +1,9 @@
 import React, { useMemo } from "react";
-import { X, FileSpreadsheet, FileCode, Printer, HelpCircle } from "lucide-react";
+import { X, FileSpreadsheet, FileCode, Printer, HelpCircle, BookOpen } from "lucide-react";
+import {
+  DATA_HANDOFF_WORKBOOK_FILENAME,
+  DATA_HANDOFF_WORKBOOK_PATH,
+} from "../constants/dataHandoff";
 import { FinanceRecord } from "../types";
 import {
   formatCount,
@@ -156,7 +160,15 @@ export default function ExportDataModal({
               current dashboard filters and close-month period — not production system data.
             </p>
             <p className="text-[10px] text-slate-400 dark:text-slate-400">
-              Export scope: **{formatCount(filteredRecords.length)}** filtered rows · ledger close **{reporting.closeMonthLabel}** ({reporting.fiscalYearLabel} {reporting.periodLabel}).
+              Export scope:{" "}
+              <span className="font-semibold text-slate-500 dark:text-slate-300">
+                {formatCount(filteredRecords.length)}
+              </span>{" "}
+              filtered rows · ledger close{" "}
+              <span className="font-semibold text-slate-500 dark:text-slate-300">
+                {reporting.closeMonthLabel}
+              </span>{" "}
+              ({reporting.fiscalYearLabel} {reporting.periodLabel}).
             </p>
           </div>
 
@@ -194,7 +206,25 @@ export default function ExportDataModal({
           </div>
 
           <div className="space-y-3.5">
-            {/* Box 1: CSV */}
+            <a
+              href={DATA_HANDOFF_WORKBOOK_PATH}
+              download={DATA_HANDOFF_WORKBOOK_FILENAME}
+              className="w-full p-4 rounded-xl border-2 border-brand-200 dark:border-brand-500/40 bg-brand-50/40 dark:bg-brand-900/20 hover:border-brand-300 hover:bg-brand-50/70 text-left flex items-start gap-4 transition-all group"
+            >
+              <div className="p-2.5 rounded-lg bg-brand-600 text-white group-hover:bg-brand-700 transition-all shrink-0">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <div className="space-y-1">
+                <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">
+                  Data handoff workbook (Excel)
+                </span>
+                <span className="block text-[10px] text-slate-500 dark:text-slate-400 leading-snug">
+                  Complete column dictionary, close-month ledger, combo templates, personas, filters,
+                  and KPI formulas. Synthetic demo — not operational CommonSpirit data.
+                </span>
+              </div>
+            </a>
+
             <button
               onClick={handleExportCSV}
               className="w-full p-4 rounded-xl border border-slate-100 dark:border-white/10 hover:border-brand-200 hover:bg-brand-50/20 text-left flex items-start gap-4 transition-all cursor-pointer group"

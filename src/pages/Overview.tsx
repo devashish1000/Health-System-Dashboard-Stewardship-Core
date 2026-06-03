@@ -14,6 +14,10 @@ import {
 } from "../lib/formatters";
 import { useReportingPeriod } from "../lib/useReportingPeriod";
 import { computeOverviewHeroMetrics } from "../lib/overviewMetrics";
+import {
+  DATA_HANDOFF_WORKBOOK_FILENAME,
+  DATA_HANDOFF_WORKBOOK_PATH,
+} from "../constants/dataHandoff";
 
 interface OverviewProps {
   onNavigate: (page: ProjectPage) => void;
@@ -115,6 +119,17 @@ export default function Overview({
           
           <p className="text-md md:text-lg text-slate-200 font-normal leading-relaxed">
             AI-assisted financial control tower mapped to CommonSpirit Health stewardship baselines. Review service-line variance, run sandbox simulations, query AI intelligence, and certify fiscal periods securely.
+          </p>
+          <p className="text-sm text-slate-300/90 leading-relaxed">
+            Review the{" "}
+            <a
+              href={DATA_HANDOFF_WORKBOOK_PATH}
+              download={DATA_HANDOFF_WORKBOOK_FILENAME}
+              className="font-semibold text-brand-200 underline decoration-brand-300/60 underline-offset-2 hover:text-white"
+            >
+              data workbook
+            </a>{" "}
+            to see every field the control tower uses.
           </p>
           
           {/* Quick Stats Panel inside hero */}

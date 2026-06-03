@@ -145,7 +145,7 @@ export default function CommandPalette({
         id: "action-export",
         category: "Core Actions",
         title: "Export Sandbox Data",
-        description: "Open Finance Export Suite — CSV dataset, sign-off JSON, or print briefing for filtered rows",
+        description: "Open Finance Export Suite — Excel data workbook, CSV, sign-off JSON, or print briefing",
         icon: Download,
         action: () => { onTriggerExport(); onClose(); },
         shortcut: "E"
