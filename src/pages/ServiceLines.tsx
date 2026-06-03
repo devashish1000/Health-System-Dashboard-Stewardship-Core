@@ -10,6 +10,13 @@ import {
   formatPercent,
   formatVarianceCurrency,
 } from "../lib/formatters";
+import {
+  captionClass,
+  dataPrimaryClass,
+  dataSecondaryClass,
+  marginPercentClass,
+  varianceClass,
+} from "../lib/metricColors";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
 
@@ -127,13 +134,13 @@ export default function ServiceLines({
   const getStatusStyle = (status: string) => {
     switch (status) {
       case "Favorable":
-        return "bg-emerald-50 text-emerald-700 border-emerald-100";
+        return "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-100 dark:border-emerald-800/50";
       case "Watchlist":
-        return "bg-amber-50 text-amber-700 border-amber-100";
+        return "bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-100 dark:border-amber-800/50";
       case "Unfavorable":
-        return "bg-rose-50 text-rose-700 border-rose-100";
+        return "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-rose-100 dark:border-rose-800/50";
       default:
-        return "bg-slate-50 text-slate-600 border-slate-100 font-sans";
+        return "bg-slate-50 dark:bg-ink-900 text-slate-600 dark:text-slate-300 border-slate-100 dark:border-white/10 font-sans";
     }
   };
 
@@ -203,7 +210,7 @@ export default function ServiceLines({
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">{agg.serviceLine}</h3>
-                    <span className="text-[10px] text-slate-400 block font-medium">Assigned to {agg.owner}</span>
+                    <span className={`text-[10px] block font-medium ${captionClass()}`}>Assigned to {agg.owner}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -223,26 +230,26 @@ export default function ServiceLines({
               {/* Metrics Grid */}
               <div className="grid grid-cols-2 gap-y-3 gap-x-2 py-4">
                 <div>
-                  <span className="text-[10px] text-slate-400 block">Net Revenue</span>
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block mt-0.5 font-mono tabular-nums">
+                  <span className={`text-[10px] block ${captionClass()}`}>Net Revenue</span>
+                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${dataPrimaryClass()}`}>
                     {formatCurrency(agg.netRevenue)}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">Operating Margin</span>
-                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${agg.operatingMargin >= 8 ? "text-emerald-600" : (agg.operatingMargin < 1 ? "text-rose-600" : "text-slate-700")}`}>
+                  <span className={`text-[10px] block ${captionClass()}`}>Operating Margin</span>
+                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${marginPercentClass(agg.operatingMargin)}`}>
                     {formatPercent(agg.operatingMargin)}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">Budget Variance</span>
-                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${agg.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                  <span className={`text-[10px] block ${captionClass()}`}>Budget Variance</span>
+                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${varianceClass(agg.budgetVariance)}`}>
                     {formatVarianceCurrency(agg.budgetVariance)}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">Volume Variation</span>
-                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${meta.volumeChangePct >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                  <span className={`text-[10px] block ${captionClass()}`}>Volume Variation</span>
+                  <span className={`text-sm font-bold block mt-0.5 font-mono tabular-nums ${varianceClass(meta.volumeChangePct)}`}>
                     {formatPercent(meta.volumeChangePct, { signed: true })} vs target
                   </span>
                 </div>
@@ -250,18 +257,18 @@ export default function ServiceLines({
 
               {/* Key Driver Notes */}
               <div className="bg-slate-50/60 dark:bg-ink-900 rounded-xl p-3 border border-slate-100/50 dark:border-white/10 mt-1 mb-4 flex-grow">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide block mb-1">
+                <span className={`text-[10px] font-bold uppercase tracking-wide block mb-1 ${captionClass()}`}>
                   Primary Stewardship Driver:
                 </span>
-                <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
+                <p className={`text-[11px] leading-relaxed font-medium ${dataSecondaryClass()}`}>
                   {hasOwnNote || meta.driver}
                 </p>
               </div>
 
               {/* Workflow Actions footer of card */}
               <div className="border-t border-slate-50 dark:border-white/10 pt-3 flex items-center justify-between text-xs">
-                <span className="text-[10px] text-slate-400 font-mono">
-                  State: <strong className="font-semibold text-slate-500">{agg.reviewStatus}</strong>
+                <span className={`text-[10px] font-mono ${captionClass()}`}>
+                  State: <strong className={`font-semibold ${dataPrimaryClass()}`}>{agg.reviewStatus}</strong>
                 </span>
 
                 {addingNoteFor === agg.serviceLine ? (

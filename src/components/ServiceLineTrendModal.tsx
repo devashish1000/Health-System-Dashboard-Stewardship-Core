@@ -13,6 +13,8 @@ import {
   formatCount,
 } from "../lib/formatters";
 import { chartTheme } from "../lib/chartTheme";
+import { resolveChartPalette } from "../lib/chartColors";
+import { useTheme } from "../lib/useTheme";
 
 interface ServiceLineTrendModalProps {
   isOpen: boolean;
@@ -29,6 +31,9 @@ export default function ServiceLineTrendModal({
   records,
   onOpenAnnotation
 }: ServiceLineTrendModalProps) {
+  const { theme: colorMode } = useTheme();
+  const chartPalette = resolveChartPalette(colorMode === "dark");
+
   if (!isOpen) return null;
 
   const months = [
@@ -242,17 +247,17 @@ export default function ServiceLineTrendModal({
                       <stop offset="95%" stopColor={theme.stroke} stopOpacity={0.0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
                   <XAxis 
                     dataKey="monthLabel" 
-                    tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
-                    axisLine={{ stroke: '#cbd5e1', strokeWidth: 1 }}
+                    tick={{ fill: chartPalette.tick, fontSize: 10, fontWeight: 600 }}
+                    axisLine={{ stroke: chartPalette.axis, strokeWidth: 1 }}
                     tickLine={false}
                   />
                   <YAxis 
                     domain={['dataMin - 2', 'dataMax + 2']}
-                    tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
-                    axisLine={{ stroke: '#cbd5e1', strokeWidth: 1 }}
+                    tick={{ fill: chartPalette.tick, fontSize: 10, fontWeight: 600 }}
+                    axisLine={{ stroke: chartPalette.axis, strokeWidth: 1 }}
                     tickLine={false}
                     tickFormatter={(tick) => formatAxisPercent(tick)}
                   />

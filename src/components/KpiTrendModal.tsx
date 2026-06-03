@@ -14,6 +14,8 @@ import {
   formatAxisPercent,
 } from "../lib/formatters";
 import { chartTheme } from "../lib/chartTheme";
+import { resolveChartPalette } from "../lib/chartColors";
+import { useTheme } from "../lib/useTheme";
 import ChartTooltip, { type TooltipValueKind } from "./charts/ChartTooltip";
 
 interface KpiTrendModalProps {
@@ -29,6 +31,9 @@ export default function KpiTrendModal({
   kpiType,
   records
 }: KpiTrendModalProps) {
+  const { theme } = useTheme();
+  const chartPalette = resolveChartPalette(theme === "dark");
+
   if (!isOpen) return null;
 
   const months = [
@@ -289,16 +294,16 @@ export default function KpiTrendModal({
                       <stop offset="95%" stopColor={meta.color} stopOpacity={0.0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
                   <XAxis 
                     dataKey="monthLabel" 
-                    tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
-                    axisLine={{ stroke: '#cbd5e1', strokeWidth: 1 }}
+                    tick={{ fill: chartPalette.tick, fontSize: 10, fontWeight: 600 }}
+                    axisLine={{ stroke: chartPalette.axis, strokeWidth: 1 }}
                     tickLine={false}
                   />
                   <YAxis 
-                    tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
-                    axisLine={{ stroke: '#cbd5e1', strokeWidth: 1 }}
+                    tick={{ fill: chartPalette.tick, fontSize: 10, fontWeight: 600 }}
+                    axisLine={{ stroke: chartPalette.axis, strokeWidth: 1 }}
                     tickLine={false}
                     tickFormatter={(tick) =>
                       meta.isCurrency ? formatAxisMillions(tick) : formatAxisPercent(tick)

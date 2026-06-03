@@ -8,7 +8,10 @@ import { FinanceRecord } from "../data/syntheticFinanceData";
 import { calculateKpis, getMonthlyHistory, calculateWaterfallSteps } from "../lib/financeCalculations";
 import { formatPercent, formatPoints, formatAxisPercent } from "../lib/formatters";
 import { chartTheme, chartMargins } from "../lib/chartTheme";
+import { axisTickProps, legendStyle, resolveChartPalette } from "../lib/chartColors";
 import { seriesLabels, illustrativeNote } from "../lib/chartSemantics";
+import { captionClass, chartSectionTitleClass, dataPrimaryClass } from "../lib/metricColors";
+import { useTheme } from "../lib/useTheme";
 import ChartTooltip from "../components/charts/ChartTooltip";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
@@ -25,6 +28,8 @@ function symmetricPercentDomain(values: number[]): [number, number] {
 }
 
 export default function Forecast({ records }: ForecastProps) {
+  const { theme } = useTheme();
+  const chartPalette = resolveChartPalette(theme === "dark");
   const currentKpis = calculateKpis(records);
   const monthlyHistory = getMonthlyHistory(records);
   const waterfallSteps = calculateWaterfallSteps(currentKpis);
@@ -64,26 +69,25 @@ export default function Forecast({ records }: ForecastProps) {
 
         <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            <h3 className={chartSectionTitleClass()}>
               Monthly Margin Shaded Baseline Forecast (%)
             </h3>
-            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1 tabular-nums">
+            <span className={`text-sm font-semibold block mt-1 tabular-nums ${dataPrimaryClass()}`}>
               Target Operating Margin Alignment ({formatPercent(TARGET_OPERATING_MARGIN)})
             </span>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={monthlyHistory} margin={chartMargins.compact}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
-                <XAxis dataKey="name" stroke={chartTheme.axis} fontSize={11} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
+                <XAxis dataKey="name" {...axisTickProps(chartPalette, 11)} />
                 <YAxis
                   domain={["auto", "auto"]}
-                  stroke={chartTheme.axis}
-                  fontSize={11}
+                  {...axisTickProps(chartPalette, 11)}
                   tickFormatter={formatAxisPercent}
                 />
                 <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={legendStyle(chartPalette)} />
                 <Line
                   type="monotone"
                   dataKey="targetMargin"
@@ -113,29 +117,28 @@ export default function Forecast({ records }: ForecastProps) {
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <p className="text-[10px] text-slate-400">
+          <p className={`text-[10px] ${captionClass()}`}>
             Trend reflects continuous historical walk from January through May and maps a 3-month rolling prediction model based on claim velocities.
           </p>
         </div>
 
         <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            <h3 className={chartSectionTitleClass()}>
               Margin Driver Bridge (%)
             </h3>
-            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 block mt-1 tabular-nums">
+            <span className={`text-sm font-semibold block mt-1 tabular-nums ${dataPrimaryClass()}`}>
               Target {formatPercent(TARGET_OPERATING_MARGIN)} down to Actual {formatPercent(currentKpis.operatingMargin)}
             </span>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={waterfallSteps} margin={chartMargins.compact}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
-                <XAxis dataKey="label" fontSize={8} stroke={chartTheme.axis} interval={0} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
+                <XAxis dataKey="label" interval={0} {...axisTickProps(chartPalette, 8)} />
                 <YAxis
                   domain={driverYDomain}
-                  fontSize={11}
-                  stroke={chartTheme.axis}
+                  {...axisTickProps(chartPalette, 11)}
                   tickFormatter={formatAxisPercent}
                 />
                 <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
@@ -156,7 +159,7 @@ export default function Forecast({ records }: ForecastProps) {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <p className="text-[10px] text-slate-400">
+          <p className={`text-[10px] ${captionClass()}`}>
             Favorable drivers increment green bars, unfavorable drivers decrease red bars. Cumulative anchors use actual series color. {illustrativeNote}
           </p>
         </div>
@@ -164,7 +167,7 @@ export default function Forecast({ records }: ForecastProps) {
       </div>
 
       <div>
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 block">
+        <h3 className={`${chartSectionTitleClass()} mb-4 block`}>
           Explainable Financial Driver Contributions
         </h3>
 

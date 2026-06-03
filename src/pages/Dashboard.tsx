@@ -21,7 +21,17 @@ import {
   formatAxisThousands,
 } from "../lib/formatters";
 import { chartTheme, chartMargins } from "../lib/chartTheme";
+import { axisTickProps, legendStyle, resolveChartPalette } from "../lib/chartColors";
 import { seriesLabels, illustrativeNote } from "../lib/chartSemantics";
+import {
+  captionClass,
+  chartSectionTitleClass,
+  dataPrimaryClass,
+  dataSecondaryClass,
+  marginPercentClass,
+  varianceClass,
+} from "../lib/metricColors";
+import { useTheme } from "../lib/useTheme";
 import ChartTooltip from "../components/charts/ChartTooltip";
 import EmptyState from "../components/EmptyState";
 import ServiceLineTrendModal from "../components/ServiceLineTrendModal";
@@ -104,6 +114,8 @@ export default function Dashboard({
   const [activeExplainKey, setActiveExplainKey] = useState<string | null>(null);
   const [selectedTrendServiceLine, setSelectedTrendServiceLine] = useState<string | null>(null);
   const [selectedKpiTrend, setSelectedKpiTrend] = useState<"npr" | "opex" | "margin" | "variance" | "labor" | "forecast" | null>(null);
+  const { theme } = useTheme();
+  const chartPalette = resolveChartPalette(theme === "dark");
 
   // Compute metrics based on records
   const currentKpis = calculateKpis(records);
@@ -176,13 +188,13 @@ export default function Dashboard({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Favorable":
-        return "bg-emerald-50 text-emerald-700 border-emerald-100";
+        return "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-100 dark:border-emerald-800/50";
       case "Watchlist":
-        return "bg-amber-50 text-amber-700 border-amber-100";
+        return "bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-100 dark:border-amber-800/50";
       case "Unfavorable":
-        return "bg-rose-50 text-rose-700 border-rose-100";
+        return "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-rose-100 dark:border-rose-800/50";
       default:
-        return "bg-slate-50 text-slate-600 border-slate-100";
+        return "bg-slate-50 dark:bg-ink-900 text-slate-600 dark:text-slate-300 border-slate-100 dark:border-white/10";
     }
   };
 
@@ -598,20 +610,20 @@ export default function Dashboard({
             {/* Chart A: Budget vs Actual Variance */}
             <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <h3 className={chartSectionTitleClass()}>
                   Budget vs Actual Variance ($ Millions)
                 </h3>
-                <span className="text-[10px] text-slate-500 font-medium">By Key Driver Categories</span>
+                <span className={`text-[10px] font-medium ${captionClass()}`}>By Key Driver Categories</span>
               </div>
-              <p className="text-[10px] text-slate-400 leading-snug">{illustrativeNote}</p>
+              <p className={`text-[10px] leading-snug ${captionClass()}`}>{illustrativeNote}</p>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={budgetVsActualData} margin={chartMargins.compact}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
-                    <XAxis dataKey="name" fontSize={11} stroke={chartTheme.axis} />
-                    <YAxis fontSize={11} stroke={chartTheme.axis} domain={[0, "auto"]} tickFormatter={formatAxisMillions} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
+                    <XAxis dataKey="name" {...axisTickProps(chartPalette, 11)} />
+                    <YAxis {...axisTickProps(chartPalette, 11)} domain={[0, "auto"]} tickFormatter={formatAxisMillions} />
                     <Tooltip content={(props) => <ChartTooltip {...props} valueKind="millions" />} />
-                    <Legend iconSize={10} wrapperStyle={{ fontSize: 11 }} />
+                    <Legend iconSize={10} wrapperStyle={legendStyle(chartPalette)} />
                     <Bar dataKey="Budget" name={seriesLabels.plan} fill={chartTheme.plan} radius={[4, 4, 0, 0]} />
                     <Bar dataKey="Actual" name={seriesLabels.actual} fill={chartTheme.actual} radius={[4, 4, 0, 0]} />
                   </BarChart>
@@ -622,19 +634,19 @@ export default function Dashboard({
             {/* Chart B: Monthly Margin Target vs Actual vs Forecast */}
             <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <h3 className={chartSectionTitleClass()}>
                   Operating Margin Ratio (%) and Forecast
                 </h3>
-                <span className="text-[10px] px-2 py-0.5 font-bold rounded-sm bg-brand-50 text-brand-700">8.5% Target Baseline</span>
+                <span className="text-[10px] px-2 py-0.5 font-bold rounded-sm bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-300">8.5% Target Baseline</span>
               </div>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={monthlyHistory} margin={chartMargins.compact}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
-                    <XAxis dataKey="name" fontSize={11} stroke={chartTheme.axis} />
-                    <YAxis domain={[0, 18]} fontSize={11} stroke={chartTheme.axis} tickFormatter={formatAxisPercent} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
+                    <XAxis dataKey="name" {...axisTickProps(chartPalette, 11)} />
+                    <YAxis domain={[0, 18]} {...axisTickProps(chartPalette, 11)} tickFormatter={formatAxisPercent} />
                     <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
-                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Legend wrapperStyle={legendStyle(chartPalette)} />
                     <Line type="monotone" dataKey="actualMargin" name={seriesLabels.actual} stroke={chartTheme.actual} strokeWidth={3} dot={{ r: 4 }} />
                     <Line type="monotone" dataKey="targetMargin" name={seriesLabels.plan} stroke={chartTheme.negative} strokeWidth={1} strokeDasharray="4 4" dot={false} />
                     <Line type="monotone" dataKey="forecastMargin" name={seriesLabels.forecast} stroke={chartTheme.forecast} strokeWidth={2} strokeDasharray="3 3" dot={{ r: 3 }} />
@@ -651,18 +663,18 @@ export default function Dashboard({
             {/* Chart D: Volume-to-Revenue Bridge */}
             <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <h3 className={chartSectionTitleClass()}>
                   NPR bridge — illustrative drivers ($K)
                 </h3>
-                <span className="text-[10px] text-slate-500 font-medium">Synthetic walk, not floating bars</span>
+                <span className={`text-[10px] font-medium ${captionClass()}`}>Synthetic walk, not floating bars</span>
               </div>
-              <p className="text-[10px] text-slate-400 leading-snug">{illustrativeNote}</p>
+              <p className={`text-[10px] leading-snug ${captionClass()}`}>{illustrativeNote}</p>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={revenueBridgeData} margin={chartMargins.compact}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
-                    <XAxis dataKey="stage" fontSize={10} stroke={chartTheme.axis} />
-                    <YAxis domain={[0, "auto"]} fontSize={10} stroke={chartTheme.axis} tickFormatter={(v) => formatAxisThousands(v / 1000)} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
+                    <XAxis dataKey="stage" {...axisTickProps(chartPalette, 10)} />
+                    <YAxis domain={[0, "auto"]} {...axisTickProps(chartPalette, 10)} tickFormatter={(v) => formatAxisThousands(v / 1000)} />
                     <Tooltip
                       content={({ active, payload, label }) => {
                         if (!active || !payload?.length) return null;
@@ -692,10 +704,10 @@ export default function Dashboard({
             {/* Chart G: Payer Mix Distribution Donut */}
             <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <h3 className={chartSectionTitleClass()}>
                   Primary Payer Mix NPR Distribution ($K)
                 </h3>
-                <span className="text-[10px] text-slate-500 font-medium">Direct Claims Allocation</span>
+                <span className={`text-[10px] font-medium ${captionClass()}`}>Direct Claims Allocation</span>
               </div>
               <div className="h-64 flex flex-col sm:flex-row items-center justify-around gap-2">
                 <div className="w-40 h-40">
@@ -739,8 +751,8 @@ export default function Dashboard({
                     return (
                       <div key={entry.name} className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: pieColors[idx % pieColors.length] }} />
-                        <span className="text-slate-500">{entry.name}:</span>
-                        <span className="font-mono tabular-nums font-bold text-slate-800 dark:text-slate-100">
+                        <span className={captionClass()}>{entry.name}:</span>
+                        <span className={`font-mono tabular-nums font-bold ${dataPrimaryClass()}`}>
                           {formatPercent(pct)} · {formatAxisThousands(entry.value)}
                         </span>
                       </div>
@@ -786,26 +798,26 @@ export default function Dashboard({
             {/* Weekly Labor Ratio Trend Card */}
             <div className="bg-white dark:bg-ink-800 rounded-2xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-4 flex flex-col justify-between">
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                <h3 className={`${chartSectionTitleClass()} mb-2`}>
                   Labor cost vs Target Trend
                 </h3>
-                <span className="text-sm font-bold text-slate-800 dark:text-slate-100 block">System Weekly Labor Cost Ratio %</span>
-                <p className="text-[10px] text-slate-400 leading-relaxed mt-1">
+                <span className={`text-sm font-bold block ${dataPrimaryClass()}`}>System Weekly Labor Cost Ratio %</span>
+                <p className={`text-[10px] leading-relaxed mt-1 ${captionClass()}`}>
                   Labor ratio is {formatPercent(laborCostRatioCurrent)} for the filtered view (40% stewardship threshold).
                 </p>
               </div>
               <div className="h-28 pt-2">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={monthlyHistoryWithLabor} margin={{ top: 0, right: 0, left: -30, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.grid} />
-                    <XAxis dataKey="name" fontSize={9} stroke={chartTheme.axis} />
-                    <YAxis domain={[0, "auto"]} fontSize={9} stroke={chartTheme.axis} tickFormatter={formatAxisPercent} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartPalette.grid} />
+                    <XAxis dataKey="name" {...axisTickProps(chartPalette, 9)} />
+                    <YAxis domain={[0, "auto"]} {...axisTickProps(chartPalette, 9)} tickFormatter={formatAxisPercent} />
                     <Tooltip content={(props) => <ChartTooltip {...props} valueKind="percent" />} />
                     <Area type="monotone" dataKey="laborCostRatio" name="Labor cost ratio %" stroke={chartTheme.plan} fill={chartTheme.plan} fillOpacity={0.25} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
-              <div className="text-[10px] text-center font-bold text-rose-500 bg-rose-50 p-2 rounded-xl border border-rose-100">
+              <div className="text-[10px] text-center font-bold text-rose-600 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/40 p-2 rounded-xl border border-rose-100 dark:border-rose-800/50">
                 Action Watchlist: Heavy Registry Reliance
               </div>
             </div>
@@ -819,19 +831,19 @@ export default function Dashboard({
                 <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm uppercase tracking-wider">
                   Service Line Performance Audit Matrix
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className={`text-xs ${captionClass()}`}>
                   Select and click any Service Line row to annotate variance findings, reassign workflows, or adjust status.
                 </p>
               </div>
-              <span className="text-[10px] font-bold text-slate-400 px-3 py-1 rounded-full bg-slate-50 border border-slate-200">
+              <span className={`text-[10px] font-bold px-3 py-1 rounded-full bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 ${captionClass()}`}>
                 {serviceLineAggs.length} Services Evaluated
               </span>
             </div>
 
             <div className="overflow-x-auto">
-              <table id="service-line-performance-table" className="w-full text-left text-xs text-slate-600">
+              <table id="service-line-performance-table" className={`w-full text-left text-xs ${dataSecondaryClass()}`}>
                 <thead>
-                  <tr className="border-b border-slate-100 text-[10px] uppercase font-bold text-slate-400">
+                  <tr className={`border-b border-slate-100 dark:border-white/10 text-[10px] uppercase font-bold ${captionClass()}`}>
                     <th className="py-3 px-4">Service Line</th>
                     <th className="py-3 px-4 text-right">Net Patient Revenue</th>
                     <th className="py-3 px-4 text-right">Operating Expense</th>
@@ -843,7 +855,7 @@ export default function Dashboard({
                     <th className="py-3 px-4 text-center">Inspect</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-y divide-slate-50 dark:divide-white/10">
                   {serviceLineAggs.map((agg) => {
                     const rowRecord = records.find(r => r.service_line === agg.serviceLine);
                     const rowId = `row-${agg.serviceLine.toLowerCase().replace(/\s+/g, "-")}`;
@@ -856,7 +868,7 @@ export default function Dashboard({
                         onClick={() => {
                           setSelectedTrendServiceLine(agg.serviceLine);
                         }}
-                        className="hover:bg-slate-50/80 transition-colors cursor-pointer group"
+                        className="hover:bg-slate-50/80 dark:hover:bg-white/5 transition-colors cursor-pointer group"
                       >
                         <td className="py-3.5 px-4 font-bold text-ink-900 dark:text-slate-100 group-hover:text-brand-600 transition-colors">
                           <div className="flex items-center gap-1.5">
@@ -864,19 +876,19 @@ export default function Dashboard({
                             <TrendingUp className="w-3.5 h-3.5 text-brand-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                           </div>
                         </td>
-                        <td className="py-3.5 px-4 text-right font-mono text-slate-700">{formatCurrency(agg.netRevenue)}</td>
-                        <td className="py-3.5 px-4 text-right font-mono text-slate-500">{formatCurrency(agg.operatingExpense)}</td>
+                        <td className={`py-3.5 px-4 text-right font-mono tabular-nums font-semibold ${dataPrimaryClass()}`}>{formatCurrency(agg.netRevenue)}</td>
+                        <td className={`py-3.5 px-4 text-right font-mono tabular-nums ${dataSecondaryClass()}`}>{formatCurrency(agg.operatingExpense)}</td>
                         <td className="py-3.5 px-4 text-right font-mono tabular-nums font-semibold">
-                          <span className={agg.operatingMargin >= 8 ? "text-emerald-600" : (agg.operatingMargin < 1 ? "text-rose-600" : "text-slate-700")}>
+                          <span className={marginPercentClass(agg.operatingMargin)}>
                             {formatPercent(agg.operatingMargin)}
                           </span>
                         </td>
-                        <td className={`py-3.5 px-4 text-right font-mono tabular-nums font-bold ${agg.budgetVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                        <td className={`py-3.5 px-4 text-right font-mono tabular-nums font-bold ${varianceClass(agg.budgetVariance)}`}>
                           {formatVarianceCurrency(agg.budgetVariance)}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-600 font-medium">{agg.owner}</td>
+                        <td className={`py-3.5 px-4 font-medium ${dataSecondaryClass()}`}>{agg.owner}</td>
                         <td className="py-3.5 px-4">
-                          <span className="inline-flex items-center gap-1 text-[10px] text-slate-500 font-semibold bg-slate-50 border border-slate-200/60 px-2 py-0.5 rounded-full">
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-semibold bg-slate-50 dark:bg-ink-900 border border-slate-200/60 dark:border-white/10 px-2 py-0.5 rounded-full ${dataSecondaryClass()}`}>
                             {agg.reviewStatus}
                           </span>
                         </td>
