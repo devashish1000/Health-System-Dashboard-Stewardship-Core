@@ -8,7 +8,8 @@ Excel documentation of every column and table the Vercel control tower uses (`ht
 
 | Sheet | Contents |
 |-------|----------|
-| **About** | Disclaimer, live URL, close month, how to regenerate |
+| **About** | Cover page — disclaimer, live URL, close month |
+| **How_to_Read** | Sheet index and audience guide for executives |
 | **Data_Dictionary** | Every `finance_ledger_row` column, type, UI usage |
 | **Close_Month_Ledger** | Rows the app uses for current KPIs (default close month) |
 | **Full_Ledger_All_Months** | Complete generated ledger (rolling months) |
@@ -22,7 +23,10 @@ Excel documentation of every column and table the Vercel control tower uses (`ht
 ## Regenerate
 
 ```bash
-npm run handoff:excel
+npm run handoff:excel   # writes docs/ + public/ (served at /data-handoff/…)
+npm run handoff:verify  # structural checks
 ```
 
-Requires `xlsx` (dev dependency). Data is built from the same TypeScript generators as the running app.
+Uses **exceljs** for executive formatting (frozen headers, currency/percent formats, tab colors). Data is built from the same TypeScript generators as the running app.
+
+**In-app:** Finance Export Suite → **Data handoff workbook (Excel)**; Executive Tower hero links to the same file.

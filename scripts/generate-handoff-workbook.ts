@@ -1,42 +1,215 @@
 /**
- * Generates an Excel workbook documenting all synthetic data the Vercel app uses.
- * Run: npx tsx scripts/generate-handoff-workbook.ts
+ * Executive-ready Excel workbook — all synthetic data the Vercel app displays.
+ * Outputs to docs/data-handoff/ and public/data-handoff/ for in-app download.
+ *
+ * Run: npm run handoff:excel
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { buildSyntheticLedger } from "../src/data/generateSyntheticLedger.ts";
 import { LEDGER_COMBO_TEMPLATES } from "../src/data/ledgerComboTemplates.ts";
-import { PERSONA_PRESETS, REGION_LEDGER_SCALE, HOUSTON_MARKET, HOME_FACILITY } from "../src/config/demoOrg.ts";
+import {
+  PERSONA_PRESETS,
+  REGION_LEDGER_SCALE,
+  HOUSTON_MARKET,
+  HOME_FACILITY,
+  DEMO_DISCLAIMER,
+} from "../src/config/demoOrg.ts";
 import { calculateKpis } from "../src/lib/financeCalculations.ts";
 import { getReportingContext } from "../src/lib/reportingPeriod.ts";
-import { STEWARDSHIP_TARGET_MARGIN, LABOR_RATIO_TARGET, controlTowerVersion } from "../src/lib/stewardshipConfig.ts";
-import type { FinanceRecord } from "../src/types/financeRecord.ts";
+import {
+  STEWARDSHIP_TARGET_MARGIN,
+  LABOR_RATIO_TARGET,
+  controlTowerVersion,
+} from "../src/lib/stewardshipConfig.ts";
+import { DATA_HANDOFF_WORKBOOK_FILENAME } from "../src/constants/dataHandoff.ts";
 
-const OUT_DIR = path.join(process.cwd(), "docs", "data-handoff");
-const OUT_FILE = path.join(OUT_DIR, "CommonSpirit-Control-Tower-Data-Handoff.xlsx");
+const BRAND_DARK = "FF1E293B";
+const BRAND_HEADER = "FF0F766E";
+const BRAND_LIGHT = "FFF0FDFA";
+const ALT_ROW = "FFF8FAFC";
+const WARN_FILL = "FFFFF7ED";
+const WHITE = "FFFFFFFF";
 
-function sheetFromRows(rows: Record<string, unknown>[]) {
-  return XLSX.utils.json_to_sheet(rows);
+const OUT_DIRS = [
+  path.join(process.cwd(), "docs", "data-handoff"),
+  path.join(process.cwd(), "public", "data-handoff"),
+];
+
+type Row = Record<string, unknown>;
+
+function styleHeaderRow(sheet: ExcelJS.Worksheet, colCount: number) {
+  const row = sheet.getRow(1);
+  row.height = 22;
+  for (let c = 1; c <= colCount; c++) {
+    const cell = row.getCell(c);
+    cell.font = { bold: true, color: { argb: WHITE }, size: 11, name: "Calibri" };
+    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: BRAND_DARK } };
+    cell.alignment = { vertical: "middle", wrapText: true };
+    cell.border = {
+      bottom: { style: "thin", color: { argb: BRAND_HEADER } },
+    };
+  }
+  sheet.views = [{ state: "frozen", ySplit: 1, activeCell: "A2" }];
 }
 
-function sheetFromAoA(rows: (string | number)[][]) {
-  return XLSX.utils.aoa_to_sheet(rows);
-}
-
-function autoWidth(ws: XLSX.WorkSheet, rows: Record<string, unknown>[]) {
-  if (!rows.length) return;
-  const cols = Object.keys(rows[0]);
-  ws["!cols"] = cols.map((key) => {
-    const max = Math.max(
-      key.length,
-      ...rows.map((r) => String(r[key] ?? "").length)
-    );
-    return { wch: Math.min(48, max + 2) };
+function addTableSheet(
+  wb: ExcelJS.Workbook,
+  name: string,
+  rows: Row[],
+  opts?: {
+    tabColor?: string;
+    currencyCols?: string[];
+    percentCols?: string[];
+    integerCols?: string[];
+    wrapCols?: string[];
+  }
+) {
+  const sheet = wb.addWorksheet(name, {
+    properties: { tabColor: { argb: opts?.tabColor ?? "FF64748B" } },
   });
+  if (!rows.length) return sheet;
+
+  const keys = Object.keys(rows[0]);
+  sheet.addRow(keys);
+  styleHeaderRow(sheet, keys.length);
+
+  rows.forEach((r, idx) => {
+    const row = sheet.addRow(keys.map((k) => r[k]));
+    if (idx % 2 === 1) {
+      row.eachCell((cell) => {
+        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: ALT_ROW } };
+      });
+    }
+  });
+
+  keys.forEach((key, i) => {
+    const col = sheet.getColumn(i + 1);
+    const maxLen = Math.max(
+      key.length,
+      ...rows.slice(0, 50).map((r) => String(r[key] ?? "").length)
+    );
+    col.width = Math.min(52, Math.max(12, maxLen + 2));
+    if (opts?.currencyCols?.includes(key)) {
+      col.numFmt = '"$"#,##0;[Red]("$"#,##0)';
+    }
+    if (opts?.percentCols?.includes(key)) {
+      col.numFmt = '0.0"%"';
+    }
+    if (opts?.integerCols?.includes(key)) {
+      col.numFmt = "#,##0";
+    }
+    if (opts?.wrapCols?.includes(key)) {
+      col.alignment = { wrapText: true, vertical: "top" };
+    }
+  });
+
+  sheet.autoFilter = { from: "A1", to: { row: 1, column: keys.length } };
+  return sheet;
 }
 
-function main() {
+async function buildAboutSheet(
+  wb: ExcelJS.Workbook,
+  meta: {
+    closeLabel: string;
+    fiscal: string;
+    closeRows: number;
+    totalRows: number;
+    templates: number;
+  }
+) {
+  const sheet = wb.addWorksheet("About", {
+    properties: { tabColor: { argb: "FF7C3AED" } },
+  });
+  sheet.mergeCells("A1:D1");
+  const title = sheet.getCell("A1");
+  title.value = "CommonSpirit Financial Control Tower";
+  title.font = { size: 18, bold: true, color: { argb: BRAND_DARK }, name: "Calibri" };
+  title.alignment = { vertical: "middle" };
+
+  sheet.mergeCells("A2:D2");
+  sheet.getCell("A2").value = "Data Handoff Workbook (Synthetic Demo)";
+  sheet.getCell("A2").font = { size: 12, italic: true, color: { argb: "FF475569" } };
+
+  const rows: [string, string][] = [
+    ["", ""],
+    ["Live application", "https://hsd-audit.vercel.app"],
+    ["Generated (UTC)", new Date().toISOString()],
+    ["Application version", controlTowerVersion()],
+    ["", ""],
+    ["DISCLAIMER", DEMO_DISCLAIMER],
+    ["", ""],
+    ["Primary audience", "CommonSpirit Finance — Houston Market / Supply Chain"],
+    ["Flagship facility", HOME_FACILITY],
+    ["Close month", meta.closeLabel],
+    ["Fiscal period", meta.fiscal],
+    ["Close-month data rows", String(meta.closeRows)],
+    ["All months (full ledger)", String(meta.totalRows)],
+    ["Seed templates", String(meta.templates)],
+    ["", ""],
+    ["This file is NOT", "Production Strata, Epic, or CommonSpirit operational data."],
+    ["Purpose", "Transparency for reviewers — column definitions, KPI math, and sample ledger."],
+  ];
+
+  let r = 4;
+  for (const [label, value] of rows) {
+    const labelCell = sheet.getCell(`A${r}`);
+    const valueCell = sheet.getCell(`B${r}`);
+    labelCell.value = label;
+    valueCell.value = value;
+    labelCell.font = { bold: label === "DISCLAIMER" || label === "This file is NOT", size: 11 };
+    if (label === "DISCLAIMER") {
+      sheet.mergeCells(`B${r}:D${r}`);
+      valueCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: WARN_FILL } };
+      valueCell.alignment = { wrapText: true };
+    }
+    if (label.startsWith("http")) {
+      valueCell.font = { color: { argb: "FF0D9488" }, underline: true };
+    }
+    r++;
+  }
+
+  sheet.getColumn(1).width = 28;
+  sheet.getColumn(2).width = 72;
+  sheet.getColumn(3).width = 16;
+  sheet.getColumn(4).width = 16;
+}
+
+function buildHowToReadSheet(wb: ExcelJS.Workbook) {
+  const sheet = wb.addWorksheet("How_to_Read", {
+    properties: { tabColor: { argb: "FF2563EB" } },
+  });
+  const guide: [string, string][] = [
+    ["Sheet", "Who should read it"],
+    ["About", "Everyone — start here for disclaimer and period context"],
+    ["How_to_Read", "This guide — sheet index and recommended order"],
+    ["Data_Dictionary", "Analysts, IT — every column name and where it appears in the app"],
+    ["Close_Month_Ledger", "Finance leaders — the rows powering current KPIs on the dashboard"],
+    ["Full_Ledger_All_Months", "Power users — rolling history used for trend charts"],
+    ["Combo_Templates", "Technical reviewers — seed values before scaling and month drift"],
+    ["Derived_KPIs", "Executives — how NPR, margin, and supply totals are calculated"],
+    ["Dashboard_Filters", "Analysts — filter dropdown values in the Financial Dashboard"],
+    ["Personas", "HR / demo hosts — synthetic login roles (not real employees)"],
+    ["UI_Page_Sources", "Product owners — which app page reads which table"],
+    ["Signoff_Schema", "Compliance — fields stored when Market Finance signs off"],
+  ];
+
+  sheet.addRow(["Sheet", "Who should read it"]);
+  styleHeaderRow(sheet, 2);
+  guide.slice(1).forEach(([a, b], i) => {
+    const row = sheet.addRow([a, b]);
+    if (i % 2 === 1) {
+      row.eachCell((c) => {
+        c.fill = { type: "pattern", pattern: "solid", fgColor: { argb: ALT_ROW } };
+      });
+    }
+  });
+  sheet.getColumn(1).width = 28;
+  sheet.getColumn(2).width = 78;
+}
+
+async function main() {
   const asOf = new Date("2026-06-15");
   const records = buildSyntheticLedger(asOf);
   const reporting = getReportingContext(records);
@@ -48,336 +221,173 @@ function main() {
   const serviceLines = [...new Set(records.map((r) => r.service_line))].sort();
   const owners = [...new Set(records.map((r) => r.owner))].sort();
 
-  const about: (string | number)[][] = [
-    ["CommonSpirit Financial Control Tower — Data Handoff Workbook"],
-    [""],
-    ["Live app", "https://hsd-audit.vercel.app"],
-    ["Generated", new Date().toISOString()],
-    ["App version", controlTowerVersion()],
-    [""],
-    ["IMPORTANT"],
-    [
-      "All figures in this workbook are SYNTHETIC demo data for portfolio / interview handoff.",
-    ],
-    ["They are not CommonSpirit operational feeds, Strata exports, or PHI."],
-    [""],
-    ["Primary audience", "Finance — Baylor St. Luke's / Houston Market (supply chain finance)"],
-    ["Close month in app", reporting.closeMonthLabel],
-    ["Fiscal period", `${reporting.fiscalYearLabel} ${reporting.periodLabel}`],
-    ["Close-month ledger rows", closeRecords.length],
-    ["Total generated rows (all months)", records.length],
-    ["Combo templates (seeds)", LEDGER_COMBO_TEMPLATES.length],
-    [""],
-    ["Source code (regenerate this file)"],
-    ["Ledger generator", "src/data/generateSyntheticLedger.ts"],
-    ["Row seeds", "src/data/ledgerComboTemplates.ts"],
-    ["Personas / org", "src/config/demoOrg.ts"],
-    ["KPI math", "src/lib/financeCalculations.ts"],
-    ["Export command", "npx tsx scripts/generate-handoff-workbook.ts"],
-  ];
+  const wb = new ExcelJS.Workbook();
+  wb.creator = "Health System Dashboard Stewardship Core";
+  wb.company = "Concept prototype — CommonSpirit scenario";
+  wb.created = new Date();
+  wb.modified = new Date();
+
+  await buildAboutSheet(wb, {
+    closeLabel: reporting.closeMonthLabel,
+    fiscal: `${reporting.fiscalYearLabel} ${reporting.periodLabel}`,
+    closeRows: closeRecords.length,
+    totalRows: records.length,
+    templates: LEDGER_COMBO_TEMPLATES.length,
+  });
+  buildHowToReadSheet(wb);
 
   const dictionary = [
-    {
-      table: "finance_ledger_row",
-      column: "id",
-      data_type: "string",
-      example: "rec-001",
-      used_in_ui: "Dashboard table, export CSV, drawer",
-      notes: "Unique row id per facility × service line × month",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "month",
-      data_type: "YYYY-MM",
-      example: reporting.closeMonth,
-      used_in_ui: "Period filters, charts, close-month KPIs",
-      notes: "Rolling months through simulated month-end close",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "facility",
-      data_type: "string",
-      example: HOME_FACILITY,
-      used_in_ui: "Dashboard filter, Overview, export",
-      notes: "Hospital / site name",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "region",
-      data_type: "string",
-      example: HOUSTON_MARKET,
-      used_in_ui: "Dashboard filter, drill-down copy",
-      notes: "Market or system region",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "service_line",
-      data_type: "string",
-      example: "Surgical Supplies",
-      used_in_ui: "Service Lines page, palette drills, charts",
-      notes: "Clinical or supply-chain cost center",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "net_patient_revenue",
-      data_type: "currency (USD)",
-      example: closeRecords[0]?.net_patient_revenue ?? 0,
-      used_in_ui: "KPI cards, charts, AI answers, Overview NPR hero",
-      notes: "Summed for close-month NPR total",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "operating_expense",
-      data_type: "currency (USD)",
-      example: closeRecords[0]?.operating_expense ?? 0,
-      used_in_ui: "KPI cards, budget vs actual charts",
-      notes: "Total operating expense for row",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "labor_cost",
-      data_type: "currency (USD)",
-      example: closeRecords[0]?.labor_cost ?? 0,
-      used_in_ui: "Labor ratio chart, KPI explainers",
-      notes: "Subset of operating expense",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "supply_cost",
-      data_type: "currency (USD)",
-      example: closeRecords[0]?.supply_cost ?? 0,
-      used_in_ui: "Export suite summary, supply chain story",
-      notes: "Supply chain / implant / pharmacy spend",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "operating_margin",
-      data_type: "percent",
-      example: closeRecords[0]?.operating_margin ?? 0,
-      used_in_ui: "Margin %, variance badges, forecast",
-      notes: "(NPR - OpEx) / NPR × 100 at row level",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "budget_variance",
-      data_type: "currency (USD)",
-      example: closeRecords[0]?.budget_variance ?? 0,
-      used_in_ui: "Variance columns, forecast bridge",
-      notes: "Positive favorable / negative unfavorable",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "patient_volume",
-      data_type: "integer",
-      example: closeRecords[0]?.patient_volume ?? 0,
-      used_in_ui: "Service line cards, trend modal",
-      notes: "Cases / visits; 0 for non-volume lines",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "payer_mix_index",
-      data_type: "decimal index",
-      example: closeRecords[0]?.payer_mix_index ?? 1,
-      used_in_ui: "Forecast driver bridge (internal)",
-      notes: "Relative payer mix weight",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "denial_rate",
-      data_type: "percent",
-      example: closeRecords[0]?.denial_rate ?? 0,
-      used_in_ui: "KPI denial, AI copilot narratives",
-      notes: "Claim denial rate",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "reimbursement_delay_days",
-      data_type: "integer days",
-      example: closeRecords[0]?.reimbursement_delay_days ?? 0,
-      used_in_ui: "AR timing narratives",
-      notes: "Average reimbursement delay",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "overtime_utilization",
-      data_type: "percent",
-      example: closeRecords[0]?.overtime_utilization ?? 0,
-      used_in_ui: "Labor pressure KPIs",
-      notes: "Overtime as % of labor",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "forecasted_margin",
-      data_type: "percent",
-      example: closeRecords[0]?.forecasted_margin ?? 0,
-      used_in_ui: "Forecast page projection",
-      notes: "Forward margin estimate",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "variance_status",
-      data_type: "enum",
-      example: "Watchlist",
-      used_in_ui: "Filters, badges (Favorable / Watchlist / Unfavorable)",
-      notes: "Stewardship status bucket",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "payer_type",
-      data_type: "enum",
-      example: "Commercial",
-      used_in_ui: "Dashboard filter, payer pie chart",
-      notes: "Commercial | Medicare | Medicaid | Self-Pay | Other",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "owner",
-      data_type: "string",
-      example: "Devashish Neupane",
-      used_in_ui: "Dashboard owner filter, Service Lines assignee",
-      notes: "Synthetic finance / ops owner name",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "review_status",
-      data_type: "enum",
-      example: "Analyst Review",
-      used_in_ui: "Dashboard filter, workflow column",
-      notes: "Close workflow state",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "variance_note",
-      data_type: "text",
-      example: "Supply chain initiative over budget…",
-      used_in_ui: "Row detail, export CSV",
-      notes: "Auto-generated narrative per row",
-    },
-    {
-      table: "finance_ledger_row",
-      column: "last_updated",
-      data_type: "date",
-      example: closeRecords[0]?.last_updated ?? "",
-      used_in_ui: "Audit metadata in exports",
-      notes: "Synthetic last-updated stamp",
-    },
+    { table: "finance_ledger_row", column: "id", data_type: "string", example: "rec-001", used_in_ui: "Dashboard, export CSV", notes: "Unique per facility × service line × month" },
+    { table: "finance_ledger_row", column: "month", data_type: "YYYY-MM", example: reporting.closeMonth, used_in_ui: "Period filters, charts", notes: "Rolling through simulated close" },
+    { table: "finance_ledger_row", column: "facility", data_type: "string", example: HOME_FACILITY, used_in_ui: "Dashboard filter", notes: "Hospital / site" },
+    { table: "finance_ledger_row", column: "region", data_type: "string", example: HOUSTON_MARKET, used_in_ui: "Dashboard filter", notes: "Market region" },
+    { table: "finance_ledger_row", column: "service_line", data_type: "string", example: "Surgical Supplies", used_in_ui: "Service Lines, drills", notes: "Clinical or supply chain line" },
+    { table: "finance_ledger_row", column: "net_patient_revenue", data_type: "USD", example: closeRecords[0]?.net_patient_revenue, used_in_ui: "KPI hero, charts", notes: "Summed for close-month NPR" },
+    { table: "finance_ledger_row", column: "operating_expense", data_type: "USD", example: closeRecords[0]?.operating_expense, used_in_ui: "KPI, budget vs actual", notes: "Total operating expense" },
+    { table: "finance_ledger_row", column: "labor_cost", data_type: "USD", example: closeRecords[0]?.labor_cost, used_in_ui: "Labor ratio chart", notes: "Labor subset of OpEx" },
+    { table: "finance_ledger_row", column: "supply_cost", data_type: "USD", example: closeRecords[0]?.supply_cost, used_in_ui: "Export summary", notes: "Supply chain spend" },
+    { table: "finance_ledger_row", column: "operating_margin", data_type: "percent", example: closeRecords[0]?.operating_margin, used_in_ui: "Margin %, badges", notes: "(NPR-OpEx)/NPR × 100" },
+    { table: "finance_ledger_row", column: "budget_variance", data_type: "USD", example: closeRecords[0]?.budget_variance, used_in_ui: "Variance columns", notes: "Favorable if positive" },
+    { table: "finance_ledger_row", column: "patient_volume", data_type: "integer", example: closeRecords[0]?.patient_volume, used_in_ui: "Service line cards", notes: "Cases; 0 for non-volume lines" },
+    { table: "finance_ledger_row", column: "payer_mix_index", data_type: "decimal", example: closeRecords[0]?.payer_mix_index, used_in_ui: "Forecast drivers", notes: "Relative payer weight" },
+    { table: "finance_ledger_row", column: "denial_rate", data_type: "percent", example: closeRecords[0]?.denial_rate, used_in_ui: "Denial KPI", notes: "Claim denial rate" },
+    { table: "finance_ledger_row", column: "reimbursement_delay_days", data_type: "days", example: closeRecords[0]?.reimbursement_delay_days, used_in_ui: "AR narratives", notes: "Avg reimbursement delay" },
+    { table: "finance_ledger_row", column: "overtime_utilization", data_type: "percent", example: closeRecords[0]?.overtime_utilization, used_in_ui: "Labor KPI", notes: "Overtime % of labor" },
+    { table: "finance_ledger_row", column: "forecasted_margin", data_type: "percent", example: closeRecords[0]?.forecasted_margin, used_in_ui: "Forecast page", notes: "Forward margin" },
+    { table: "finance_ledger_row", column: "variance_status", data_type: "enum", example: "Watchlist", used_in_ui: "Status badges", notes: "Favorable | Watchlist | Unfavorable" },
+    { table: "finance_ledger_row", column: "payer_type", data_type: "enum", example: "Commercial", used_in_ui: "Filter, pie chart", notes: "Payer category" },
+    { table: "finance_ledger_row", column: "owner", data_type: "string", example: "Carmen Alvarez", used_in_ui: "Owner filter", notes: "Synthetic finance owner" },
+    { table: "finance_ledger_row", column: "review_status", data_type: "enum", example: "Analyst Review", used_in_ui: "Workflow column", notes: "Close workflow state" },
+    { table: "finance_ledger_row", column: "variance_note", data_type: "text", example: "Supply chain…", used_in_ui: "Row notes", notes: "Auto-generated narrative" },
+    { table: "finance_ledger_row", column: "last_updated", data_type: "date", example: closeRecords[0]?.last_updated, used_in_ui: "Export metadata", notes: "Synthetic timestamp" },
   ];
+  addTableSheet(wb, "Data_Dictionary", dictionary, {
+    tabColor: "FF0D9488",
+    wrapCols: ["notes", "used_in_ui"],
+  });
 
-  const ledgerRows = closeRecords.map((r) => ({ ...r }));
-  const templateRows = LEDGER_COMBO_TEMPLATES.map((t) => ({
-    ...t,
-    region_scale_at_generation: REGION_LEDGER_SCALE[t.region] ?? 1,
-  }));
+  const ledgerCols = {
+    currencyCols: [
+      "net_patient_revenue",
+      "operating_expense",
+      "labor_cost",
+      "supply_cost",
+      "budget_variance",
+    ],
+    percentCols: ["operating_margin", "denial_rate", "overtime_utilization", "forecasted_margin"],
+    integerCols: ["patient_volume", "reimbursement_delay_days"],
+    wrapCols: ["variance_note", "facility"],
+  };
 
-  const personaRows = PERSONA_PRESETS.map((p) => ({
-    persona_key: p.persona,
-    display_name: p.name,
-    email: p.email,
-    full_role: p.role,
-    header_title: p.headerTitle,
-    description: p.desc,
-    can_sign_close: p.persona === "cfo" ? "Yes" : "No",
-  }));
+  addTableSheet(
+    wb,
+    "Close_Month_Ledger",
+    closeRecords.map((r) => ({ ...r })),
+    { tabColor: "FF059669", ...ledgerCols }
+  );
 
-  const filterRows = [
-    { filter_field: "facility", source: "distinct finance_ledger_row.facility", example_values: facilities.join("; ") },
-    { filter_field: "region", source: "distinct finance_ledger_row.region", example_values: regions.join("; ") },
-    { filter_field: "serviceLine", source: "distinct finance_ledger_row.service_line", example_values: serviceLines.join("; ") },
-    { filter_field: "month", source: "distinct finance_ledger_row.month", example_values: [...new Set(records.map((r) => r.month))].sort().join("; ") },
-    { filter_field: "varianceStatus", source: "enum", example_values: "Favorable; Watchlist; Unfavorable" },
-    { filter_field: "reviewStatus", source: "enum", example_values: "New; Analyst Review; Director Review; Executive Ready; Closed" },
-    { filter_field: "payerType", source: "enum", example_values: "Commercial; Medicare; Medicaid; Self-Pay; Other" },
-    { filter_field: "owner", source: "distinct finance_ledger_row.owner", example_values: owners.join("; ") },
-  ];
+  addTableSheet(
+    wb,
+    "Full_Ledger_All_Months",
+    records.map((r) => ({ ...r })),
+    { tabColor: "FF64748B", ...ledgerCols }
+  );
+
+  addTableSheet(
+    wb,
+    "Combo_Templates",
+    LEDGER_COMBO_TEMPLATES.map((t) => ({
+      ...t,
+      region_scale: REGION_LEDGER_SCALE[t.region] ?? 1,
+    })),
+    { tabColor: "FFF59E0B", ...ledgerCols }
+  );
 
   const kpiRows = [
-    { metric: "netPatientRevenue", close_month_value: kpis.netPatientRevenue, formula: "SUM(net_patient_revenue) for close-month rows" },
-    { metric: "operatingExpense", close_month_value: kpis.operatingExpense, formula: "SUM(operating_expense)" },
-    { metric: "laborCost", close_month_value: kpis.laborCost, formula: "SUM(labor_cost)" },
-    { metric: "supplyCost", close_month_value: kpis.supplyCost, formula: "SUM(supply_cost)" },
-    { metric: "operatingMargin", close_month_value: kpis.operatingMargin, formula: "(SUM(NPR) - SUM(OpEx)) / SUM(NPR) × 100" },
-    { metric: "budgetVariance", close_month_value: kpis.budgetVariance, formula: "SUM(budget_variance)" },
-    { metric: "denialRate", close_month_value: kpis.denialRate, formula: "AVG(denial_rate)" },
-    { metric: "reimbursementDelayDays", close_month_value: kpis.reimbursementDelayDays, formula: "AVG(reimbursement_delay_days)" },
-    { metric: "overtimeUtilization", close_month_value: kpis.overtimeUtilization, formula: "AVG(overtime_utilization)" },
-    { metric: "forecastedMargin", close_month_value: kpis.forecastedMargin, formula: "AVG(forecasted_margin)" },
-    { metric: "patientVolume", close_month_value: kpis.patientVolume, formula: "SUM(patient_volume)" },
-    { metric: "stewardshipTargetMargin", close_month_value: STEWARDSHIP_TARGET_MARGIN, formula: "Constant in stewardshipConfig.ts" },
-    { metric: "laborRatioTarget", close_month_value: LABOR_RATIO_TARGET, formula: "Constant in stewardshipConfig.ts" },
+    { metric: "Net Patient Revenue (close month)", value: kpis.netPatientRevenue, formula: "SUM(net_patient_revenue)", fmt: "currency" as const },
+    { metric: "Operating Expense", value: kpis.operatingExpense, formula: "SUM(operating_expense)", fmt: "currency" as const },
+    { metric: "Labor Cost", value: kpis.laborCost, formula: "SUM(labor_cost)", fmt: "currency" as const },
+    { metric: "Supply Chain Cost", value: kpis.supplyCost, formula: "SUM(supply_cost)", fmt: "currency" as const },
+    { metric: "Operating Margin %", value: kpis.operatingMargin, formula: "(SUM(NPR)-SUM(OpEx))/SUM(NPR)×100", fmt: "percent" as const },
+    { metric: "Budget Variance (net)", value: kpis.budgetVariance, formula: "SUM(budget_variance)", fmt: "currency" as const },
+    { metric: "Avg Denial Rate %", value: kpis.denialRate, formula: "AVG(denial_rate)", fmt: "percent" as const },
+    { metric: "Stewardship Target Margin %", value: STEWARDSHIP_TARGET_MARGIN, formula: "Constant (stewardshipConfig)", fmt: "percent" as const },
+    { metric: "Labor Ratio Target %", value: LABOR_RATIO_TARGET, formula: "Constant (stewardshipConfig)", fmt: "percent" as const },
   ];
+  addTableSheet(wb, "Derived_KPIs", kpiRows, { tabColor: "FFDC2626" });
 
-  const signoffSchema = [
-    { field: "id", type: "string", notes: "Sign-off certificate id (browser localStorage)" },
-    { field: "reportingPeriod", type: "string", notes: "e.g. FY26-P05-2026-05" },
-    { field: "timestamp", type: "ISO datetime", notes: "When signed" },
-    { field: "signatoryName", type: "string", notes: "From active persona" },
-    { field: "signatoryTitle", type: "string", notes: "From active persona" },
-    { field: "modelCode", type: "string", notes: "COMMONSPIRIT-STU-{FY}-V1" },
-    { field: "hash", type: "string", notes: "Demo integrity hash" },
-    { field: "activeMargin", type: "number", notes: "Margin at sign-off" },
-    { field: "unresolvedCount", type: "number", notes: "Open watchlist rows" },
-    { field: "comments", type: "text", notes: "CFO comments" },
-    { field: "approvedScopes", type: "string[]", notes: "Scopes approved in modal" },
-  ];
+  const kpiSheet = wb.getWorksheet("Derived_KPIs");
+  if (kpiSheet) {
+    kpiRows.forEach((row, i) => {
+      const cell = kpiSheet.getRow(i + 2).getCell(2);
+      cell.numFmt =
+        row.fmt === "currency" ? '"$"#,##0;[Red]("$"#,##0)' : '0.00"%"';
+    });
+  }
 
-  const uiPages = [
-    { page: "Executive Tower (overview)", primary_tables: "Aggregated close-month KPIs from finance_ledger_row", key_columns: "NPR, margin, checklist state" },
-    { page: "Financial Dashboard", primary_tables: "finance_ledger_row (filtered)", key_columns: "All ledger columns; charts aggregate KPIs" },
-    { page: "Service Lines Review", primary_tables: "Aggregated by service_line", key_columns: "service_line, margin, owner, variance" },
-    { page: "Forecast & Walk", primary_tables: "KPIs + static driver bridge labels", key_columns: "forecasted_margin, driver narrative" },
-    { page: "AI Finance Copilot", primary_tables: "KPIs + server/client mock narratives", key_columns: "Derived from close-month ledger" },
-    { page: "Scenario Simulator", primary_tables: "KPIs adjusted in-session", key_columns: "Margin sensitivity (client-side)" },
-    { page: "Pre-flight Sign-off", primary_tables: "CertifiedSignoff + ledger", key_columns: "signatory fields, unresolved watchlist" },
-    { page: "Export (CSV)", primary_tables: "Filtered finance_ledger_row", key_columns: "Same as Data_Dictionary export columns" },
-  ];
+  addTableSheet(
+    wb,
+    "Dashboard_Filters",
+    [
+      { filter: "facility", values: facilities.join("; ") },
+      { filter: "region", values: regions.join("; ") },
+      { filter: "serviceLine", values: serviceLines.join("; ") },
+      { filter: "owner", values: owners.join("; ") },
+    ],
+    { tabColor: "FF8B5CF6" }
+  );
 
-  const wb = XLSX.utils.book_new();
+  addTableSheet(
+    wb,
+    "Personas",
+    PERSONA_PRESETS.map((p) => ({
+      key: p.persona,
+      name: p.name,
+      email: p.email,
+      role: p.role,
+      header: p.headerTitle,
+      can_sign_close: p.persona === "cfo" ? "Yes" : "No",
+    })),
+    { tabColor: "FFEC4899" }
+  );
 
-  const wsAbout = sheetFromAoA(about);
-  wsAbout["!cols"] = [{ wch: 28 }, { wch: 72 }];
-  XLSX.utils.book_append_sheet(wb, wsAbout, "About");
+  addTableSheet(
+    wb,
+    "UI_Page_Sources",
+    [
+      { page: "Executive Tower", data_source: "Aggregated close-month ledger", key_fields: "NPR, margin, checklist" },
+      { page: "Financial Dashboard", data_source: "finance_ledger_row (filtered)", key_fields: "All columns; charts use KPI aggregates" },
+      { page: "Service Lines", data_source: "Aggregated by service_line", key_fields: "margin, owner, variance" },
+      { page: "Forecast & Walk", data_source: "KPIs + driver labels", key_fields: "forecasted_margin" },
+      { page: "AI Copilot", data_source: "KPIs + mock narratives", key_fields: "Derived from close month" },
+      { page: "Finance Export Suite", data_source: "Filtered ledger + this workbook", key_fields: "CSV + static XLSX" },
+    ],
+    { tabColor: "FF38BDF8", wrapCols: ["key_fields"] }
+  );
 
-  const wsDict = sheetFromRows(dictionary);
-  autoWidth(wsDict, dictionary);
-  XLSX.utils.book_append_sheet(wb, wsDict, "Data_Dictionary");
+  addTableSheet(
+    wb,
+    "Signoff_Schema",
+    [
+      { field: "signatoryName", type: "string", notes: "Active persona at sign-off" },
+      { field: "signatoryTitle", type: "string", notes: "Role title" },
+      { field: "activeMargin", type: "percent", notes: "Margin at certification" },
+      { field: "reportingPeriod", type: "string", notes: "FY period tag" },
+    ],
+    { tabColor: "FFA855F7", wrapCols: ["notes"] }
+  );
 
-  const wsClose = sheetFromRows(ledgerRows);
-  autoWidth(wsClose, ledgerRows);
-  XLSX.utils.book_append_sheet(wb, wsClose, "Close_Month_Ledger");
-
-  const wsAll = sheetFromRows(records.map((r) => ({ ...r })));
-  XLSX.utils.book_append_sheet(wb, wsAll, "Full_Ledger_All_Months");
-
-  const wsTpl = sheetFromRows(templateRows);
-  autoWidth(wsTpl, templateRows);
-  XLSX.utils.book_append_sheet(wb, wsTpl, "Combo_Templates");
-
-  const wsPersonas = sheetFromRows(personaRows);
-  autoWidth(wsPersonas, personaRows);
-  XLSX.utils.book_append_sheet(wb, wsPersonas, "Personas");
-
-  const wsFilters = sheetFromRows(filterRows);
-  autoWidth(wsFilters, filterRows);
-  XLSX.utils.book_append_sheet(wb, wsFilters, "Dashboard_Filters");
-
-  const wsKpi = sheetFromRows(kpiRows);
-  autoWidth(wsKpi, kpiRows);
-  XLSX.utils.book_append_sheet(wb, wsKpi, "Derived_KPIs");
-
-  const wsSign = sheetFromRows(signoffSchema);
-  autoWidth(wsSign, signoffSchema);
-  XLSX.utils.book_append_sheet(wb, wsSign, "Signoff_Schema");
-
-  const wsUi = sheetFromRows(uiPages);
-  autoWidth(wsUi, uiPages);
-  XLSX.utils.book_append_sheet(wb, wsUi, "UI_Page_Sources");
-
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-  XLSX.writeFile(wb, OUT_FILE);
-
-  console.log(`Wrote ${OUT_FILE}`);
-  console.log(`  Close-month rows: ${closeRecords.length}`);
-  console.log(`  Full ledger rows: ${records.length}`);
+  const buffer = await wb.xlsx.writeBuffer();
+  for (const dir of OUT_DIRS) {
+    fs.mkdirSync(dir, { recursive: true });
+    const outPath = path.join(dir, DATA_HANDOFF_WORKBOOK_FILENAME);
+    fs.writeFileSync(outPath, Buffer.from(buffer));
+    console.log(`Wrote ${outPath}`);
+  }
+  console.log(`Close-month rows: ${closeRecords.length} · Full ledger: ${records.length}`);
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
