@@ -4,27 +4,27 @@ Acceptance criteria for `feat/data-presentation-standards`. Brand tokens unchang
 
 ## Formatting
 
-- [ ] All currency in UI uses `src/lib/formatters.ts`
-- [ ] Margin deltas use **pts** (`formatPoints`) where comparing percentages
-- [ ] Variance dollars use `formatVarianceCurrency`
+- [x] All currency in UI uses `src/lib/formatters.ts`
+- [x] Margin deltas use **pts** (`formatPoints`) where comparing percentages
+- [x] Variance dollars use `formatVarianceCurrency`
 
 ## Chart integrity
 
-- [ ] Labor mini-chart plots **labor cost ratio %**, not operating margin
-- [ ] Forecast driver chart titled **Margin driver bridge** (not "waterfall" unless floating bars)
-- [ ] Bar charts use zero baseline
-- [ ] No `#A78BFA` / stray purple series — use `chartTheme.forecast`
+- [x] Labor mini-chart plots **labor cost ratio %**, not operating margin
+- [x] Forecast driver chart titled **Margin driver bridge** (not "waterfall" unless floating bars)
+- [x] Bar charts use zero baseline
+- [x] No `#A78BFA` / stray purple series — use `chartTheme.forecast`
 
 ## Charts UX
 
-- [ ] Y-axis `tickFormatter` on every Recharts chart in pages/
-- [ ] Tooltips use `ChartTooltip` or explicit unit formatters
-- [ ] Synthetic illustrative charts show `illustrativeNote` where applicable
+- [x] Y-axis `tickFormatter` on every Recharts chart in pages/
+- [x] Tooltips use `ChartTooltip` or explicit unit formatters
+- [x] Synthetic illustrative charts show `illustrativeNote` where applicable
 
 ## Tables & KPIs
 
-- [ ] KPI values use `font-mono` or `tabular-nums`
-- [ ] Service line table remains right-aligned numeric
+- [x] KPI values use `font-mono` or `tabular-nums`
+- [x] Service line table remains right-aligned numeric
 
 ## Manual Vercel QA (A8)
 
@@ -41,7 +41,7 @@ Save captures under `docs/screenshots/presentation-audit/` using the naming conv
 
 ## Release gate
 
-- [ ] `npx tsc --noEmit` passes
-- [ ] `npx vite build` passes
+- [x] `npx tsc --noEmit` passes
+- [x] `npx vite build` passes
 - [ ] Manual Vercel QA checklist completed (see above)
 - [ ] Production https://hsd-audit.vercel.app matches after merge to `main`
