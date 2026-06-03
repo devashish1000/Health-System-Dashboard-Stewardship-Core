@@ -209,7 +209,7 @@ export default function Overview({
               <Briefcase className="w-5 h-5 text-brand-600" /> Maps to this job
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Sr Financial Analyst posting duties mapped to prototype pages — synthetic Houston supply chain finance sample.
+              Sr Financial Analyst posting duties mapped to prototype pages — synthetic multi-market finance sample.
             </p>
           </div>
           {onStartReviewerPath ? (

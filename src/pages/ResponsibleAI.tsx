@@ -10,11 +10,11 @@ import { bodyMuted, captionText, dangerMeta, dangerTitle } from "../lib/typograp
 export default function ResponsibleAI() {
   const profile = {
     name: "Devashish Neupane",
-    tagline: "Healthcare supply chain finance · Sr Financial Analyst scope",
+    tagline: "Healthcare finance · Sr Financial Analyst work sample",
     email: "devashish1000@gmail.com",
     linkedin: "linkedin.com/in/devashish-neupane",
     roleSummary:
-      "Healthcare supply chain finance work sample for the Sr Financial Analyst role (Req 2026-469831): Houston / Baylor St. Luke's–style market scenario with expense predictability, budget variance, initiative ROI reporting for market finance leaders, and multi-market comparison views. Forecasting, KPI reporting, executive dashboards, and AI-assisted workflow design support month-end stewardship storytelling. CommonSpirit-inspired labels only — synthetic ledger, not affiliated with or endorsed by CommonSpirit Health.",
+      "Healthcare finance work sample for the Sr Financial Analyst role (Req 2026-469831): multi-market stewardship dashboard with expense predictability, budget variance, initiative ROI reporting for market finance leaders, and Houston / Baylor St. Luke's as a flagship example market. Forecasting, KPI reporting, executive dashboards, and AI-assisted workflow design support month-end close storytelling. CommonSpirit-inspired labels only — synthetic ledger, not affiliated with or endorsed by CommonSpirit Health.",
     priorExperience: [
       "Southwest Airlines — analytics, forecasting, and operational performance reporting",
       "LinkedIn — business intelligence, KPI reporting, and executive dashboard design",

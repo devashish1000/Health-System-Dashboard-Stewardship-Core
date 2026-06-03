@@ -18,10 +18,8 @@ import { getPersonaPreset } from "./config/demoOrg";
 import {
   getRecruiterDefaultFilters,
   RECRUITER_WELCOME_KEY,
-  HOUSTON_ONLY_KEY,
   TOUR_VARIANT_KEY,
   JOB_REQ_ID,
-  DEFAULT_REVIEW_REGION,
 } from "./constants/recruiterHandoff";
 import RecruiterWelcomeModal from "./components/RecruiterWelcomeModal";
 
@@ -134,9 +132,6 @@ export default function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isTourOpen, setIsTourOpen] = useState(false);
   const [showRecruiterWelcome, setShowRecruiterWelcome] = useState(false);
-  const [houstonOnly, setHoustonOnly] = useState(
-    () => localStorage.getItem(HOUSTON_ONLY_KEY) === "true"
-  );
   const [forceRecruiterTour] = useState(() => {
     if (isReviewerLink()) {
       localStorage.setItem(TOUR_VARIANT_KEY, "recruiter");
@@ -217,10 +212,6 @@ export default function App() {
     }
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    localStorage.setItem(HOUSTON_ONLY_KEY, houstonOnly ? "true" : "false");
-  }, [houstonOnly]);
-
   // First-run guided tour trigger (only once, when logged in; after welcome dismissed)
   useEffect(() => {
     if (
@@ -253,14 +244,7 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleGlobalKbd);
   }, []);
 
-  // Filter computation (optional Houston-only scope for recruiter review)
-  const effectiveFilters =
-    houstonOnly && !filters.region
-      ? { ...filters, region: DEFAULT_REVIEW_REGION }
-      : houstonOnly
-        ? { ...filters, region: filters.region || DEFAULT_REVIEW_REGION }
-        : filters;
-  const filteredRecords = filterRecords(records, effectiveFilters);
+  const filteredRecords = filterRecords(records, filters);
 
   const triggerToast = (text: string, type: "success" | "info" | "warning" = "success") => {
     const id = `toast-${Date.now()}`;
@@ -289,7 +273,6 @@ export default function App() {
 
   const handleApplyHoustonFilter = (options?: { serviceLine?: string; navigate?: ProjectPage }) => {
     const houstonDefaults = getRecruiterDefaultFilters(reporting);
-    setHoustonOnly(true);
     setFilters((prev) => ({
       ...prev,
       ...houstonDefaults,
@@ -308,7 +291,9 @@ export default function App() {
   };
 
   const handleStartReviewerPath = () => {
-    handleApplyHoustonFilter({ serviceLine: "Surgical Supplies", navigate: "dashboard" });
+    setFilters({ ...INITIAL_FILTERS, month: reporting.closeMonth });
+    setCurrentPage("dashboard");
+    triggerToast("Reviewer path: use region and service line filters across all markets.", "info");
   };
 
   const handleDismissRecruiterWelcome = () => {
@@ -318,11 +303,7 @@ export default function App() {
 
   const handleLogin = (persona: UserPersona) => {
     setUserPersona(persona);
-    if (persona === "analyst") {
-      const defaults = getRecruiterDefaultFilters(reporting);
-      setFilters({ ...INITIAL_FILTERS, ...defaults });
-      setHoustonOnly(true);
-    }
+    setFilters({ ...INITIAL_FILTERS, month: reporting.closeMonth });
     setIsLoggedIn(true);
     triggerToast("Work sample loaded — synthetic data only.", "success");
   };
@@ -517,15 +498,6 @@ export default function App() {
             utcTimeStr={utcTimeStr}
             theme={theme}
             reporting={reporting}
-            houstonOnly={houstonOnly}
-            onToggleHoustonOnly={() => {
-              if (houstonOnly) {
-                setHoustonOnly(false);
-                triggerToast("Showing all markets in filters.", "info");
-              } else {
-                handleApplyHoustonFilter();
-              }
-            }}
             onToggleTheme={toggleTheme}
             onOpenExport={() => setIsExportModalOpen(true)}
             onOpenTour={() => setIsTourOpen(true)}
@@ -550,7 +522,7 @@ export default function App() {
             {currentPage === "dashboard" && (
               <Dashboard
                 records={filteredRecords}
-                filters={effectiveFilters}
+                filters={filters}
                 onChangeFilters={setFilters}
                 onSelectRow={setSelectedRecord}
                 onResetFilters={handleResetFilters}

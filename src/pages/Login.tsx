@@ -48,7 +48,7 @@ export default function Login({ onLogin }: LoginProps) {
       <header className="relative z-10 flex items-center justify-between max-w-7xl mx-auto w-full border-b border-ink-900/5 pb-4 pt-4">
         <BrandLogo height={30} />
         <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-brand-50 text-brand-700 border border-brand-100 uppercase tracking-wide">
-          Supply chain finance work sample
+          Finance work sample
         </span>
       </header>
 
@@ -60,14 +60,14 @@ export default function Login({ onLogin }: LoginProps) {
           </div>
 
           <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-ink-900 leading-[1.05]">
-            Month-end supply chain finance,
+            Month-end healthcare finance,
             <span className="block text-brand-600">variance &amp; close support.</span>
           </h2>
 
           <p className="text-ink-700/80 text-sm md:text-base leading-relaxed max-w-xl">
-            CommonSpirit-inspired scenario for the Houston market Sr Financial Analyst role: supply chain
-            expense predictability, budget variance reporting, initiative insights, and recommendations for
-            market finance leaders — illustrated with synthetic data only.
+            CommonSpirit-inspired scenario for the Sr Financial Analyst role: budget variance reporting,
+            forecast walk, service-line insight, and recommendations for market finance leaders — across
+            Houston and comparison markets on synthetic data only.
           </p>
 
           <div className="rounded-2xl border border-brand-200 bg-brand-50/60 p-4 space-y-2">
@@ -87,7 +87,7 @@ export default function Login({ onLogin }: LoginProps) {
                 <Sparkles className="w-3.5 h-3.5" /> Variance &amp; forecast
               </span>
               <p className="text-[11px] text-ink-700/70 leading-normal">
-                Close-month supply chain spend, budget variance, and forecast walk for market report-outs.
+                Close-month spend, budget variance, and forecast walk for market report-outs.
               </p>
             </div>
             <div className="bg-white border border-ink-900/5 rounded-2xl p-4 space-y-1 shadow-sm">

@@ -21,8 +21,8 @@ export const SUPPLY_CHAIN_SERVICE_LINES = [
 
 export const RECRUITER_CLICK_PATH = [
   "Choose Sr Financial Analyst (demo persona)",
-  `Filter ${HOUSTON_MARKET} on the Financial Dashboard`,
-  "Open a supply line (e.g. Surgical Supplies)",
+  "Open Financial Dashboard — explore region, facility, and service line filters across all markets",
+  "Drill into a service line variance (any market; Houston is one example in the data)",
   "Download the Excel data dictionary from Finance Export Suite",
 ] as const;
 

@@ -29,7 +29,7 @@ export default function RecruiterWelcomeModal({ isOpen, onClose }: RecruiterWelc
               Applicant work sample · Req {JOB_REQ_ID}
             </p>
             <h2 id="recruiter-welcome-title" className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-1">
-              Sr Financial Analyst — supply chain finance (demo)
+              Sr Financial Analyst work sample (demo)
             </h2>
           </div>
           <button
@@ -43,8 +43,9 @@ export default function RecruiterWelcomeModal({ isOpen, onClose }: RecruiterWelc
         </div>
 
         <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-          CommonSpirit-inspired scenario for interview review. {DISCLAIMER_SHORT}. Not affiliated with or
-          endorsed by CommonSpirit Health.
+          CommonSpirit-inspired finance control tower for interview review — variance, budget, forecast, and
+          export workflows on synthetic multi-market data. {DISCLAIMER_SHORT}. Not affiliated with or endorsed
+          by CommonSpirit Health.
         </p>
 
         <div className="space-y-2">
