@@ -5,9 +5,10 @@ import {
 import { 
   Search, Terminal, ArrowRight, Shield, User, Download, RotateCcw, 
   Trash2, Cpu, HelpCircle, Activity, Sparkles, CornerDownLeft, ChevronRight,
-  Compass, LayoutDashboard, Layers, BarChart4, Sliders, ShieldCheck, Eye
+  Compass, LayoutDashboard, Layers, BarChart4, Sliders, ShieldCheck
 } from "lucide-react";
 import { ProjectPage, UserPersona, FinanceRecord } from "../types";
+import { buildPaletteAiAnswer } from "../lib/paletteAiInsights";
 
 interface CommandItem {
   id: string;
@@ -69,19 +70,6 @@ export default function CommandPalette({
     }
   }, [isOpen]);
 
-  // Command palette keyboard listener
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        if (isOpen) onClose();
-        else onClose(); // If state is controlled from App, App listener handles toggle
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
-
   // Commands lookup tree
   const commands = useMemo<CommandItem[]>(() => {
     const arr: CommandItem[] = [
@@ -141,14 +129,6 @@ export default function CommandPalette({
         description: "Review system integrity bounds and metadata configurations",
         icon: ShieldCheck,
         action: () => { onNavigate("responsibleAi"); onTriggerToast("Navigated to Responsible AI & Dev.", "info"); onClose(); }
-      },
-      {
-        id: "nav-visual-regression",
-        category: "Navigation",
-        title: "Go to Pixel Auditor QA",
-        description: "Run automated pixel-by-pixel regression checks and design system fidelity audits",
-        icon: Eye,
-        action: () => { onNavigate("visualRegression"); onTriggerToast("Navigated to Pixel Auditor QA.", "info"); onClose(); }
       },
 
       // Core Actions
@@ -283,48 +263,54 @@ export default function CommandPalette({
         setMode(prev => prev === "commands" ? "ai" : "commands");
         setSearch("");
         setAiResponse(null);
+      } else if (
+        mode === "commands" &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.altKey &&
+        search.length === 0 &&
+        filteredCommands.length > 0
+      ) {
+        const shortcutCmd = commands.find(
+          (c) => c.shortcut?.toLowerCase() === e.key.toLowerCase()
+        );
+        if (shortcutCmd) {
+          e.preventDefault();
+          shortcutCmd.action();
+        }
       }
     };
 
-    window.addEventListener("keydown", handleKeys);
-    return () => window.removeEventListener("keydown", handleKeys);
-  }, [isOpen, filteredCommands, selectedIndex, mode, search]);
+    // Capture phase so E/S/C shortcuts fire before the search input receives the key
+    window.addEventListener("keydown", handleKeys, true);
+    return () => window.removeEventListener("keydown", handleKeys, true);
+  }, [isOpen, filteredCommands, selectedIndex, mode, search, commands]);
 
   // Reset selected index when filtered list changes
   useEffect(() => {
     setSelectedIndex(0);
   }, [search, mode]);
 
-  // Handle AI queries
-  const handleAiSubmit = () => {
-    const query = search.trim();
+  // Handle AI queries (queryText bypasses stale state when fired from suggestion chips)
+  const submitAiQuery = (queryText?: string) => {
+    const query = (queryText ?? search).trim();
     if (!query) return;
 
     setIsAiThinking(true);
     setAiResponse(null);
 
-    // Simulate smart local insight replies about commonspirit healthcare numbers
     setTimeout(() => {
       setIsAiThinking(false);
-      const q = query.toLowerCase();
-      if (q.includes("opex") || q.includes("expense") || q.includes("spending")) {
-        setAiResponse("Based on the sandbox baseline, total operating expense is currently $44.91M against a target of $42.1M. The primary cost drivers are contract labor nurse registries inside Cardiology (+$1.2M) and physical supply chain cost increases within Orthopedics.");
-      } else if (q.includes("margin") || q.includes("profit") || q.includes("target")) {
-        setAiResponse("The overall CommonSpirit baselineOperating Margin is at 7.15%, which currently misses the Stewardship Goal of 8.5%. To close this 1.35% variance, prioritize clearing Cardiology claim denials (currently at 3.2%) and capping contract overtime registry rates.");
-      } else if (q.includes("revenue") || q.includes("npr") || q.includes("net patient")) {
-        setAiResponse("YTD Net Patient Revenue has logged $48.37M (+$1.5M over budgeted target). The highest collection drivers are Neurology and Cardiology due to an operational shift of high-acuity cases in Q2.");
-      } else if (q.includes("denial") || q.includes("claim")) {
-        setAiResponse("Average claim denial rates sit at 2.4%. Cardiology has an elevated denial rate of 3.2% due to prior authorization mismatch issues. Recommended action: coordinate with clinical auditors to pre-certify commercial payer cases.");
-      } else {
-        setAiResponse(`Operational intelligence summary for "${query}": Our forecasting pipeline predicts consistent patient volume recovery in Q3, particularly within Orthopedics. Operating margins are expected to approach 7.9% if registry reliance declines.`);
-      }
+      setAiResponse(buildPaletteAiAnswer(query, records));
     }, 950);
   };
+
+  const handleAiSubmit = () => submitAiQuery();
 
   const handleSuggestionClick = (text: string) => {
     setMode("ai");
     setSearch(text);
-    setTimeout(() => handleAiSubmit(), 50);
+    submitAiQuery(text);
   };
 
   // Group commands by category

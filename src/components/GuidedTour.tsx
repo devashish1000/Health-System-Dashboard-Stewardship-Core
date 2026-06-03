@@ -57,12 +57,6 @@ const STEPS: TourStep[] = [
     blurb:
       "Guardrails, intended-use limits, and a synthetic-data statement for trust.",
   },
-  {
-    page: "visualRegression",
-    title: "Pixel Auditor QA",
-    blurb:
-      "Engineering quality bar: visual regression, chaos, and accessibility checks.",
-  },
 ];
 
 export default function GuidedTour(props: GuidedTourProps) {

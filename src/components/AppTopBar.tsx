@@ -143,6 +143,7 @@ export default function AppTopBar({
           <button
             type="button"
             onClick={onOpenCommandPalette}
+            id="cmd-k-trigger-tablet"
             className={`${iconBtn} hidden md:flex lg:hidden`}
             aria-label="Search systems"
           >
@@ -151,6 +152,7 @@ export default function AppTopBar({
           <button
             type="button"
             onClick={onOpenCommandPalette}
+            id="cmd-k-trigger-desktop"
             className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-ink-800 hover:bg-slate-100 dark:hover:bg-ink-700 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-brand-500 max-w-[200px] xl:max-w-[240px]"
             aria-label="Search systems"
           >

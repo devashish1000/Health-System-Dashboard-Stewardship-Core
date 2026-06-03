@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Compass, LayoutDashboard, Layers, BarChart4, Cpu, Sliders, ShieldCheck,
   Building, UserCheck, Share2, ArrowRightLeft, X, RefreshCcw,
-  Shield, Activity, Lock, Eye
+  Shield, Activity, Lock
 } from "lucide-react";
 import BrandLogo from "./components/BrandLogo";
 import { SparkMark } from "./components/BrandMotif";
@@ -277,7 +277,6 @@ export default function App() {
     { id: "copilot", label: "AI Finance Copilot", icon: Cpu },
     { id: "simulator", label: "Scenario Simulator", icon: Sliders },
     { id: "responsibleAi", label: "Responsible AI & Dev", icon: ShieldCheck },
-    { id: "visualRegression", label: "Pixel Auditor QA", icon: Eye }
   ];
 
   if (!isLoggedIn) {

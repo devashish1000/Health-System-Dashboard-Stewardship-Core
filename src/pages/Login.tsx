@@ -239,7 +239,7 @@ export default function Login({ onLogin }: LoginProps) {
       <footer className="relative z-10 max-w-7xl mx-auto w-full text-center border-t border-ink-900/5 pt-4 text-[10px] text-ink-700/50">
         <p>© {new Date().getFullYear()} CommonSpirit Stewardship Governance Committee. All rights reserved.</p>
         <p className="mt-1 font-mono">
-          Mock sandbox · synthetic ledger through prior month-end close · no PHI.
+          Concept prototype · not affiliated with or endorsed by CommonSpirit Health · synthetic ledger · no PHI.
         </p>
       </footer>
     </div>
