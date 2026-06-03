@@ -73,6 +73,18 @@ h1, h2, h3, h4, .font-display {
   color: #94a3b8;
 }
 
+/* Catch legacy slate body classes inside readable surfaces (dark cards) */
+.dark .surface-readable .text-slate-500,
+.dark .surface-readable .text-slate-600,
+.dark .surface-readable .text-slate-700 {
+  color: #cbd5e1;
+}
+
+.dark .surface-readable p,
+.dark .surface-readable li {
+  color: #cbd5e1;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

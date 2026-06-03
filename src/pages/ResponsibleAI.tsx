@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
+import { bodyMuted, captionText, dangerMeta, dangerTitle } from "../lib/typography";
 
 export default function ResponsibleAI() {
   const profile = {
@@ -74,26 +75,26 @@ export default function ResponsibleAI() {
             </span>
             <span>Intended Use Cases</span>
           </h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">
+          <p className={`text-xs leading-relaxed font-medium ${bodyMuted}`}>
             “This prototype is intended to demonstrate analytics workflow design, healthcare finance dashboarding, budget variance analysis, margin forecasting, financial driver explanation, and executive storytelling.”
           </p>
-          <div className="text-[10px] text-slate-400 font-mono">
+          <div className={`text-[10px] font-mono ${captionText}`}>
             Focus: Business intelligence interface modeling
           </div>
         </div>
 
         {/* Prohibited Out of Scope Use Cases */}
         <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl p-6 shadow-3xs space-y-3">
-          <h3 className="font-bold text-sm text-rose-800 flex items-center gap-2">
+          <h3 className={`font-bold text-sm flex items-center gap-2 ${dangerTitle}`}>
             <span className="p-1.5 rounded-lg bg-rose-50 text-rose-600 block shrink-0">
               <ShieldAlert className="w-4 h-4" />
             </span>
             <span>Not Intended For</span>
           </h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">
+          <p className={`text-xs leading-relaxed font-medium ${bodyMuted}`}>
             “This prototype is not intended to make financial approvals, compliance rulings, clinical decisions, billing determinations, employment decisions, or hiring decisions.”
           </p>
-          <div className="text-[10px] text-rose-400 font-mono">
+          <div className={`text-[10px] font-mono ${dangerMeta}`}>
             Notice: Absolute execution barrier in place
           </div>
         </div>

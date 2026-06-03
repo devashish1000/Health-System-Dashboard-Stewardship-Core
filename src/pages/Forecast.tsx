@@ -219,7 +219,7 @@ export default function Forecast({ records }: ForecastProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             <div className="space-y-1">
               <span className="text-xs font-bold text-slate-700 dark:text-slate-100 block">Executive Summary</span>
-              <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold">
                 “Operating margin declined primarily due to higher labor cost ratio, unfavorable payer mix, and increased denial activity in two service lines.”
               </p>
             </div>

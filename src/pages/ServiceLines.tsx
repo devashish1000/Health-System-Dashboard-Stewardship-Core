@@ -219,7 +219,7 @@ export default function ServiceLines({
                   </span>
                   <button
                     onClick={() => toggleFlag(agg.serviceLine)}
-                    className={`p-1.5 rounded-full border transition-colors ${isFlagged ? "bg-amber-100 border-amber-300 text-amber-600" : "bg-slate-50 border-slate-100 text-slate-400 hover:text-slate-600"}`}
+                    className={`p-1.5 rounded-full border transition-colors ${isFlagged ? "bg-amber-100 dark:bg-amber-950/40 border-amber-300 dark:border-amber-700 text-amber-600 dark:text-amber-400" : "bg-slate-50 dark:bg-ink-900 border-slate-100 dark:border-white/10 text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"}`}
                     title="Flag for audit"
                   >
                     <Flag className="w-3.5 h-3.5 fill-current" />

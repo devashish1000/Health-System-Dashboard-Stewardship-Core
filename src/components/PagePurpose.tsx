@@ -23,7 +23,7 @@ export default function PagePurpose(props: PagePurposeProps) {
             {title}
           </div>
           <div className="text-sm font-bold text-slate-900 dark:text-slate-100">{what}</div>
-          <div className="text-xs text-slate-600 dark:text-slate-400">{value}</div>
+          <div className="text-xs text-slate-600 dark:text-slate-300">{value}</div>
         </div>
       </div>
 

@@ -274,7 +274,7 @@ export default function Overview({
               Compliance Tracking
             </span>
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">Stewardship Readiness</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-500 dark:text-slate-300 leading-relaxed">
               Before submitting monthly results to corporate accounting, complete these core checkpoints.
             </p>
           </div>
@@ -282,7 +282,7 @@ export default function Overview({
           <div className="space-y-3">
             <div className="flex justify-between items-baseline text-xs font-bold text-slate-700 dark:text-slate-100">
               <span>Period Closed Progress</span>
-              <span className="font-mono tabular-nums text-brand-600 font-extrabold text-sm">{formatPercent(completionPercent, { decimals: 0 })}</span>
+              <span className="font-mono tabular-nums text-brand-600 dark:text-brand-400 font-extrabold text-sm">{formatPercent(completionPercent, { decimals: 0 })}</span>
             </div>
             {/* Visual Bar */}
             <div className="w-full bg-slate-200 dark:bg-white/10 h-2.5 rounded-full overflow-hidden">
@@ -291,8 +291,8 @@ export default function Overview({
                 style={{ width: `${completionPercent}%` }}
               />
             </div>
-            <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-brand-500 shrink-0" />
+            <div className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-300 font-medium">
+              <Sparkles className="w-3.5 h-3.5 text-brand-500 dark:text-brand-400 shrink-0" />
               <span>{formatCount(completedCount)} of {formatCount(4)} regulatory actions signed.</span>
             </div>
           </div>

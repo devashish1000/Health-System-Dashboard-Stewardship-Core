@@ -393,17 +393,17 @@ export default function App() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setIsMobileSidebarOpen(true)}
-                className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 md:hidden text-slate-600 transition-colors cursor-pointer"
+                className="p-2 rounded-lg border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-ink-800 md:hidden text-slate-600 dark:text-slate-200 transition-colors cursor-pointer"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
               <div className="hidden sm:flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block">System Workspace:</span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 uppercase">
+                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">System Workspace:</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-ink-800 text-slate-600 dark:text-slate-200 border border-slate-200 dark:border-white/10 uppercase">
                   CommonSpirit Baseline
                 </span>
-                <span className="ml-2 px-2 py-0.5 bg-brand-50 text-brand-700 rounded text-[10px] font-bold border border-brand-100 uppercase">
+                <span className="ml-2 px-2 py-0.5 bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-300 rounded text-[10px] font-bold border border-brand-100 dark:border-brand-800/40 uppercase">
                   FY26 P05 REVIEW
                 </span>
               </div>
@@ -450,16 +450,16 @@ export default function App() {
               {/* Discoverable Command Palette Trigger */}
               <button
                 onClick={() => setIsCommandPaletteOpen(true)}
-                className="hidden md:flex items-center gap-2 px-3 py-1.5 text-xs font-bold text-slate-400 border border-slate-200 bg-slate-50 hover:bg-slate-100/70 hover:text-slate-600 rounded-xl cursor-pointer transition-all shadow-3xs outline-hidden"
+                className="hidden md:flex items-center gap-2 px-3 py-1.5 text-xs font-bold text-slate-400 dark:text-slate-400 border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-ink-800 hover:bg-slate-100/70 dark:hover:bg-ink-700 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl cursor-pointer transition-all shadow-3xs outline-hidden"
                 id="cmd-k-trigger"
               >
                 <Search className="w-3.5 h-3.5 text-slate-400" />
                 <span>Search systems...</span>
-                <span className="text-[9px] bg-slate-200 px-1 rounded-md text-slate-500 font-mono font-bold leading-none py-0.5 border border-slate-300">⌘K</span>
+                <span className="text-[9px] bg-slate-200 dark:bg-ink-700 px-1 rounded-md text-slate-500 dark:text-slate-400 font-mono font-bold leading-none py-0.5 border border-slate-300 dark:border-white/10">⌘K</span>
               </button>
               
               {/* UTC clock */}
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium font-mono bg-slate-50 border border-slate-100 px-3 py-1 rounded-lg">
+              <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-400 font-medium font-mono bg-slate-50 dark:bg-ink-800 border border-slate-100 dark:border-white/10 px-3 py-1 rounded-lg">
                 <Clock className="w-3.5 h-3.5 text-slate-400" />
                 <span>{utcTimeStr || "Loading System Timing..."}</span>
               </div>

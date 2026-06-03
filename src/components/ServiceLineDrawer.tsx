@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { X, CheckCircle, AlertTriangle, AlertCircle, TrendingUp, Calendar, User, Save, FileText, Share2 } from "lucide-react";
 import { FinanceRecord } from "../data/syntheticFinanceData";
+import { captionText } from "../lib/typography";
 
 interface ServiceLineDrawerProps {
   record: FinanceRecord | null;
@@ -142,23 +143,23 @@ export default function ServiceLineDrawer({
             </h3>
             <div className="space-y-3 bg-white dark:bg-ink-800 p-4 rounded-2xl border border-slate-100 dark:border-white/10">
               <div className="flex items-center justify-between text-sm py-1">
-                <span className="text-slate-500">Clinical Labor cost</span>
+                <span className={captionText}>Clinical Labor cost</span>
                 <span className="font-semibold text-slate-700">${(record.labor_cost / 1000).toFixed(0)}K</span>
               </div>
               <div className="flex items-center justify-between text-sm py-1">
-                <span className="text-slate-500">Medical supplies expense</span>
+                <span className={captionText}>Medical supplies expense</span>
                 <span className="font-semibold text-slate-700">${(record.supply_cost / 1000).toFixed(0)}K</span>
               </div>
               <div className="flex items-center justify-between text-sm py-1">
-                <span className="text-slate-500">Overtime usage ratio</span>
+                <span className={captionText}>Overtime usage ratio</span>
                 <span className="font-semibold text-slate-700">{record.overtime_utilization}%</span>
               </div>
               <div className="flex items-center justify-between text-sm py-1 animate-fade-in">
-                <span className="text-slate-500">Claims Denial rate</span>
+                <span className={captionText}>Claims Denial rate</span>
                 <span className={`font-semibold ${record.denial_rate > 4 ? "text-rose-600" : "text-slate-700"}`}>{record.denial_rate}%</span>
               </div>
               <div className="flex items-center justify-between text-sm py-1">
-                <span className="text-slate-500">Reimbursement delay (days AR)</span>
+                <span className={captionText}>Reimbursement delay (days AR)</span>
                 <span className="font-semibold text-slate-700">{record.reimbursement_delay_days} days</span>
               </div>
             </div>
@@ -172,7 +173,7 @@ export default function ServiceLineDrawer({
             
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-medium text-slate-500 block mb-1.5 flex items-center gap-1">
+                <label className={`text-xs font-medium block mb-1.5 flex items-center gap-1 ${captionText}`}>
                   <User className="w-3.5 h-3.5" /> Assigned Owner
                 </label>
                 <div className="text-sm font-medium text-slate-700 dark:text-slate-100 bg-slate-50 dark:bg-ink-900 px-3 py-2 rounded-xl border border-slate-100 dark:border-white/10">
@@ -181,7 +182,7 @@ export default function ServiceLineDrawer({
               </div>
 
               <div>
-                <label className="text-xs font-medium text-slate-500 block mb-1.5 flex items-center gap-1">
+                <label className={`text-xs font-medium block mb-1.5 flex items-center gap-1 ${captionText}`}>
                   <TrendingUp className="w-3.5 h-3.5" /> Leadership Review Status
                 </label>
                 <select
@@ -198,7 +199,7 @@ export default function ServiceLineDrawer({
               </div>
 
               <div>
-                <label className="text-xs font-medium text-slate-500 block mb-1.5 flex items-center gap-1">
+                <label className={`text-xs font-medium block mb-1.5 flex items-center gap-1 ${captionText}`}>
                   <FileText className="w-3.5 h-3.5" /> Financial Driver Variance Explanations
                 </label>
                 <textarea

@@ -220,15 +220,15 @@ export default function ServiceLineTrendModal({
                 Operating Margin Cycle (%)
               </span>
               <div className="flex gap-4 text-[10px] font-bold">
-                <span className="flex items-center gap-1.5 text-slate-500">
+                <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                   <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: theme.stroke }} />
                   Historical YTD
                 </span>
-                <span className="flex items-center gap-1.5 text-slate-500">
+                <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                   <span className="w-2.5 h-2.5 rounded-xs border border-dashed" style={{ borderColor: chartTheme.forecast, backgroundColor: chartTheme.forecast, opacity: 0.35 }} />
                   Model Projected
                 </span>
-                <span className="flex items-center gap-1.5 text-slate-500">
+                <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                   <span className="w-4 h-0.5 border-t-2 border-red-500" />
                   Stewardship Target (8.5%)
                 </span>
@@ -341,7 +341,7 @@ export default function ServiceLineTrendModal({
                   Our projection models indicate **{serviceLine}** margin will appreciate over Q3, driven by volume recovery and standardizing contract nurse registry pathways. Regional oversight targets should prioritize capping commercial claim denial rates below 2.0% to unlock restricted month-end capital.
                 </p>
                 <div className="pt-2 text-[10px] text-slate-400 font-medium font-mono">
-                  Managed by Senior Lead: <span className="text-slate-600 font-semibold">{currentLead}</span>
+                  Managed by Senior Lead: <span className="text-slate-600 dark:text-slate-300 font-semibold">{currentLead}</span>
                 </div>
               </div>
             </div>

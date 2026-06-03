@@ -19,10 +19,20 @@ export function dataSecondaryClass(): string {
   return "text-slate-600 dark:text-slate-300";
 }
 
+import { bodyMuted, captionText, sectionLabel, titleText } from "./typography";
+
 export function captionClass(): string {
-  return "text-slate-500 dark:text-slate-400";
+  return captionText;
 }
 
 export function chartSectionTitleClass(): string {
-  return "text-slate-500 dark:text-slate-300 uppercase tracking-wider font-bold text-xs";
+  return sectionLabel;
+}
+
+export function bodyClass(): string {
+  return bodyMuted;
+}
+
+export function titleClass(): string {
+  return titleText;
 }

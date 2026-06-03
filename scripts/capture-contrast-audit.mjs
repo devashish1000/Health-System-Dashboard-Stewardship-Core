@@ -14,7 +14,9 @@ const shots = [
   { name: "dashboard-table-dark", path: "/", nav: "dashboard", scroll: "#service-line-performance-table", wait: 800 },
   { name: "service-lines-cards-dark", path: "/", nav: "serviceLines", wait: 1200 },
   { name: "forecast-charts-dark", path: "/", nav: "forecast", wait: 1200 },
-  { name: "copilot-header-dark", path: "/", nav: "copilot", wait: 800 },
+  { name: "copilot-chat-dark", path: "/", nav: "copilot", wait: 800 },
+  { name: "overview-stewardship-dark", path: "/", nav: "overview", wait: 1000 },
+  { name: "responsible-ai-cards-dark", path: "/", nav: "responsibleAI", wait: 1000 },
 ];
 
 async function seedSession(page) {
@@ -26,6 +28,11 @@ async function seedSession(page) {
   });
   await page.reload({ waitUntil: "networkidle" });
   await page.waitForTimeout(600);
+  const skipTour = page.getByRole("button", { name: /skip tour/i });
+  if (await skipTour.count()) {
+    await skipTour.first().click({ timeout: 3000 }).catch(() => {});
+    await page.waitForTimeout(500);
+  }
   const dismiss = page.getByRole("button", { name: /skip|close|got it|dismiss|later/i });
   if (await dismiss.count()) {
     await dismiss.first().click({ timeout: 2000 }).catch(() => {});
@@ -39,6 +46,8 @@ const NAV_LABELS = {
   serviceLines: "Service Lines Review",
   forecast: "Forecast & Walk",
   copilot: "AI Finance Copilot",
+  overview: "Executive Tower",
+  responsibleAI: "Responsible AI & Dev",
 };
 
 async function clickNav(page, navId) {

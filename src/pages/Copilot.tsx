@@ -8,6 +8,7 @@ import { SYNTHETIC_RECORDS } from "../data/syntheticFinanceData";
 import { formatCount, formatCurrency, formatPercent } from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
+import { bodyMuted, brandText, captionText, inputPlaceholder, metaText, titleText } from "../lib/typography";
 
 interface Message {
   id: string;
@@ -172,29 +173,29 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
         return <h4 key={idx} className="font-bold text-slate-800 dark:text-slate-100 text-sm mt-4 mb-2 first:mt-0">{renderInline(trimmed.replace(/^#+/, "").trim())}</h4>;
       }
       if (trimmed.startsWith("##")) {
-        return <h3 key={idx} className="font-bold text-brand-700 text-md mt-5 mb-3 border-b border-slate-100 dark:border-white/10 pb-1">{renderInline(trimmed.replace(/^#+/, "").trim())}</h3>;
+        return <h3 key={idx} className={`font-bold text-md mt-5 mb-3 border-b border-slate-100 dark:border-white/10 pb-1 ${brandText}`}>{renderInline(trimmed.replace(/^#+/, "").trim())}</h3>;
       }
       if (trimmed.startsWith("#")) {
         return <h2 key={idx} className="font-extrabold text-ink-900 dark:text-slate-100 text-lg mt-6 mb-4">{renderInline(trimmed.replace(/^#+/, "").trim())}</h2>;
       }
       if (trimmed.startsWith("**") && trimmed.endsWith("**") && trimmed.indexOf("**", 2) === trimmed.length - 2) {
-        return <p key={idx} className="text-xs font-bold text-brand-600 my-2">{trimmed.replace(/\*\*/g, "")}</p>;
+        return <p key={idx} className={`text-xs font-bold my-2 ${brandText}`}>{trimmed.replace(/\*\*/g, "")}</p>;
       }
       // Bullets require a space after the marker ("* " or "- ") so that lines
       // beginning with inline bold (e.g. "**Heading** text") aren't mistaken
       // for list items.
       if (trimmed.startsWith("* ") || trimmed.startsWith("- ")) {
         return (
-          <li key={idx} className="text-xs text-slate-600 list-disc ml-5 mb-1 bg-transparent border-none p-0 inline-block w-full">
+          <li key={idx} className={`text-xs list-disc ml-5 mb-1 bg-transparent border-none p-0 inline-block w-full ${bodyMuted}`}>
             {renderInline(trimmed.substring(1).trim())}
           </li>
         );
       }
       if (trimmed.startsWith("1.") || trimmed.startsWith("2.") || trimmed.startsWith("3.")) {
-        return <p key={idx} className="text-xs font-semibold text-slate-700 ml-4 my-1">{renderInline(trimmed)}</p>;
+        return <p key={idx} className={`text-xs font-semibold ml-4 my-1 ${bodyMuted}`}>{renderInline(trimmed)}</p>;
       }
       if (!trimmed) return <div key={idx} className="h-2" />;
-      return <p key={idx} className="text-xs text-slate-600 leading-relaxed my-1.5">{renderInline(trimmed)}</p>;
+      return <p key={idx} className={`text-xs leading-relaxed my-1.5 ${bodyMuted}`}>{renderInline(trimmed)}</p>;
     });
   };
 
@@ -273,13 +274,13 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                   </div>
 
                   {/* Bubble */}
-                  <div className={`p-4 rounded-3xl shadow-3xs text-xs relative ${isBot ? "bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 text-slate-700 dark:text-slate-200 rounded-tl-none" : "bg-ink-900 border border-slate-800 text-white rounded-tr-none"}`}>
+                  <div className={`p-4 rounded-3xl shadow-3xs text-xs relative ${isBot ? `surface-readable bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 ${bodyMuted} rounded-tl-none` : "bg-ink-900 border border-slate-800 text-white rounded-tr-none"}`}>
                     <div className="space-y-1">
                       {isBot ? parseMarkdownHtml(msg.text) : <p className="leading-relaxed font-semibold">{msg.text}</p>}
                     </div>
 
                     {isBot && msg.isMock && (
-                      <span className="text-[8px] uppercase tracking-wide text-amber-500 bg-amber-50 px-1 rounded-sm mt-3 inline-block font-bold">
+                      <span className="text-[8px] uppercase tracking-wide text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 border border-amber-200/60 dark:border-amber-800/50 px-1.5 py-0.5 rounded-sm mt-3 inline-block font-bold">
                         Local Fallback Safe Mode
                       </span>
                     )}
@@ -291,15 +292,15 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
             {/* Simulated Loading Indicator */}
             {isLoading && (
               <div className="flex gap-3 mr-auto max-w-md animate-pulse">
-                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
-                  <Loader className="w-4 h-4 text-slate-400 animate-spin" />
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-ink-900 flex items-center justify-center">
+                  <Loader className="w-4 h-4 text-slate-400 dark:text-slate-300 animate-spin" />
                 </div>
                 <div className="bg-white dark:bg-ink-800 border border-slate-100 dark:border-white/10 rounded-3xl rounded-tl-none p-4 shadow-3xs space-y-2">
-                  <div className="text-[10px] text-slate-400 font-mono animate-pulse">
+                  <div className={`text-[10px] font-mono animate-pulse ${metaText}`}>
                     {currentLoadingMessage}
                   </div>
-                  <div className="h-2 w-36 bg-slate-200 rounded-full" />
-                  <div className="h-2 w-24 bg-slate-100 rounded-full" />
+                  <div className="h-2 w-36 bg-slate-200 dark:bg-slate-600 rounded-full" />
+                  <div className="h-2 w-24 bg-slate-100 dark:bg-slate-700 rounded-full" />
                 </div>
               </div>
             )}
@@ -320,7 +321,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Ask about margin targets, service risks, cost drivers, or enter findings..."
-                className="flex-grow text-xs border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl px-4 py-3 placeholder:text-slate-400 focus:outline-hidden focus:ring-1 focus:ring-brand-200"
+                className={`flex-grow text-xs border border-slate-200 dark:border-white/10 dark:bg-ink-900 dark:text-slate-100 rounded-xl px-4 py-3 focus:outline-hidden focus:ring-1 focus:ring-brand-200 ${inputPlaceholder}`}
                 disabled={isLoading}
               />
               <button
@@ -339,13 +340,13 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
         <div className="space-y-6">
           
           <div className="bg-white dark:bg-ink-800 rounded-3xl p-5 border border-slate-100 dark:border-white/10 shadow-sm space-y-3">
-            <h4 className="font-bold text-xs text-ink-900 dark:text-slate-100 uppercase tracking-wider block border-b border-slate-50 dark:border-white/10 pb-2">
+            <h4 className={`font-bold text-xs uppercase tracking-wider block border-b border-slate-50 dark:border-white/10 pb-2 ${titleText}`}>
               Suggested Driver Queries
             </h4>
-            <p className="text-[10px] text-slate-400 leading-tight">
+            <p className={`text-[10px] leading-tight ${captionText}`}>
               Select one of the topics below. Clicking a query chip immediately grounds the co-pilot in our synthetic ledger.
             </p>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono tabular-nums leading-tight">
+            <p className={`text-[10px] font-mono tabular-nums leading-tight ${metaText}`}>
               May 2026 baseline: {formatPercent(ledgerSnapshot.avgMargin, { decimals: 1 })} avg margin ·{" "}
               {formatCurrency(ledgerSnapshot.totalNpr)} NPR · {formatCount(ledgerSnapshot.recordCount)} records
             </p>
@@ -355,7 +356,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                   key={chip}
                   onClick={() => handleSendMessage(chip)}
                   disabled={isLoading}
-                   className="w-full text-left p-3 rounded-xl border border-slate-50 dark:border-white/10 hover:border-brand-200/50 hover:bg-brand-500/5 text-slate-600 dark:text-slate-300 hover:text-brand-600 text-xs font-semibold transition-all transition-colors line-clamp-1 truncate cursor-pointer disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-brand-500"
+                   className={`w-full text-left p-3 rounded-xl border border-slate-50 dark:border-white/10 hover:border-brand-200/50 hover:bg-brand-500/5 hover:text-brand-600 dark:hover:text-brand-300 text-xs font-semibold transition-all line-clamp-1 truncate cursor-pointer disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-brand-500 ${bodyMuted}`}
                 >
                   {chip}
                 </button>
@@ -364,11 +365,11 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
           </div>
 
           {/* AI Stewardship Grounding Rules */}
-          <div className="bg-amber-50/60 rounded-3xl p-5 border border-amber-100 shadow-3xs space-y-3 text-amber-800">
-            <p className="text-xs font-bold text-amber-900 block flex items-center gap-1">
-              <AlertCircle className="w-4 h-4 text-amber-600" /> Grounding Disclaimer
+          <div className="bg-amber-50/80 dark:bg-amber-950/35 rounded-3xl p-5 border border-amber-100 dark:border-amber-800/40 shadow-3xs space-y-3 text-amber-900 dark:text-amber-100">
+            <p className="text-xs font-bold text-amber-900 dark:text-amber-200 block flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" /> Grounding Disclaimer
             </p>
-            <p className="text-[11px] leading-relaxed">
+            <p className="text-[11px] leading-relaxed text-amber-800 dark:text-amber-100/90">
               Our AI Copilot is tuned to enforce healthcare-specific stewardship guidelines. It prioritizes community health maintenance and clinical resource optimization, avoiding any profit-maximization and cost-extraction vocabulary. 
             </p>
           </div>
@@ -384,13 +385,13 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
             <div>
               <span className="text-[10px] uppercase font-bold tracking-widest text-brand-600">Unified Health System Executive Output</span>
               <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">Synthesized Stewardship briefing Brief</h3>
-              <p className="text-xs text-slate-400">Generated on June 2, 2026 • Grounded on Synthetic Baseline</p>
+              <p className={`text-xs ${captionText}`}>Generated on June 2, 2026 • Grounded on Synthetic Baseline</p>
             </div>
             
             <div className="flex gap-2">
               <button 
                 onClick={() => window.print()}
-                className="p-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-600 transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
+                className="p-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-ink-700 rounded-lg text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
                 title="Print Document"
               >
                 <Printer className="w-4 h-4" />
@@ -400,7 +401,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
                   navigator.clipboard.writeText(generatedBriefText);
                   alert("Copied document brief to clipboard.");
                 }}
-                className="p-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-slate-600 transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
+                className="p-2 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-ink-700 rounded-lg text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors focus-visible:ring-2 focus-visible:ring-brand-500"
                 title="Copy to Clipboard"
               >
                 <Clipboard className="w-4 h-4" />
@@ -408,11 +409,11 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
             </div>
           </div>
 
-          <div className="text-slate-700 dark:text-slate-200 bg-slate-50/40 dark:bg-ink-900 p-6 rounded-2xl border border-slate-100 dark:border-white/10 max-h-[400px] overflow-y-auto font-sans text-xs leading-relaxed space-y-4">
+          <div className={`surface-readable ${bodyMuted} bg-slate-50/40 dark:bg-ink-900 p-6 rounded-2xl border border-slate-100 dark:border-white/10 max-h-[400px] overflow-y-auto font-sans text-xs leading-relaxed space-y-4`}>
             {parseMarkdownHtml(generatedBriefText)}
           </div>
           
-          <div className="text-[10px] text-slate-400 italic text-center pt-2 border-t border-slate-100 dark:border-white/10">
+          <div className={`text-[10px] italic text-center pt-2 border-t border-slate-100 dark:border-white/10 ${captionText}`}>
             Intended use: Senior executive planning review and workbook validation. Human oversight is mandatory.
           </div>
         </div>

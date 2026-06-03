@@ -228,7 +228,7 @@ export default function Dashboard({
             <select
               value={filters.facility}
               onChange={(e) => handleFilterChange("facility", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Facilities</option>
               {uniqueFacilities.filter(Boolean).map(f => (
@@ -245,7 +245,7 @@ export default function Dashboard({
             <select
               value={filters.region}
               onChange={(e) => handleFilterChange("region", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Regions</option>
               {uniqueRegions.filter(Boolean).map(r => (
@@ -262,7 +262,7 @@ export default function Dashboard({
             <select
               value={filters.serviceLine}
               onChange={(e) => handleFilterChange("serviceLine", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Service Lines</option>
               {uniqueServiceLines.filter(Boolean).map(s => (
@@ -279,7 +279,7 @@ export default function Dashboard({
             <select
               value={filters.month}
               onChange={(e) => handleFilterChange("month", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Months</option>
               {uniqueMonths.filter(Boolean).map(m => (
@@ -296,7 +296,7 @@ export default function Dashboard({
             <select
               value={filters.payerType}
               onChange={(e) => handleFilterChange("payerType", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Payers</option>
               <option value="Commercial">Commercial</option>
@@ -315,7 +315,7 @@ export default function Dashboard({
             <select
               value={filters.reviewStatus}
               onChange={(e) => handleFilterChange("reviewStatus", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Review Statuses</option>
               <option value="New">New</option>
@@ -334,7 +334,7 @@ export default function Dashboard({
             <select
               value={filters.owner}
               onChange={(e) => handleFilterChange("owner", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Leads</option>
               {uniqueOwners.filter(Boolean).map(o => (
@@ -351,7 +351,7 @@ export default function Dashboard({
             <select
               value={filters.varianceStatus}
               onChange={(e) => handleFilterChange("varianceStatus", e.target.value)}
-              className="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-hidden font-medium"
+              className="w-full text-xs bg-slate-50 dark:bg-ink-900 border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-slate-800 dark:text-slate-100 focus:outline-hidden font-medium"
             >
               <option value="">All Statuses</option>
               <option value="Favorable">Favorable</option>
@@ -578,17 +578,17 @@ export default function Dashboard({
                   <span>AI Driver Explanation: {KPI_EXPLAINER_DATA[activeExplainKey].title}</span>
                   <span className="text-[10px] bg-sky-200 text-sky-800 px-2 py-0.5 rounded-full font-bold">Interactive Copilot</span>
                 </h4>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                   <strong>Concept:</strong> {KPI_EXPLAINER_DATA[activeExplainKey].definition}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div className="text-xs">
-                    <span className="font-bold text-slate-700 block mb-0.5">Primary Deviation Drivers</span>
-                    <p className="text-slate-600 leading-relaxed">{KPI_EXPLAINER_DATA[activeExplainKey].driverText}</p>
+                    <span className="font-bold text-slate-700 dark:text-slate-200 block mb-0.5">Primary Deviation Drivers</span>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{KPI_EXPLAINER_DATA[activeExplainKey].driverText}</p>
                   </div>
                   <div className="text-xs">
-                    <span className="font-bold text-slate-700 block mb-0.5">Recommended Stewardship Focus</span>
-                    <p className="text-slate-600 leading-relaxed">{KPI_EXPLAINER_DATA[activeExplainKey].recommendation}</p>
+                    <span className="font-bold text-slate-700 dark:text-slate-200 block mb-0.5">Recommended Stewardship Focus</span>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{KPI_EXPLAINER_DATA[activeExplainKey].recommendation}</p>
                   </div>
                 </div>
                 <p className="text-[9px] text-slate-400 italic pt-2 border-t border-slate-200/50">
@@ -597,7 +597,7 @@ export default function Dashboard({
               </div>
               <button
                 onClick={() => setActiveExplainKey(null)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-xs"
+                className="absolute top-4 right-4 text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-bold text-xs"
               >
                 ✕ Close
               </button>

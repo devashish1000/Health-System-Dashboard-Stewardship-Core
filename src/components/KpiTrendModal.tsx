@@ -263,15 +263,15 @@ export default function KpiTrendModal({
                 MONTHLY TREND ({meta.unit})
               </span>
               <div className="flex gap-4 text-[10px] font-bold">
-                <span className="flex items-center gap-1.5 text-slate-500">
+                <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                   <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: meta.color }} />
                   Historical YTD
                 </span>
-                <span className="flex items-center gap-1.5 text-slate-500">
+                <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                   <span className="w-2.5 h-2.5 rounded-sm opacity-60" style={{ border: `1px dashed ${chartTheme.forecast}`, backgroundColor: chartTheme.forecast }} />
                   Projection Period
                 </span>
-                <span className="flex items-center gap-1.5 text-slate-500">
+                <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
                   <span className="w-3.5 h-2 bg-slate-200 rounded-xs" style={{ backgroundColor: meta.color, opacity: 0.15 }} />
                   Volatility Bounds
                 </span>
