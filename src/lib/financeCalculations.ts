@@ -1,4 +1,5 @@
 import { FinanceRecord } from "../data/syntheticFinanceData";
+import { getReportingContext } from "./reportingPeriod";
 
 export interface AggregateKpis {
   netPatientRevenue: number;
@@ -154,8 +155,9 @@ export function filterRecords(
  * Returns grouped historical monthly operating margins.
  */
 export function getMonthlyHistory(records: FinanceRecord[]) {
-  const months = ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05"];
-  
+  const { closeMonth, actualMonthsThroughClose } = getReportingContext(records);
+  const months = actualMonthsThroughClose;
+
   return months.map(m => {
     const monthDocs = records.filter(r => r.month === m);
     const kpis = calculateKpis(monthDocs);
@@ -172,7 +174,7 @@ export function getMonthlyHistory(records: FinanceRecord[]) {
       name: m,
       actualMargin: monthDocs.length > 0 ? kpis.operatingMargin : 0,
       targetMargin: targetMargin,
-      forecastMargin: m === "2026-05" ? kpis.forecastedMargin : kpis.operatingMargin + ((months.indexOf(m) * 17 % 41) / 100 - 0.2), // deterministic offset in ~[-0.2, 0.2]
+      forecastMargin: m === closeMonth ? kpis.forecastedMargin : kpis.operatingMargin + ((months.indexOf(m) * 17 % 41) / 100 - 0.2), // deterministic offset in ~[-0.2, 0.2]
       volume: kpis.patientVolume,
       revenue: kpis.netPatientRevenue / 1000000, // In Millions
       laborCostRatio: parseFloat(laborCostRatio.toFixed(2))

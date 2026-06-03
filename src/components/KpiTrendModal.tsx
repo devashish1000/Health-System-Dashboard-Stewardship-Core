@@ -16,6 +16,7 @@ import {
 import { chartTheme } from "../lib/chartTheme";
 import { resolveChartPalette } from "../lib/chartColors";
 import { useTheme } from "../lib/useTheme";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
 import ChartTooltip, { type TooltipValueKind } from "./charts/ChartTooltip";
 
 interface KpiTrendModalProps {
@@ -33,27 +34,25 @@ export default function KpiTrendModal({
 }: KpiTrendModalProps) {
   const { theme } = useTheme();
   const chartPalette = resolveChartPalette(theme === "dark");
+  const reporting = useReportingPeriod(records);
 
   if (!isOpen) return null;
 
-  const months = [
-    "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", 
-    "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"
-  ];
+  const months = reporting.chartYearMonths;
+  const actualMonthCount = reporting.countActualMonthsThroughClose(records);
 
   // Map 12 months to actuals and projections
   const monthlyData = months.map((m) => {
-    // Current actual files reside in months 2026-01 through 2026-05
     const monthDocs = records.filter(r => r.month === m);
     const kpis = calculateKpis(monthDocs);
 
-    const isProjected = m > "2026-05";
+    const isProjected = reporting.isProjectionMonth(m);
 
     if (!isProjected && monthDocs.length > 0) {
       const laborRatio = kpis.netPatientRevenue > 0 ? (kpis.laborCost / kpis.netPatientRevenue) * 100 : 0;
       return {
         month: m,
-        monthLabel: new Date(m + "-02").toLocaleString("default", { month: "short" }),
+        monthLabel: reporting.monthLabel(m),
         npr: parseFloat((kpis.netPatientRevenue / 1e6).toFixed(2)),
         opex: parseFloat((kpis.operatingExpense / 1e6).toFixed(2)),
         margin: parseFloat(kpis.operatingMargin.toFixed(2)),
@@ -64,26 +63,30 @@ export default function KpiTrendModal({
       };
     } else {
       // Create a sensible projection from the average of YTD actual filtered records
-      const ytdDocs = records.filter(r => r.month <= "2026-05");
+      const ytdDocs = records.filter(reporting.filterYtdThroughClose);
       const ytdKpis = calculateKpis(ytdDocs);
-      const avgNpr = ytdKpis.netPatientRevenue > 0 ? (ytdKpis.netPatientRevenue / 5) : 9740000;
-      const avgOpex = ytdKpis.operatingExpense > 0 ? (ytdKpis.operatingExpense / 5) : 8980000;
-      const avgVariance = ytdKpis.budgetVariance / 5;
+      const divisor = Math.max(actualMonthCount, 1);
+      const avgNpr = ytdKpis.netPatientRevenue > 0 ? ytdKpis.netPatientRevenue / divisor : 9740000;
+      const avgOpex = ytdKpis.operatingExpense > 0 ? ytdKpis.operatingExpense / divisor : 8980000;
+      const avgVariance = ytdKpis.budgetVariance / divisor;
       const avgLabor = ytdKpis.netPatientRevenue > 0 ? (ytdKpis.laborCost / ytdKpis.netPatientRevenue) * 100 : 42.6;
       const avgMargin = ytdKpis.operatingMargin;
 
-      // Seasonal modifiers for the projections
-      const modifiers: Record<string, { npr: number; opex: number; margin: number; labor: number }> = {
-        "2026-06": { npr: 1.01, opex: 1.00, margin: 0.20, labor: -0.20 },
-        "2026-07": { npr: 1.03, opex: 1.02, margin: 0.40, labor: -0.50 },
-        "2026-08": { npr: 0.99, opex: 1.01, margin: -0.10, labor: 0.30 },
-        "2026-09": { npr: 1.05, opex: 1.03, margin: 0.80, labor: -0.80 },
-        "2026-10": { npr: 1.07, opex: 1.04, margin: 1.10, labor: -1.10 },
-        "2026-11": { npr: 1.08, opex: 1.05, margin: 1.30, labor: -1.30 },
-        "2026-12": { npr: 1.12, opex: 1.06, margin: 1.60, labor: -1.70 },
-      };
-
-      const mod = modifiers[m] || { npr: 1, opex: 1, margin: 0, labor: 0 };
+      const projectionModifiers = [
+        { npr: 1.01, opex: 1.0, margin: 0.2, labor: -0.2 },
+        { npr: 1.03, opex: 1.02, margin: 0.4, labor: -0.5 },
+        { npr: 0.99, opex: 1.01, margin: -0.1, labor: 0.3 },
+        { npr: 1.05, opex: 1.03, margin: 0.8, labor: -0.8 },
+        { npr: 1.07, opex: 1.04, margin: 1.1, labor: -1.1 },
+        { npr: 1.08, opex: 1.05, margin: 1.3, labor: -1.3 },
+        { npr: 1.12, opex: 1.06, margin: 1.6, labor: -1.7 },
+      ];
+      const projectedMonths = months.filter((mo) => reporting.isProjectionMonth(mo));
+      const projIdx = projectedMonths.indexOf(m);
+      const mod =
+        projIdx >= 0
+          ? projectionModifiers[projIdx] ?? { npr: 1, opex: 1, margin: 0, labor: 0 }
+          : { npr: 1, opex: 1, margin: 0, labor: 0 };
       const projectedNpr = avgNpr * mod.npr;
       const projectedOpex = avgOpex * mod.opex;
       const projectedMargin = avgMargin + mod.margin;
@@ -92,7 +95,7 @@ export default function KpiTrendModal({
 
       return {
         month: m,
-        monthLabel: new Date(m + "-02").toLocaleString("default", { month: "short" }),
+        monthLabel: reporting.monthLabel(m),
         npr: parseFloat((projectedNpr / 1e6).toFixed(2)),
         opex: parseFloat((projectedOpex / 1e6).toFixed(2)),
         margin: parseFloat(projectedMargin.toFixed(2)),

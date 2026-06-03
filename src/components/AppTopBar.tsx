@@ -11,11 +11,13 @@ import {
   Sun,
 } from "lucide-react";
 import { UserPersona } from "../types";
+import type { ReportingContext } from "../lib/reportingPeriod";
 
 export interface AppTopBarProps {
   userPersona: UserPersona;
   utcTimeStr: string;
   theme: "light" | "dark";
+  reporting: ReportingContext;
   onToggleTheme: () => void;
   onOpenExport: () => void;
   onOpenTour: () => void;
@@ -58,13 +60,11 @@ function getPersonaProfile(persona: UserPersona) {
   }
 }
 
-const WORKSPACE_TOOLTIP =
-  "CommonSpirit Baseline synthetic ledger · FY26 Period 05 month-end review";
-
 export default function AppTopBar({
   userPersona,
   utcTimeStr,
   theme,
+  reporting,
   onToggleTheme,
   onOpenExport,
   onOpenTour,
@@ -114,9 +114,11 @@ export default function AppTopBar({
 
           <span
             className="hidden lg:inline-flex max-w-[220px] xl:max-w-none truncate items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide bg-slate-100 dark:bg-ink-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10"
-            title={WORKSPACE_TOOLTIP}
+            title={reporting.workspaceTooltip}
           >
-            <span className="text-brand-700 dark:text-brand-300 shrink-0">FY26 P05</span>
+            <span className="text-brand-700 dark:text-brand-300 shrink-0">
+              {reporting.fiscalYearLabel} {reporting.periodLabel}
+            </span>
             <span className="text-slate-300 dark:text-slate-600 shrink-0" aria-hidden>
               ·
             </span>
@@ -239,7 +241,7 @@ export default function AppTopBar({
                   <span className="truncate">{utcTimeStr || "—"}</span>
                 </div>
                 <p className="px-3 pb-2 text-[9px] text-slate-400 dark:text-slate-500 leading-snug lg:hidden">
-                  {WORKSPACE_TOOLTIP}
+                  {reporting.workspaceTooltip}
                 </p>
               </div>
             )}
@@ -270,15 +272,19 @@ export default function AppTopBar({
 /**
  * Compact workspace context for sidebar when header chip is hidden (<lg).
  */
-export function SidebarWorkspaceContext() {
+export function SidebarWorkspaceContext({
+  reporting,
+}: {
+  reporting: ReportingContext;
+}) {
   return (
     <div
       className="lg:hidden rounded-lg border border-ink-800 bg-ink-800/50 px-2.5 py-2"
-      title={WORKSPACE_TOOLTIP}
+      title={reporting.workspaceTooltip}
     >
       <div className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Workspace</div>
       <div className="text-[10px] font-semibold text-slate-200 mt-0.5 leading-snug">
-        FY26 P05 · Baseline
+        {reporting.workspaceChipShort}
       </div>
     </div>
   );

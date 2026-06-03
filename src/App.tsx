@@ -10,6 +10,8 @@ import { useTheme } from "./lib/useTheme";
 import { SYNTHETIC_RECORDS, FinanceRecord } from "./data/syntheticFinanceData";
 import { ProjectPage, ControlTowerFilters, ToastMessage, UserPersona, CertifiedSignoff } from "./types";
 import { filterRecords } from "./lib/financeCalculations";
+import { getReportingContext } from "./lib/reportingPeriod";
+import { useReportingPeriod } from "./lib/useReportingPeriod";
 
 // Modular Pages
 import Login from "./pages/Login";
@@ -117,7 +119,20 @@ export default function App() {
         console.error("LocalStorage filters parse error:", err);
       }
     }
-    return INITIAL_FILTERS;
+    const { closeMonth } = getReportingContext(
+      (() => {
+        const raw = localStorage.getItem("commonspirit_records");
+        if (raw) {
+          try {
+            return JSON.parse(raw) as FinanceRecord[];
+          } catch {
+            /* use default seed */
+          }
+        }
+        return SYNTHETIC_RECORDS;
+      })()
+    );
+    return { ...INITIAL_FILTERS, month: closeMonth };
   });
   
   // Toast notifications list
@@ -187,6 +202,7 @@ export default function App() {
 
   // Filter computation
   const filteredRecords = filterRecords(records, filters);
+  const reporting = useReportingPeriod(records);
 
   const triggerToast = (text: string, type: "success" | "info" | "warning" = "success") => {
     const id = `toast-${Date.now()}`;
@@ -275,7 +291,7 @@ export default function App() {
       <Toast toasts={toasts} onRemove={handleRemoveToast} />
 
       {/* Persistent synthetic demo data pill */}
-      <SyntheticDataBadge />
+      <SyntheticDataBadge periodLabel={reporting.workspaceChipShort} />
 
       {/* Main Structural Frame */}
       <div className="flex flex-grow relative">
@@ -327,7 +343,7 @@ export default function App() {
 
           {/* Sidebar Footer detailing metadata */}
           <div className="p-5 border-t border-ink-800 space-y-3.5">
-            <SidebarWorkspaceContext />
+            <SidebarWorkspaceContext reporting={reporting} />
 
             {/* Persona Selection Dropdown */}
             <div className="space-y-1">
@@ -393,6 +409,7 @@ export default function App() {
             userPersona={userPersona}
             utcTimeStr={utcTimeStr}
             theme={theme}
+            reporting={reporting}
             onToggleTheme={toggleTheme}
             onOpenExport={() => setIsExportModalOpen(true)}
             onOpenTour={() => setIsTourOpen(true)}

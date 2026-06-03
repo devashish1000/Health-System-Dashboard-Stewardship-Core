@@ -9,6 +9,7 @@ import { formatCount, formatCurrency, formatPercent } from "../lib/formatters";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
 import { bodyMuted, brandText, captionText, inputPlaceholder, metaText, titleText } from "../lib/typography";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
 
 interface Message {
   id: string;
@@ -26,18 +27,18 @@ const QUESTION_CHIPS = [
   "Which facility has the highest expense pressure?"
 ];
 
-const LEDGER_MONTH = "2026-05";
-
 export default function Copilot() {
+  const reporting = useReportingPeriod(SYNTHETIC_RECORDS);
+
   const ledgerSnapshot = React.useMemo(() => {
-    const records = SYNTHETIC_RECORDS.filter((r) => r.month === LEDGER_MONTH);
+    const records = SYNTHETIC_RECORDS.filter((r) => r.month === reporting.closeMonth);
     if (records.length === 0) {
       return { recordCount: 0, totalNpr: 0, avgMargin: 0 };
     }
     const totalNpr = records.reduce((sum, r) => sum + r.net_patient_revenue, 0);
     const avgMargin = records.reduce((sum, r) => sum + r.operating_margin, 0) / records.length;
     return { recordCount: records.length, totalNpr, avgMargin };
-  }, []);
+  }, [reporting.closeMonth]);
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -347,7 +348,7 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
               Select one of the topics below. Clicking a query chip immediately grounds the co-pilot in our synthetic ledger.
             </p>
             <p className={`text-[10px] font-mono tabular-nums leading-tight ${metaText}`}>
-              May 2026 baseline: {formatPercent(ledgerSnapshot.avgMargin, { decimals: 1 })} avg margin ·{" "}
+              {reporting.closeMonthLabel} baseline: {formatPercent(ledgerSnapshot.avgMargin, { decimals: 1 })} avg margin ·{" "}
               {formatCurrency(ledgerSnapshot.totalNpr)} NPR · {formatCount(ledgerSnapshot.recordCount)} records
             </p>
             <div className="flex flex-col gap-2 pt-1">
@@ -385,7 +386,10 @@ I am your dedicated decision-support intelligence assistant. I can help synthesi
             <div>
               <span className="text-[10px] uppercase font-bold tracking-widest text-brand-600">Unified Health System Executive Output</span>
               <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">Synthesized Stewardship briefing Brief</h3>
-              <p className={`text-xs ${captionText}`}>Generated on June 2, 2026 • Grounded on Synthetic Baseline</p>
+              <p className={`text-xs ${captionText}`}>
+                Generated on {reporting.generatedAtDisplay} · {reporting.fiscalYearLabel}{" "}
+                {reporting.periodLabel} synthetic baseline
+              </p>
             </div>
             
             <div className="flex gap-2">

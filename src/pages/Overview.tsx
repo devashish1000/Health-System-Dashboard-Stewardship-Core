@@ -12,6 +12,7 @@ import {
   formatPercent,
   formatCount,
 } from "../lib/formatters";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
 
 const TARGET_MARGIN = 8.5;
 const TOTAL_REVENUE = 48_700_000;
@@ -31,6 +32,7 @@ export default function Overview({
   checklistCompleted,
   onToggleChecklist
 }: OverviewProps) {
+  const reporting = useReportingPeriod(records);
 
   // Dynamic Validation checks matched to genuine record instances
   const cardiologyRef = records.find(r => r.service_line === "Cardiology" && r.facility === "St. Joseph Medical Center");
@@ -82,7 +84,7 @@ export default function Overview({
       label: "Digitally sign and seal finalized cycle ledger certificate",
       desc: task4 
         ? "Complete — cryptographically verified ledger block registered!" 
-        : "Pending — requires CFO profile sign-off to close reporting period.",
+        : `Pending — requires CFO profile sign-off to close ${reporting.fiscalYearLabel} ${reporting.periodLabel}.`,
       link: "serviceLines" as ProjectPage, // links to header trigger or reviews page
       toggleable: false,
       lockRequired: true
@@ -275,7 +277,8 @@ export default function Overview({
             </span>
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">Stewardship Readiness</h3>
             <p className="text-xs text-slate-500 dark:text-slate-300 leading-relaxed">
-              Before submitting monthly results to corporate accounting, complete these core checkpoints.
+              Before submitting {reporting.closeMonthLabel} results to corporate accounting, complete these
+              core checkpoints for {reporting.fiscalYearLabel} {reporting.periodLongLabel}.
             </p>
           </div>
 

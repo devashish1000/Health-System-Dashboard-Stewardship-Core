@@ -15,6 +15,7 @@ import { useTheme } from "../lib/useTheme";
 import ChartTooltip from "../components/charts/ChartTooltip";
 import PagePurpose from "../components/PagePurpose";
 import PageHeader from "../components/PageHeader";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
 
 interface ForecastProps {
   records: FinanceRecord[];
@@ -28,6 +29,7 @@ function symmetricPercentDomain(values: number[]): [number, number] {
 }
 
 export default function Forecast({ records }: ForecastProps) {
+  const reporting = useReportingPeriod(records);
   const { theme } = useTheme();
   const chartPalette = resolveChartPalette(theme === "dark");
   const currentKpis = calculateKpis(records);
@@ -52,7 +54,7 @@ export default function Forecast({ records }: ForecastProps) {
         icon={TrendingUp}
         trailing={
           <div className="text-xs font-mono text-muted-surface tabular-nums">
-            Last Calibrated: June 2, 2026
+            Last calibrated: {reporting.asOfDisplay} · Close {reporting.closeMonthLabel}
           </div>
         }
       />

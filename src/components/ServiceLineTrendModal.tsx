@@ -15,6 +15,7 @@ import {
 import { chartTheme } from "../lib/chartTheme";
 import { resolveChartPalette } from "../lib/chartColors";
 import { useTheme } from "../lib/useTheme";
+import { useReportingPeriod } from "../lib/useReportingPeriod";
 
 interface ServiceLineTrendModalProps {
   isOpen: boolean;
@@ -33,13 +34,21 @@ export default function ServiceLineTrendModal({
 }: ServiceLineTrendModalProps) {
   const { theme: colorMode } = useTheme();
   const chartPalette = resolveChartPalette(colorMode === "dark");
+  const reporting = useReportingPeriod(records);
 
   if (!isOpen) return null;
 
-  const months = [
-    "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", 
-    "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"
+  const months = reporting.chartYearMonths;
+  const projectionSteps = [
+    { marginOffset: 0.15, volumeOffset: 40 },
+    { marginOffset: 0.35, volumeOffset: 90 },
+    { marginOffset: 0.2, volumeOffset: -20 },
+    { marginOffset: 0.55, volumeOffset: 140 },
+    { marginOffset: 0.8, volumeOffset: 200 },
+    { marginOffset: 1.05, volumeOffset: 270 },
+    { marginOffset: 1.3, volumeOffset: 380 },
   ];
+  const projectedMonths = months.filter((m) => reporting.isProjectionMonth(m));
 
   // Derive monthly trend data
   const monthlyData = months.map((m) => {
@@ -59,7 +68,7 @@ export default function ServiceLineTrendModal({
       const margin = totalRev > 0 ? ((totalRev - totalExp) / totalRev) * 100 : 0;
       return {
         month: m,
-        monthLabel: new Date(m + "-02").toLocaleString("default", { month: "short" }),
+        monthLabel: reporting.monthLabel(m),
         margin: parseFloat(margin.toFixed(2)),
         revenue: parseFloat((totalRev / 1e6).toFixed(2)), // $M
         volume: totalVol,
@@ -82,24 +91,20 @@ export default function ServiceLineTrendModal({
       const avgMargin = totalRev > 0 ? ((totalRev - totalExp) / totalRev) * 100 : 7.2;
       const avgVol = actualDocs.length > 0 ? totalVol / actualDocs.length : 1500;
       
-      // Deterministic variations for projecting future months
-      const trendFactors: Record<string, { marginOffset: number; volumeOffset: number }> = {
-        "2026-06": { marginOffset: 0.15, volumeOffset: 40 },
-        "2026-07": { marginOffset: 0.35, volumeOffset: 90 },
-        "2026-08": { marginOffset: 0.20, volumeOffset: -20 },
-        "2026-09": { marginOffset: 0.55, volumeOffset: 140 },
-        "2026-10": { marginOffset: 0.80, volumeOffset: 200 },
-        "2026-11": { marginOffset: 1.05, volumeOffset: 270 },
-        "2026-12": { marginOffset: 1.30, volumeOffset: 380 },
-      };
-
-      const factor = trendFactors[m] || { marginOffset: 0, volumeOffset: 0 };
+      const projIdx = projectedMonths.indexOf(m);
+      const factor =
+        projIdx >= 0
+          ? projectionSteps[projIdx] ?? {
+              marginOffset: 0.15 * (projIdx + 1),
+              volumeOffset: 40 * (projIdx + 1),
+            }
+          : { marginOffset: 0, volumeOffset: 0 };
       const simulatedMargin = avgMargin + factor.marginOffset;
       const simulatedVol = Math.round(avgVol + factor.volumeOffset);
 
       return {
         month: m,
-        monthLabel: new Date(m + "-02").toLocaleString("default", { month: "short" }),
+        monthLabel: reporting.monthLabel(m),
         margin: parseFloat(simulatedMargin.toFixed(2)),
         revenue: parseFloat(((simulatedVol * (totalRev / (totalVol || 1))) / 1e6).toFixed(2)),
         volume: simulatedVol,
@@ -266,7 +271,9 @@ export default function ServiceLineTrendModal({
                       if (!active || !payload?.length) return null;
                       const data = payload[0].payload as (typeof monthlyData)[number];
                       const displayLabel =
-                        label != null ? `${String(label)} 2026` : `${data.monthLabel} 2026`;
+                        label != null
+                          ? reporting.monthLabelWithYear(data.month)
+                          : reporting.monthLabelWithYear(data.month);
                       const rows: { name: string; value: string; color?: string }[] = [
                         { name: "Operating Margin", value: formatPercent(data.margin, { decimals: 2 }), color: theme.stroke },
                         { name: "Net Revenue", value: formatAxisMillions(data.revenue), color: chartTheme.neutral },
@@ -378,7 +385,7 @@ export default function ServiceLineTrendModal({
             <Target className="w-3.5 h-3.5 text-slate-400" />
             CommonSpirit Financial Strategy Suite v1.0
           </span>
-          <span>FY26 PROJECTION STREAM ACTIVE</span>
+          <span>{reporting.projectionStreamLabel}</span>
         </div>
 
       </div>
